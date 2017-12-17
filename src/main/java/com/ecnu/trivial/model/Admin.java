@@ -1,7 +1,7 @@
 package com.ecnu.trivial.model;
 
-public class User {
-    private Integer userId;
+public class Admin {
+    private Integer adminId;
 
     private String email;
 
@@ -9,14 +9,12 @@ public class User {
 
     private String name;
 
-    private Integer score;
-
-    public Integer getUserId() {
-        return userId;
+    public Integer getAdminId() {
+        return adminId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setAdminId(Integer adminId) {
+        this.adminId = adminId;
     }
 
     public String getEmail() {
@@ -41,13 +39,5 @@ public class User {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
     }
 }

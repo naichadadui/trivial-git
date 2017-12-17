@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ecnu.trivial.mapper.UserGameHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.ecnu.trivial.model.UserGameHistory" >
+    <id column="game_id" property="gameId" jdbcType="INTEGER" />
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    game_id, user_id, score
+  </sql>
+  <insert id="insertSelective" parameterType="com.ecnu.trivial.model.UserGameHistory" >
+    insert into user_game_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gameId != null" >
+        game_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gameId != null" >
+        #{gameId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ecnu.trivial.model.UserGameHistory" >
+    update user_game_history
+    <set >
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+    </set>
+    where game_id = #{gameId,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

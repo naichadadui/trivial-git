@@ -13,10 +13,12 @@ public interface UserMapper {
     int deleteByPrimaryKey(Integer userId);
 
     @Insert({
-        "insert into user (user_id, nickname, ",
-        "email, password)",
-        "values (#{userId,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, ",
-        "#{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})"
+        "insert into user (user_id, email, ",
+        "password, name, ",
+        "score)",
+        "values (#{userId,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, ",
+        "#{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, ",
+        "#{score,jdbcType=INTEGER})"
     })
     int insert(User record);
 
@@ -24,7 +26,7 @@ public interface UserMapper {
 
     @Select({
         "select",
-        "user_id, nickname, email, password",
+        "user_id, email, password, name, score",
         "from user",
         "where user_id = #{userId,jdbcType=INTEGER}"
     })
@@ -35,12 +37,14 @@ public interface UserMapper {
 
     @Update({
         "update user",
-        "set nickname = #{nickname,jdbcType=VARCHAR},",
-          "email = #{email,jdbcType=VARCHAR},",
-          "password = #{password,jdbcType=VARCHAR}",
+        "set email = #{email,jdbcType=VARCHAR},",
+          "password = #{password,jdbcType=VARCHAR},",
+          "name = #{name,jdbcType=VARCHAR},",
+          "score = #{score,jdbcType=INTEGER}",
         "where user_id = #{userId,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(User record);
+
 
     @Select({
             "select *",

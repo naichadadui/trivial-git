@@ -48,7 +48,7 @@ public class UserService {
             /*该邮箱可以被注册*/
             User user = new User();
             user.setEmail(email);
-            user.setNickname(nickname);
+            user.setName(nickname);
             user.setPassword(password);
             registerResult = userMapper.insertSelective(user);
             if(registerResult!=0)

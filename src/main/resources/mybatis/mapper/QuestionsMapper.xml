@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ecnu.trivial.mapper.QuestionsMapper" >
+  <resultMap id="BaseResultMap" type="com.ecnu.trivial.model.Questions" >
+    <id column="question_id" property="questionId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="true_ans" property="trueAns" jdbcType="VARCHAR" />
+    <result column="false_ans1" property="falseAns1" jdbcType="VARCHAR" />
+    <result column="false_ans2" property="falseAns2" jdbcType="VARCHAR" />
+    <result column="false_ans3" property="falseAns3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    question_id, type, content, true_ans, false_ans1, false_ans2, false_ans3
+  </sql>
+  <insert id="insertSelective" parameterType="com.ecnu.trivial.model.Questions" >
+    insert into questions
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="questionId != null" >
+        question_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="trueAns != null" >
+        true_ans,
+      </if>
+      <if test="falseAns1 != null" >
+        false_ans1,
+      </if>
+      <if test="falseAns2 != null" >
+        false_ans2,
+      </if>
+      <if test="falseAns3 != null" >
+        false_ans3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="questionId != null" >
+        #{questionId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="trueAns != null" >
+        #{trueAns,jdbcType=VARCHAR},
+      </if>
+      <if test="falseAns1 != null" >
+        #{falseAns1,jdbcType=VARCHAR},
+      </if>
+      <if test="falseAns2 != null" >
+        #{falseAns2,jdbcType=VARCHAR},
+      </if>
+      <if test="falseAns3 != null" >
+        #{falseAns3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ecnu.trivial.model.Questions" >
+    update questions
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="trueAns != null" >
+        true_ans = #{trueAns,jdbcType=VARCHAR},
+      </if>
+      <if test="falseAns1 != null" >
+        false_ans1 = #{falseAns1,jdbcType=VARCHAR},
+      </if>
+      <if test="falseAns2 != null" >
+        false_ans2 = #{falseAns2,jdbcType=VARCHAR},
+      </if>
+      <if test="falseAns3 != null" >
+        false_ans3 = #{falseAns3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where question_id = #{questionId,jdbcType=INTEGER}
+  </update>
+</mapper>
