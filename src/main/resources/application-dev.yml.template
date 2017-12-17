@@ -1,0 +1,32 @@
+spring:
+  email-enabled: false
+  datasource:
+    test-on-borrow: true
+    validation-query: SELECT 1
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/trivial?useUnicode=true&characterEncoding=UTF8
+    username: root
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    initialize: false
+  devtools:
+    restart:
+      exclude: static/**, templates/**
+debug: false
+
+server:
+  port: 10000
+#  tomcat:
+#    basedir: e://logs
+#    accesslog:
+#      directory: logs
+#      enabled: true
+#      pattern: common
+#
+#chrome:
+#  driver:
+#    location: e://chromedriver
+#    poolSize: 1
+#
+#logging:
+#  file: e://logs//yqbd.log

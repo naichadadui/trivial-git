@@ -1,0 +1,7 @@
+mybatis:
+  mapperLocations: classpath:mybatis/mapper/*.xml
+  typeAliasesPackage: com.quickcanteen.model
+  configLocation: classpath:mybatis/mybatis-config.xml
+aes:
+  iv: unforethoughtful
+  key: perineorrhaphies
