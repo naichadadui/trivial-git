@@ -8,16 +8,13 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <link href="/css/login-register.css" rel="stylesheet"/>
     <link href="/bootstrap3/css/bootstrap.css" rel="stylesheet"/>
-    <script src="/jquery/jquery-1.10.2.js" type="text/javascript"></script>
-    <script src="/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
-    <script src="/js/login-register.js" type="text/javascript"></script>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 </head>
 
 <body>
 <div id="header">
     <div>
-        <a href="homepage" id="logo"><img src="/images/logo.png" alt="LOGO"></a>
+        <a href="index" id="logo"><img src="/images/logo.png" alt="LOGO"></a>
     </div>
 </div>
 
@@ -102,55 +99,55 @@
 
     <div id="articles">
         <div>
-            <h5>Latest Blog Entries</h5>
+            <h5>Latest Game Results</h5>
             <ul class="blogs">
                 <li>
-                    <a href="blog"> <img src="/images/smoker-small.jpg" alt="Img">
-                        <p>
-                            <span>01 March 2012</span> <b>Blog Title 1</b> Lorem ipsum dolor sit amet, consectetur
-                            adipiscing elit. Proin vel pulvinar tellus.
-                        </p>
+                    <img src="/images/woman-small.jpg" alt="Img">
+                    <p>
+                        <span id="thelatest">lalala</span> <b>Blog Title 1</b> Lorem ipsum dolor sit amet, consectetur
+                        adipiscing elit. Proin vel pulvinar tellus.
+                    </p>
                     </a>
                 </li>
                 <li>
-                    <a href="blog"> <img src="/images/woman-small.jpg" alt="Img">
-                        <p>
-                            <span>27 February 2012</span> <b>Blog Title 2</b> Lorem ipsum dolor sit amet,
-                            consectetur adipiscing elit. Proin vel pulvinar tellus.
-                        </p>
+                    <img src="/images/smoker-small.jpg" alt="Img">
+                    <p>
+                        <span>27 February 2012</span> <b>Blog Title 2</b> Lorem ipsum dolor sit amet,
+                        consectetur adipiscing elit. Proin vel pulvinar tellus.
+                    </p>
                     </a>
                 </li>
             </ul>
         </div>
         <div>
-            <h5>Lorem Ipsum</h5>
+            <h5>Figure Series</h5>
             <ul class="illustrations">
                 <li>
-                    <a href="work"><img src="/images/viking-small.jpg" alt="Img"></a>
+                    <img src="/images/viking-small.jpg" alt="Img"></a>
                 </li>
                 <li>
-                    <a href="work"><img src="/images/zombie-small.jpg" alt="Img"></a>
+                    <img src="/images/zombie-small.jpg" alt="Img"></a>
                 </li>
                 <li>
-                    <a href="work"><img src="/images/caveman-small.jpg" alt="Img"></a>
+                    <img src="/images/caveman-small.jpg" alt="Img">
                 </li>
                 <li>
-                    <a href="work"><img src="/images/cook-small.jpg" alt="Img"></a>
+                    <img src="/images/cook-small.jpg" alt="Img"></a>
                 </li>
             </ul>
-            <h5>Lorem Ipsum</h5>
+            <h5>Figure Series</h5>
             <ul class="illustrations">
                 <li>
-                    <a href="work"><img src="/images/pirate-small.jpg" alt="Img"></a>
+                    <img src="/images/pirate-small.jpg" alt="Img"></a>
                 </li>
                 <li>
-                    <a href="work"><img src="/images/doctor-small.jpg" alt="Img"></a>
+                    <img src="/images/doctor-small.jpg" alt="Img"></a>
                 </li>
                 <li>
-                    <a href="work"><img src="/images/vendor-small.jpg" alt="Img"></a>
+                    <img src="/images/vendor-small.jpg" alt="Img"></a>
                 </li>
                 <li>
-                    <a href="work"><img src="/images/engineer-small.jpg" alt="Img"></a>
+                    <img src="/images/engineer-small.jpg" alt="Img"></a>
                 </li>
             </ul>
         </div>
@@ -160,7 +157,11 @@
     <p class="uppercase">
         Copyright © 2017. ECNU NaiChaDaDui. All rights reserved.&nbsp;
     </p>
+
 </div>
 </div>
+<script src="/jquery/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
+<script src="/js/login-register.js" type="text/javascript"></script>
 </body>
 </html>

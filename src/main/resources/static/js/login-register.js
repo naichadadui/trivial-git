@@ -47,7 +47,7 @@ function openRegisterModal(){
 function loginAjax(){
     var email=$("#email").val();
     var password=$("#password").val();
-    if(email===''||password==='')
+    if(email.length==0||password==0)
         shakeModal();
     $.ajax(
         {
@@ -59,16 +59,18 @@ function loginAjax(){
                 "email":email,
                 "password":password
             },
+
+
             success:function(data){
                 if(data){
-                    if(data.userId==="0"){
-                        alert("?????");
+
+                    if(data.userId=='0'){
                         shakeModal();
                     }
-                    else if(data.userId==="-1"){
+                    else if(data.userId=='-1'){
                         shakeModal();
                     }else{
-                        window.location.href="work";
+                        window.location.href="work.html";
                     }
                 }
             },
@@ -98,7 +100,7 @@ function registerAjax(){
     var password=$("#passwordR").val();
     var password_comfirmation=$("#password_confirmation").val();
 
-    if(email===''||nickname===''||password===''||password_comfirmation===''||(password!==password_comfirmation))
+    if(email.length==0||nickname.length==0||password.length==0||password_comfirmation.length==0||(password!==password_comfirmation))
         shakeModal();
 
     $.ajax(
@@ -115,13 +117,13 @@ function registerAjax(){
 
             success:function(data){
                 if(data){
-                    if(data.userId==="0"){
+                    if(data.userId==='0'){
                         shakeModal();
                     }
-                    else if(data.userId==="-1"){
+                    else if(data.userId==='-1'){
                        shakeModal();
                     }else{
-                        window.location.href="homepage";
+                        window.location.href="homepage.html";
                     }
                 }
             },
@@ -140,5 +142,11 @@ function shakeModal(){
                 $('#loginModal .modal-dialog').removeClass('shake'); 
     }, 1000 ); 
 }
+
+function getLatestGameResult(){
+
+}
+
+
 
    

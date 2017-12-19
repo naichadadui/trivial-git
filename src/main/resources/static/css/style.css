@@ -101,13 +101,14 @@ img {
 	height: 222px;
 	text-align: center;
 }
+
 #welcome p {
 	font-family:SimHei;
 	float: left;
 	font-size: 16px;
-	width: 360px;
+	width: 600px;
 	margin: 63px 5px 0;
-	text-align: right;
+	text-align: left;
 }
 #welcome p:first-child {
 	text-align: left;

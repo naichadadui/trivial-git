@@ -1,8 +1,4 @@
-<div id="connect">
-    <a href="#" target="_blank" class="facebook"></a> <a href="#" target="_blank" class="twitter"></a> <a
-        href="#" target="_blank" class="googleplus"></a> <a href="#misc/contact/" target="_blank"
-                                                            class="mail"></a>
-</div>
+
 <ul class="navigation">
     <li class="selected">
         <a href="index">Home</a>
@@ -17,7 +13,7 @@
         <a href="about">About</a>
     </li>
     <li>
-        <a href="contact">Contact</a>
+        <a href="ranking">Rankings</a>
     </li>
 </ul>
 <p class="uppercase">
