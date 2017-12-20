@@ -70,7 +70,7 @@ function loginAjax(){
                     else if(data.userId=='-1'){
                         shakeModal();
                     }else{
-                        window.location.href="work.html";
+                        window.location.href="work";
                     }
                 }
             },
@@ -123,7 +123,7 @@ function registerAjax(){
                     else if(data.userId==='-1'){
                        shakeModal();
                     }else{
-                        window.location.href="homepage.html";
+                        window.location.href="homepage";
                     }
                 }
             },

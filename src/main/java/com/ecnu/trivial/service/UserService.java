@@ -37,7 +37,7 @@ public class UserService {
     }
 
 
-    public int register(String email,String nickname,String password){
+    public int register(String nickname,String email,String password){
         int registerResult = 0;
         List<User> userList = userMapper.selectByEmail(email);
         if (userList.size() != 0) {

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ecnu.trivial.mapper.MapMapper" >
+  <resultMap id="BaseResultMap" type="com.ecnu.trivial.model.Map" >
+    <id column="map_id" property="mapId" jdbcType="INTEGER" />
+    <id column="point_id" property="pointId" jdbcType="INTEGER" />
+    <result column="top" property="top" jdbcType="INTEGER" />
+    <result column="left" property="left" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    map_id, point_id, top, left, state
+  </sql>
+  <insert id="insertSelective" parameterType="com.ecnu.trivial.model.Map" >
+    insert into map
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mapId != null" >
+        map_id,
+      </if>
+      <if test="pointId != null" >
+        point_id,
+      </if>
+      <if test="top != null" >
+        top,
+      </if>
+      <if test="left != null" >
+        left,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mapId != null" >
+        #{mapId,jdbcType=INTEGER},
+      </if>
+      <if test="pointId != null" >
+        #{pointId,jdbcType=INTEGER},
+      </if>
+      <if test="top != null" >
+        #{top,jdbcType=INTEGER},
+      </if>
+      <if test="left != null" >
+        #{left,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ecnu.trivial.model.Map" >
+    update map
+    <set >
+      <if test="top != null" >
+        top = #{top,jdbcType=INTEGER},
+      </if>
+      <if test="left != null" >
+        left = #{left,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+    </set>
+    where map_id = #{mapId,jdbcType=INTEGER}
+      and point_id = #{pointId,jdbcType=INTEGER}
+  </update>
+</mapper>

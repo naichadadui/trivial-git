@@ -46,7 +46,7 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
 
-    @Select({
+    @Select(value = {
             "select *",
             "from user",
             "where email = #{email,jdbcType=VARCHAR}"
