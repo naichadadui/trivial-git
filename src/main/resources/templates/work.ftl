@@ -14,7 +14,7 @@
             <h5>Recent Illustrations</h5>
             <ul id="gallery">
                 <li>
-                    <a href="work"><img src="/images/shoes.jpg" alt="Illustration"></a>
+                    <a href="JapanRoom"><img src="/images/JapanSmall.jpg" alt="Illustration"></a>
                     <h4>Lorem Ipsum</h4>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel pulvinar tellus.
