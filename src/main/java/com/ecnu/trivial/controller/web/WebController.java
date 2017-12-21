@@ -13,6 +13,7 @@ public class WebController extends BaseController {
     private static final String MODULE_WORK = "work";
     private static final String MODULE_ABOUT = "about";
     private static final String MODULE_BLOG = "blog";
+    private static final String MODULE_RANKING="ranking";
 
     @RequestMapping(value = "/index")
     public String index(Map<String, Object> model) {
@@ -42,5 +43,11 @@ public class WebController extends BaseController {
     public String blog(Map<String, Object> model) {
         model.put("module", MODULE_BLOG);
         return MODULE_BLOG;
+    }
+
+    @RequestMapping(value="/ranking")
+    public String ranking(Map<String,Object> model){
+        model.put("module",MODULE_RANKING);
+        return MODULE_RANKING;
     }
 }
