@@ -1,5 +1,8 @@
 package com.ecnu.trivial.model;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class Questions {
     private Integer questionId;
 

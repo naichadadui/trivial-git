@@ -1,5 +1,10 @@
 package com.ecnu.trivial.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@Data
 public class User {
     private Integer userId;
 
@@ -10,6 +15,14 @@ public class User {
     private String name;
 
     private Integer score;
+
+    public User(Integer userId, String email, String password, String name, Integer score) {
+        this.userId = userId;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.score = score;
+    }
 
     public Integer getUserId() {
         return userId;

@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 public interface QuestionsMapper {
     @Delete({
@@ -50,4 +53,16 @@ public interface QuestionsMapper {
         "where question_id = #{questionId,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Questions record);
+
+    @Select({
+            "select *",
+            "from questions",
+            "where type = #{type}",
+            "order by rand() limit 0,50"
+
+    })
+    @ResultMap("BaseResultMap")
+    /*从数据库中按type随机选取50道题目
+    * 这个sql语句效率不高 后面最好改进一下*/
+    List<Questions> selectQuestionsByType(Integer type);
 }

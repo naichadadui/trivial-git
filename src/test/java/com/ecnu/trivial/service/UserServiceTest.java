@@ -16,12 +16,14 @@ public class UserServiceTest {
 
     @Test
     public void login() throws Exception {
-        int loginResult = userService.login("111","111");
+        int loginResult = userService.login("635520704@qq.com","12345");
         Assert.assertEquals(1, loginResult);
     }
 
     @Test
     public void register() throws Exception {
+        int registerResult = userService.register("cqh","635520704@qq.com","12345");
+        Assert.assertEquals(-1, registerResult);
     }
 
 }

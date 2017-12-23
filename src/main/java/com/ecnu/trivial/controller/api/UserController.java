@@ -19,7 +19,7 @@ public class UserController extends APIBaseController{
 
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public Map login(@RequestParam("email")String email,@RequestParam("password") String password){
-        Map result = new HashMap();
+        Map<String,Object> result = new HashMap<>();
         int loginResult = 0;
         String message;
         loginResult = userService.login(email,password);
@@ -45,7 +45,7 @@ public class UserController extends APIBaseController{
 
     @RequestMapping(value="/register", method = RequestMethod.POST)
     public Map register(@RequestParam("nickname")String nickname,@RequestParam("email")String email,@RequestParam("password") String password){
-        Map result = new HashMap();
+        Map<String,Object> result = new HashMap<>();
         int registerResult = 0;
         String message;
         registerResult = userService.register(nickname,email,password);

@@ -1,6 +1,7 @@
 package com.ecnu.trivial.controller.api;
 
 import com.ecnu.trivial.dto.BaseJson;
+import com.ecnu.trivial.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,8 +14,18 @@ public class APIBaseController{
     private static final String NOT_AUTHORIZED = "没有权限";
     private static final String WRONG_PARAM = "参数错误";
 
+    private static final String USER_ID="userId";
+
     @Autowired
     protected HttpServletRequest request;
+
+    public int getCurrentUserID(){
+        Object o=request.getSession().getAttribute(USER_ID);
+        if(o==null){
+            throw new ResourceNotFoundException();
+        }
+        return Integer.parseInt(o.toString());
+    }
 
     protected BaseJson getUnauthorizedResult() {
         BaseJson baseJson = new BaseJson();
