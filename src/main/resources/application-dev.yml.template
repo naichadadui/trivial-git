@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/trivial?useUnicode=true&characterEncoding=UTF8
     username: root
-    password: 123456
+    password: QWE123qwe$
     type: com.zaxxer.hikari.HikariDataSource
     initialize: false
   devtools:
