@@ -1,5 +1,7 @@
 package com.ecnu.trivial.controller.web;
 
+import com.ecnu.trivial.dto.Game;
+import com.ecnu.trivial.webSocket.WebSocketServer;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,7 +33,12 @@ public class WebController extends BaseController {
 
     @RequestMapping(value = "/work")
     public String work(Map<String, Object> model) {
+        Map<Integer,Game> rooms = WebSocketServer.getRooms();
+        int roomsNumber = rooms.size();
+        int onLinePlayerNumber = WebSocketServer.getOnlineCount();
         model.put("module", MODULE_WORK);
+        model.put("rooms", WebSocketServer.getRooms());
+        model.put("onLinePlayerNumber",onLinePlayerNumber);
         return MODULE_WORK;
     }
 
@@ -56,6 +63,7 @@ public class WebController extends BaseController {
     @RequestMapping(value="/JapanRoom")
     public String japanRoom(Map<String,Object> model){
         model.put("module",MODULE_JAPANROOM);
+        model.put("rooms", WebSocketServer.getRooms());
         return MODULE_JAPANROOM;
     }
 

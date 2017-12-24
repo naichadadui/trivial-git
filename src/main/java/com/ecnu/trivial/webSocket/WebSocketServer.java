@@ -1,12 +1,12 @@
 package com.ecnu.trivial.webSocket;
 
 import com.ecnu.trivial.dto.Game;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.websocket.OnClose;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
+import javax.websocket.*;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 @ServerEndpoint(value = "/webSocket/{roomId}/{userId}")
 @Component
-public class WebSocketServer {
+public class WebSocketServer{
     //日志记录
     //private Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
@@ -32,19 +32,21 @@ public class WebSocketServer {
 
 
     /**
-     * 连接建立成功调用的方法*/
+     * 当网络连接建立时调用该方法
+     * */
     @OnOpen
-    public void onOpen(/*@Param("tableId") Integer tableId,@Param("userId")Integer userId,Session session*/) {
+    public void onOpen(@PathParam("roomId") Integer roomId, @PathParam("userId")Integer userId, Session session) {
+        System.out.println("连接到服务器");
         this.session = session;
         this.userId = userId;
         this.roomId = roomId;
         addOnlineCount();           //在线数加1
         if (userSocket.containsKey(this.userId)) {
-            System.out.println("当前用户id:"+this.userId+"已有其他终端登录");
+            System.out.println("当前用户Id:"+this.userId+"已在其他终端登录");
             this.onClose();
-        } else {
-            userSocket.put(this.userId, this);
         }
+        else
+            userSocket.put(this.userId, this);
         System.out.println("有新连接加入！当前在线人数为" + userSocket.size());
     }
 
@@ -59,27 +61,11 @@ public class WebSocketServer {
             subOnlineCount();
             System.out.println("有一连接关闭！当前在线人数为" + userSocket.size());
         }
-        Game table = rooms.get(this.roomId);
-        //有一个人掉线了，游戏就得结束
-//        if (table != null) {
-//            if (table.isGameStart()) {
-//                table.endGame();
-//                logger.debug("桌号{}游戏强制结束", this.tableId);
-//            } else {
-//                table.remove(this.userId);
-//                logger.debug("用户{}离开桌号{}", this.userId, this.tableId);
-//                if (table.getPlayers().size() == 0) {
-//                    removeTable(table.getTableId());
-//                }
-//            }
-//
-//        }
     }
 
     /**
      * 收到客户端消息后调用的方法
-     *
-     * @param message 客户端发送过来的消息*/
+     */
     @OnMessage
     public void onMessage(String message, Session session) {
         if (session == null)
@@ -97,21 +83,20 @@ public class WebSocketServer {
     }
 
     /**
-     * 发生错误时调用
-     * @OnError
+     * 当网络发生错误时调用该方法
      */
+     @OnError
      public void onError(Session session, Throwable error) {
-     System.out.println("发生错误");
-     error.printStackTrace();
+        System.out.println("发生错误");
+        error.printStackTrace();
      }
 
     /**
-     * sendMessageToUser
-     * 发送消息给对应用户
+     * 给特定用户发送消息
      */
     public static boolean sendMessageToUser(Integer userId, String message) {
         if (userSocket.containsKey(userId)) {
-            System.out.println(" 给用户id为" + userId + "的所有终端发送消息："+ message);
+            System.out.println(" 给用户Id为" + userId + "的所有终端发送消息："+ message);
             WebSocketServer WS = userSocket.get(userId);
             System.out.println("sessionId为:"+ WS.session.getId());
             try {
@@ -123,7 +108,7 @@ public class WebSocketServer {
             }
             return true;
         }
-        System.out.println("发送错误：当前连接不包含id为："+userId+"的用户");
+        System.out.println("发送错误：当前连接不包含Id为："+userId+"的用户");
         return false;
     }
 
@@ -169,5 +154,9 @@ public class WebSocketServer {
 
     public static synchronized void subOnlineCount() {
         WebSocketServer.onlineCount--;
+    }
+
+    public static int getOnlineCount() {
+        return onlineCount;
     }
 }

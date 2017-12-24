@@ -1,9 +1,7 @@
 package com.ecnu.trivial.service.impl;
 
 import com.ecnu.trivial.dto.Game;
-import com.ecnu.trivial.dto.Player;
 import com.ecnu.trivial.mapper.QuestionsMapper;
-import com.ecnu.trivial.mapper.UserMapper;
 import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.model.User;
 import com.ecnu.trivial.service.GameService;
@@ -11,7 +9,6 @@ import com.ecnu.trivial.webSocket.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
