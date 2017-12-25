@@ -119,7 +119,7 @@ public class Game {
     * 当前玩家编号为0
     * 并且同步设置gameProcess相应属性
     * */
-    public void startGame() {
+    public void startGame() throws EncodeException {
         this.status = 1;
         this.currentPlayerId = 0;
         gameProcess.setCurrentPlayerId(players.get(currentPlayerId).getUser().getUserId());

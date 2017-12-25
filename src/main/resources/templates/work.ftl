@@ -17,6 +17,12 @@
                     <a href="JapanRoom"><img src="/images/JapanSmall.jpg" alt="Illustration"></a>
                     <h4>Lorem Ipsum</h4>
                     <p>
+                        ${onLinePlayerNumber}
+                    </p>
+                    <#list numberOfPlayersInEachRoom as numberOfplayers>
+                        <p>${numberOfplayers}</p>
+                    </#list>
+                    <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel pulvinar tellus.
                     </p>
                 </li>

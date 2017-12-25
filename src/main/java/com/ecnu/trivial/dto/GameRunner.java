@@ -2,6 +2,7 @@ package com.ecnu.trivial.dto;
 
 import com.ecnu.trivial.model.User;
 
+import javax.websocket.EncodeException;
 import java.util.Random;
 
 public class GameRunner {
@@ -14,9 +15,14 @@ public class GameRunner {
         User pat = new User(2,"222","222","pat",0);
         User sue = new User(3,"333","333","sue",0);
 
-        aGame.addNewPlayer(chet);
-        aGame.addNewPlayer(pat);
-        aGame.addNewPlayer(sue);
+        try {
+            aGame.addNewPlayer(chet);
+            aGame.addNewPlayer(pat);
+            aGame.addNewPlayer(sue);
+        } catch (EncodeException e) {
+            e.printStackTrace();
+        }
+
 
         Random rand = new Random();
 

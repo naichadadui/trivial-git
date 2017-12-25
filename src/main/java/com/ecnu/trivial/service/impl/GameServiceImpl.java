@@ -9,6 +9,7 @@ import com.ecnu.trivial.webSocket.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.websocket.EncodeException;
 import java.util.List;
 
 @Service
@@ -31,7 +32,11 @@ public class GameServiceImpl implements GameService {
             WebSocketServer.addRoom(game);
         }
         if (!room.isFullPlayer() && !room.isGameStart()){
-            room.addNewPlayer(user);
+            try {
+                room.addNewPlayer(user);
+            } catch (EncodeException e) {
+                e.printStackTrace();
+            }
             result = true;
         }
         //WebSocketServer.sendMessageToUser(user.getUserId(),room.getGameProcess().toString());
@@ -53,7 +58,11 @@ public class GameServiceImpl implements GameService {
             List<Questions> sportsQuestions = questionsMapper.selectQuestionsByType(2);
             List<Questions> rockQuestions = questionsMapper.selectQuestionsByType(3);
             room.initialQuestions(popQuestions,scienceQuestions,sportsQuestions,rockQuestions);
-            room.startGame();
+            try {
+                room.startGame();
+            } catch (EncodeException e) {
+                e.printStackTrace();
+            }
         }
     }
 

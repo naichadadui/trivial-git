@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
+
 public interface GameHistoryMapper {
     @Delete({
         "delete from game_history",
@@ -42,4 +44,13 @@ public interface GameHistoryMapper {
         "where game_id = #{gameId,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(GameHistory record);
+
+    @Select({
+            "select * ",
+            "from game_history ",
+            "order by game_id desc ",
+            "limit 0,2 "
+    })
+    @ResultMap("BaseResultMap")
+    List<GameHistory> getLatestTwoGames();
 }
