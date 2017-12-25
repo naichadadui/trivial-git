@@ -18,9 +18,9 @@ public interface GameHistoryMapper {
 
     @Insert({
         "insert into game_history (game_id, start_time, ",
-        "end_time)",
+        "end_time, winner_id)",
         "values (#{gameId,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, ",
-        "#{endTime,jdbcType=TIMESTAMP})"
+        "#{endTime,jdbcType=TIMESTAMP}, #{winnerId,jdbcType=INTEGER})"
     })
     int insert(GameHistory record);
 
@@ -28,7 +28,7 @@ public interface GameHistoryMapper {
 
     @Select({
         "select",
-        "game_id, start_time, end_time",
+        "game_id, start_time, end_time, winner_id",
         "from game_history",
         "where game_id = #{gameId,jdbcType=INTEGER}"
     })
@@ -40,7 +40,8 @@ public interface GameHistoryMapper {
     @Update({
         "update game_history",
         "set start_time = #{startTime,jdbcType=TIMESTAMP},",
-          "end_time = #{endTime,jdbcType=TIMESTAMP}",
+          "end_time = #{endTime,jdbcType=TIMESTAMP},",
+            "winner_id = #{winnerId,jdbcType=INTEGER}",
         "where game_id = #{gameId,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(GameHistory record);

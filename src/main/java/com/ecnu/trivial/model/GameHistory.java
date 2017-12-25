@@ -9,6 +9,8 @@ public class GameHistory {
 
     private Date endTime;
 
+    private Integer winnerId;
+
     public Integer getGameId() {
         return gameId;
     }
@@ -31,5 +33,13 @@ public class GameHistory {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Integer getWinnerId() {
+        return winnerId;
+    }
+
+    public void setWinnerId(Integer winnerId) {
+        this.winnerId = winnerId;
     }
 }
