@@ -4,7 +4,9 @@ import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.model.User;
 import com.ecnu.trivial.webSocket.WebSocketServer;
 import lombok.NoArgsConstructor;
+import net.sf.json.JSONObject;
 
+import javax.websocket.EncodeException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,36 +99,46 @@ public class Game {
         questionMaker.setRockQuestionList(rockQuestions);
     }
 
-    /*有新玩家加入*/
-    public void addNewPlayer(User user) {
+    /*
+    * 有新玩家加入
+    * */
+    public void addNewPlayer(User user) throws EncodeException {
         Player player = new Player(user.getName(),user);
         players.add(player);
         gameProcess.setPlayers(players);
         logger.info(user.getName() + " was added");
         logger.info("The total amount of players is " + players.size());
-        sendMessageToAllUsers(gameProcess.toString());
+        //sendMessageToAllUsers(gameProcess.toString());
+        sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
+
     }
 
-    /*游戏开始
+    /*
+    * 游戏开始
     * 设置游戏状态为1
     * 当前玩家编号为0
-    * 并且同步设置gameProcess相应属性*/
-    public void startGame(){
+    * 并且同步设置gameProcess相应属性
+    * */
+    public void startGame() {
         this.status = 1;
         this.currentPlayerId = 0;
         gameProcess.setCurrentPlayerId(players.get(currentPlayerId).getUser().getUserId());
         gameProcess.setStatus(status);
-        sendMessageToAllUsers(gameProcess.toString());
+        //sendMessageToAllUsers(gameProcess.toString());
+        sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
         //gameProcess.setFirstRound(false);
     }
 
-    /*当前玩家抛骰子*/
+    /*
+    * 当前玩家抛骰子
+    */
     public int dice() {
         Random rand = new Random();
         return (rand.nextInt(5)+1);
     }
 
-    /*当前玩家开始行动
+    /*
+    * 当前玩家开始行动
     * 如果玩家不在禁闭室内，则玩家前进骰子点数的步数并且回答问题
     * 如果玩家在禁闭室内，判断抛的点数能否使玩家出禁闭室
     * 如果玩家能出禁闭室，则出禁闭室走相应步数并回答问题
@@ -152,7 +164,8 @@ public class Game {
         players.get(currentPlayerId).sentToPenaltyBox();
     }
 
-    /*当前玩家前进相应步数
+    /*
+    * 当前玩家前进相应步数
     * （并且回答问题）先不回答问题
     */
     private void currentPlayerMovesToNewPlaceAndAnswersAQuestion(int rollingNumber) {
@@ -165,8 +178,10 @@ public class Game {
         //answerQuestion();
     }
 
-    /*当前玩家回答问题，并将题目从题目列表中移除
-    * 修改：返回回答正确与否,添加参数answer,修改可见性为public*/
+    /*
+    * 当前玩家回答问题，并将题目从题目列表中移除
+    * 修改：返回回答正确与否,添加参数answer,修改可见性为public
+    * */
     public int answerQuestion(String answer) {
         Questions questions = new Questions();
         if (players.get(currentPlayerId).getCurrentCategory() == "Pop")
@@ -193,7 +208,9 @@ public class Game {
 //            logger.info(questionMaker.removeFirstRockQuestion());
 //    }
 
-    /*返回当前的问题*/
+    /*
+    * 返回当前的问题
+    * */
     public Questions showQuestion() {
         Questions curQuestion = new Questions();
         if (players.get(currentPlayerId).getCurrentCategory() == "Pop")
@@ -207,7 +224,8 @@ public class Game {
         return curQuestion;
     }
 
-    /*如果当前玩家在禁闭室内，则轮到下一个玩家
+    /*
+    * 如果当前玩家在禁闭室内，则轮到下一个玩家
     * 否则玩家获得一枚金币轮到下一个玩家
     * 返回游戏是否结束
     * */
@@ -220,7 +238,8 @@ public class Game {
         return currentPlayerGetsAGoldCoinAndSelectNextPlayer();
     }
 
-    /*玩家回答问题正确，获得一枚金币，判断游戏是否结束
+    /*
+    * 玩家回答问题正确，获得一枚金币，判断游戏是否结束
     * 下一位玩家进行游戏
     * 返回游戏是否结束
     * */
@@ -239,7 +258,8 @@ public class Game {
         return isGameStillInProgress;
     }
 
-    /*轮到下一个玩家行动
+    /*
+    * 轮到下一个玩家行动
     * 如果玩家id到达最大，则下一个玩家id为0
     * 循环进行游戏
     * */
@@ -248,7 +268,8 @@ public class Game {
         if (currentPlayerId == players.size()) currentPlayerId = 0;
     }
 
-    /*玩家回答问题错误，玩家被送进禁闭室
+    /*
+    * 玩家回答问题错误，玩家被送进禁闭室
     * 下一位玩家进行游戏
     * 游戏继续
     * */
@@ -262,14 +283,16 @@ public class Game {
         return theGameIsStillInProgress;
     }
 
-    /*是否有玩家达到获胜条件
+    /*
+    * 是否有玩家达到获胜条件
     * 即游戏是否还能继续
     * */
     private boolean isGameStillInProgress() {
         return !(players.get(currentPlayerId).countGoldCoins() == NUMBER_OF_GOLD_COINS_TO_WON_AND_GAME_OVER);
     }
 
-    /*游戏结束
+    /*
+    * 游戏结束
     * 结算每个玩家所得的金币数*/
     public void endGame() {
         logger.info("游戏结束，结算各玩家所得的金币数");
@@ -287,11 +310,26 @@ public class Game {
         gameSocket.removeRoom(this);
     }
 
-    /*!!!*/
+    /*
+    * 给该房间内的所有玩家发送游戏进程以更新游戏进程(String)
+    * */
     private int sendMessageToAllUsers(String msg) {
         int result = 0;
         for (Player player : players) {
             if (!gameSocket.sendMessageToUser(player.getUser().getUserId(), msg)) {
+                result++;
+            }
+        }
+        return result;
+    }
+
+    /*
+    * 给该房间内的所有玩家发送游戏进程以更新游戏进程(JSON格式)
+    * */
+    private int sendJSONMessageToAllUsers(JSONObject msg) throws EncodeException {
+        int result = 0;
+        for (Player player : players) {
+            if (!gameSocket.sendJSONMessageToUser(player.getUser().getUserId(), msg)) {
                 result++;
             }
         }

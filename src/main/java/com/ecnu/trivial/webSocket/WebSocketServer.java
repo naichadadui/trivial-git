@@ -1,6 +1,7 @@
 package com.ecnu.trivial.webSocket;
 
 import com.ecnu.trivial.dto.Game;
+import net.sf.json.JSONObject;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -101,6 +102,27 @@ public class WebSocketServer{
             System.out.println("sessionId为:"+ WS.session.getId());
             try {
                 WS.session.getBasicRemote().sendText(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("给用户" + userId + "发送消息失败");
+                return false;
+            }
+            return true;
+        }
+        System.out.println("发送错误：当前连接不包含Id为："+userId+"的用户");
+        return false;
+    }
+
+    /**
+     * 给特定用户发送消息（JSON格式）
+     */
+    public static boolean sendJSONMessageToUser(Integer userId, JSONObject message) throws EncodeException {
+        if (userSocket.containsKey(userId)) {
+            System.out.println(" 给用户Id为" + userId + "的所有终端发送消息："+ message);
+            WebSocketServer WS = userSocket.get(userId);
+            System.out.println("sessionId为:"+ WS.session.getId());
+            try {
+                WS.session.getBasicRemote().sendObject(message);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("给用户" + userId + "发送消息失败");
