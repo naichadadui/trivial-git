@@ -24,19 +24,19 @@ public class WebSocketServer{
     private static Map<Integer, Game> rooms = new HashMap<Integer, Game>();
 
     //记录每个用户终端的连接
-    private static Map<Integer, WebSocketServer> userSocket = new HashMap<Integer, WebSocketServer>();
+    private static Map<String, WebSocketServer> userSocket = new HashMap<String, WebSocketServer>();
 
     //需要session来对用户发送数据, 获取连接特征userId
     private Session session;
-    private Integer userId;
-    private Integer roomId;
+    private String userId;
+    private String roomId;
 
 
     /**
      * 当网络连接建立时调用该方法
      * */
     @OnOpen
-    public void onOpen(@PathParam("roomId") Integer roomId, @PathParam("userId")Integer userId, Session session) {
+    public void onOpen(@PathParam("roomId") String roomId, @PathParam("userId")String userId, Session session) {
         System.out.println("连接到服务器");
         this.session = session;
         this.userId = userId;
@@ -154,19 +154,19 @@ public class WebSocketServer{
         WebSocketServer.rooms = rooms;
     }
 
-    public static Map<Integer, WebSocketServer> getUserSocket() {
+    public static Map<String, WebSocketServer> getUserSocket() {
         return userSocket;
     }
 
-    public static void setUserSocket(Map<Integer, WebSocketServer> userSocket) {
+    public static void setUserSocket(Map<String, WebSocketServer> userSocket) {
         WebSocketServer.userSocket = userSocket;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

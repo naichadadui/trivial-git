@@ -6,6 +6,9 @@
  * Web script: #
  * 
  */
+
+var sorcket;
+
 function showRegisterForm(){
     $('.loginBox').fadeOut('fast',function(){
         $('.registerBox').fadeIn('fast');
@@ -70,7 +73,8 @@ function loginAjax(){
                     else if(data.userId=='-1'){
                         shakeModal();
                     }else{
-                        window.location.href="work";
+                        makeConnection();
+                        //window.location.href="work";
                     }
                 }
             },
@@ -123,7 +127,8 @@ function registerAjax(){
                     else if(data.userId==='-1'){
                        shakeModal();
                     }else{
-                        window.location.href="homepage";
+                        makeConnection(data.userId);
+                        //window.location.href="homepage";
                     }
                 }
             },
@@ -143,9 +148,39 @@ function shakeModal(){
     }, 1000 ); 
 }
 
-function getLatestGameResult(){
-
+function makeConnection(userId) {
+    var ipURL = "ws://localhost:10000/" + "webSocket/0/" + userId;
+    try {
+        socket=new WebSocket(ipURL);
+    }catch(e) {
+        alert("error happend");
+        close;
+    }
+    socket.onopen = sOpen;
+    socket.onerror = sError;
+    socket.onmessage= sMessage;
+    socket.onclose= sClose;
 }
+
+    function sOpen(){
+        alert('connect success!');
+    }
+    function sError(e){
+        alert("error " + e);
+    }
+    function sMessage(msg){
+        alert('server says:' + msg);
+    }
+    function sClose(e){
+        alert("connect closed:" + e.code);
+    }
+    function Send(){
+        socket.send(document.getElementById("msg").value);
+    }
+
+    function Close(){
+        socket.close();
+    }
 
 
 
