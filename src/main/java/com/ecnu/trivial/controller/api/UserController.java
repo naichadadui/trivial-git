@@ -34,7 +34,6 @@ public class UserController extends APIBaseController{
                 /*如果该用户存在且密码正确*/
                 HttpSession session = request.getSession();
                 session.setAttribute("userId", loginResult);
-
                 message = "登录成功";
                 break;
         }

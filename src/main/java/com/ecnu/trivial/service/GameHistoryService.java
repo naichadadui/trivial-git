@@ -4,6 +4,6 @@ import com.ecnu.trivial.model.GameHistory;
 
 import java.util.List;
 
-public interface GameHistoryService {
+public interface GameHistoryService extends BaseService{
     public List<GameHistory> getLatestTwoGames();
 }

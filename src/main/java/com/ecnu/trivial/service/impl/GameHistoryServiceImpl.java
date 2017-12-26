@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GameHistoryServiceImpl implements GameHistoryService {
+public class GameHistoryServiceImpl extends BaseServiceImpl implements GameHistoryService {
     @Autowired
     private GameHistoryMapper gameHistoryMapper;
     @Override

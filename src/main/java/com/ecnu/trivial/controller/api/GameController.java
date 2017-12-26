@@ -30,8 +30,7 @@ public class GameController extends APIBaseController{
         int enterResult = 0;
         String returnMessage = "";
         boolean isEnterRoomSuccess = false;
-        User user = userService.getCurrentUser(getCurrentUserID());
-        isEnterRoomSuccess = gameService.enterRoom(user,roomId);
+        isEnterRoomSuccess = gameService.enterRoom(getCurrentUserID(),roomId);
         if (isEnterRoomSuccess) {
             enterResult = 1;
             returnMessage = "Enter room successfully.";
@@ -50,8 +49,7 @@ public class GameController extends APIBaseController{
     @RequestMapping(value="/ready", method = RequestMethod.POST)
     public void ready(@RequestParam("roomId")int roomId){
         //Map<String,Object> result = new HashMap<>();
-        User user = userService.getCurrentUser(getCurrentUserID());
-        gameService.ready(user, roomId);
+        gameService.ready(getCurrentUserID(), roomId);
     }
 
     @RequestMapping(value = "/dice",method = RequestMethod.POST)

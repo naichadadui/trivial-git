@@ -14,11 +14,9 @@
             <h5>Recent Illustrations</h5>
             <ul id="gallery">
                 <li>
-                    <a href="JapanRoom"><img src="/images/JapanSmall.jpg" alt="Illustration"></a>
+                    <a href="JapanRoom/1"><img src="/images/JapanSmall.jpg" alt="Illustration"></a>
                     <h4>Lorem Ipsum</h4>
-                    <p>
-                        ${onLinePlayerNumber}
-                    </p>
+                    <p>${onLinePlayerNumber}</p>
                     <#list numberOfPlayersInEachRoom as numberOfplayers>
                         <p>${numberOfplayers}</p>
                     </#list>

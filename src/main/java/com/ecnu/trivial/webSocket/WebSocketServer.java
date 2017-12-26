@@ -143,7 +143,10 @@ public class WebSocketServer{
     }
 
     public static Game getRoom(Integer roomId){
-        return rooms.get(roomId);
+        if(rooms.get(roomId)!=null)
+            return rooms.get(roomId);
+        else
+            return null;
     }
 
     public static Map<Integer, Game> getRooms() {

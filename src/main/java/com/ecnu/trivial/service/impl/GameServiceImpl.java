@@ -13,7 +13,7 @@ import javax.websocket.EncodeException;
 import java.util.List;
 
 @Service
-public class GameServiceImpl implements GameService {
+public class GameServiceImpl extends BaseServiceImpl implements GameService {
     @Autowired
     private QuestionsMapper questionsMapper;
 
@@ -24,8 +24,9 @@ public class GameServiceImpl implements GameService {
     * 否则进入房间失败
     * webSocket服务端向客户端发送游戏进程以更新页面
     * */
-    public boolean enterRoom(User user, int roomId){
+    public boolean enterRoom(int userId, int roomId){
         Game room = WebSocketServer.getRoom(roomId);
+        User user = getCurrentUser(userId);
         boolean result = false;
         if(room==null){
             Game game = new Game(roomId);
@@ -49,8 +50,9 @@ public class GameServiceImpl implements GameService {
     * 初始化的题目从数据库中按type随机选取50道题目
     * */
     @Override
-    public void ready(User user,int roomId) {
+    public void ready(int userId,int roomId) {
         Game room = WebSocketServer.getRoom(roomId);
+        User user = getCurrentUser(userId);
         room.setReady(user.getUserId());
         if (room.getPlayers().size()>=2 && room.isAllPlayerReady()){
             List<Questions> popQuestions = questionsMapper.selectQuestionsByType(0);

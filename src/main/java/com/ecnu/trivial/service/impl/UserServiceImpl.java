@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl extends BaseServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
@@ -57,9 +57,5 @@ public class UserServiceImpl implements UserService{
                 registerResult = user.getUserId();
         }
         return registerResult;
-    }
-
-    public User getCurrentUser(Integer userId){
-        return userMapper.selectByPrimaryKey(userId);
     }
 }

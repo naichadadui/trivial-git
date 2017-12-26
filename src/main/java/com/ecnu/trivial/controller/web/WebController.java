@@ -1,15 +1,20 @@
 package com.ecnu.trivial.controller.web;
 
 import com.ecnu.trivial.dto.Game;
+import com.ecnu.trivial.dto.Player;
 import com.ecnu.trivial.model.GameHistory;
+import com.ecnu.trivial.model.User;
 import com.ecnu.trivial.service.GameHistoryService;
 import com.ecnu.trivial.service.GameService;
+import com.ecnu.trivial.vo.UserVo;
 import com.ecnu.trivial.webSocket.WebSocketServer;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +33,9 @@ public class WebController extends BaseController {
 
     @Autowired
     private GameHistoryService gameHistoryService;
+
+    @Autowired
+    private GameService gameService;
 
     @RequestMapping(value = "/index")
     public String index(Map<String, Object> model) {
@@ -81,10 +89,18 @@ public class WebController extends BaseController {
         return MODULE_RANKING;
     }
 
-    @RequestMapping(value="/JapanRoom")
-    public String japanRoom(Map<String,Object> model){
+    /*
+    * PathVariable:roomId
+    * playerList:该局游戏当前玩家列表
+    * */
+    @RequestMapping(value="/JapanRoom/{roomId}")
+    public String japanRoom(Map<String,Object> model,@PathVariable Integer roomId){
+        Game room = WebSocketServer.getRoom(roomId);
+        List<Player> playerList = new ArrayList<>();
+        if(room!=null)
+            playerList = room.getPlayers();
         model.put("module",MODULE_JAPANROOM);
-        model.put("rooms", WebSocketServer.getRooms());
+        model.put("playerList",playerList);
         return MODULE_JAPANROOM;
     }
 
@@ -92,5 +108,11 @@ public class WebController extends BaseController {
     public String japanGame(Map<String,Object> model){
         model.put("module",MODULE_JAPANGAME);
         return MODULE_JAPANGAME;
+    }
+
+    private UserVo parse(User user) {
+        UserVo result = new UserVo();
+        BeanUtils.copyProperties(user, result);
+        return result;
     }
 }
