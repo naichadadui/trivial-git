@@ -1,6 +1,7 @@
 package com.ecnu.trivial.controller.web;
 
 import com.ecnu.trivial.dto.Game;
+import com.ecnu.trivial.dto.GameProcess;
 import com.ecnu.trivial.dto.Player;
 import com.ecnu.trivial.model.GameHistory;
 import com.ecnu.trivial.model.User;
@@ -104,8 +105,16 @@ public class WebController extends BaseController {
         return MODULE_JAPANROOM;
     }
 
-    @RequestMapping(value="/JapanGame")
-    public String japanGame(Map<String,Object> model){
+    /*
+    * PathVariable:roomId
+    * initialProcess:游戏初始状态信息
+    * 初始状态下只有roomId,players,currentPlayerId,status四个信息
+    * */
+    @RequestMapping(value="/JapanGame/{roomId}")
+    public String japanGame(Map<String,Object> model,@PathVariable Integer roomId){
+        Game room = WebSocketServer.getRoom(roomId);
+        GameProcess initialProcess = new GameProcess(room);
+        model.put("initialProcess",initialProcess);
         model.put("module",MODULE_JAPANGAME);
         return MODULE_JAPANGAME;
     }

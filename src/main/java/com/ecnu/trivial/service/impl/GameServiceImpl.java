@@ -52,8 +52,7 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
     @Override
     public void ready(int userId,int roomId) {
         Game room = WebSocketServer.getRoom(roomId);
-        User user = getCurrentUser(userId);
-        room.setReady(user.getUserId());
+        room.setReady(userId);
         if (room.getPlayers().size()>=2 && room.isAllPlayerReady()){
             List<Questions> popQuestions = questionsMapper.selectQuestionsByType(0);
             List<Questions> scienceQuestions = questionsMapper.selectQuestionsByType(1);

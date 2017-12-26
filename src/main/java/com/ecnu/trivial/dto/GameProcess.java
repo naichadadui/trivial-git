@@ -5,7 +5,7 @@ import com.ecnu.trivial.model.Questions;
 import java.util.List;
 
 public class GameProcess {
-    private int tableId;
+    private int roomId;
     private List<Player> players;
     private Questions currentQuestion;
     private int currentPlayerId;
@@ -14,18 +14,18 @@ public class GameProcess {
     private Player winner;
 
     public GameProcess(Game game){
-        this.tableId = game.getRoomId();
+        this.roomId = game.getRoomId();
         this.players = game.getPlayers();
         this.currentPlayerId = game.getCurrentPlayerId();
         this.status = game.getStatus();
     }
 
-    public int getTableId() {
-        return tableId;
+    public int getRoomId() {
+        return roomId;
     }
 
-    public void setTableId(int tableId) {
-        this.tableId = tableId;
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 
     public List<Player> getPlayers() {
