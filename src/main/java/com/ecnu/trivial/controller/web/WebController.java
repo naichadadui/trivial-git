@@ -94,19 +94,23 @@ public class WebController extends BaseController {
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         int i = 1;
+        double win = 0;
+        double winRate = 0;
         for(UserGameHistoryVo userGameHistoryVo:gameHistoryVos){
             jsonObject.put("id",i);
             jsonObject.put("start",userGameHistoryVo.getGameHistoryVo().getStartTimeStr());
             jsonObject.put("end",userGameHistoryVo.getGameHistoryVo().getEndTimeStr());
             jsonObject.put("score",userGameHistoryVo.getScore());
             jsonArray.add(jsonObject);
+            if(userGameHistoryVo.getScore()==6)
+                win++;
             i++;
         }
-        //JSONArray gameHistoryVoJson = JSONArray.fromObject(gameHistoryVos);
-        //System.out.println(gameHistoryVoJson.toString());
+        if(gameHistoryVos.size()!=0)
+            winRate = win/gameHistoryVos.size()*100;
+        model.put("winRate",winRate);
         System.out.println(jsonArray.toString());
         model.put("user",user);
-        //model.put("userGameHistories",gameHistoryVoJson);
         model.put("userGameHistory",jsonArray);
         model.put("module", MODULE_BLOG);
         return MODULE_BLOG;
