@@ -25,6 +25,8 @@ var table_data = [
     }
 ];
 
+var table_data = ${}
+
 $(function () {
     $('#table').renderTable();
 });

@@ -1,12 +1,16 @@
 package com.ecnu.trivial.mapper;
 
+import com.ecnu.trivial.model.GameHistory;
 import com.ecnu.trivial.model.UserGameHistory;
 import com.ecnu.trivial.model.UserGameHistoryKey;
+import com.ecnu.trivial.vo.UserGameHistoryVo;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 public interface UserGameHistoryMapper {
     @Delete({
@@ -45,4 +49,11 @@ public interface UserGameHistoryMapper {
           "and user_id = #{userId,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(UserGameHistory record);
+
+    @Select({
+            "select *",
+            "from user_game_history natural join game_history",
+            "where user_id = #{userId,jdbcType=INTEGER}"
+    })
+    List<UserGameHistory> selectUserGameHistoryByUserId(int userId);
 }

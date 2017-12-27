@@ -30,7 +30,7 @@
         <div id="welcome">
             <img src="/images/artist-small.png" alt="Welcome">
             <p>
-                您好! 金闪闪
+                您好! ${user.name}
             </p>
             <p>
                 您的当前胜率为80% 所得金币数为60$

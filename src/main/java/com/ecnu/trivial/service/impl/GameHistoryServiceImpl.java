@@ -3,6 +3,7 @@ package com.ecnu.trivial.service.impl;
 import com.ecnu.trivial.mapper.GameHistoryMapper;
 import com.ecnu.trivial.model.GameHistory;
 import com.ecnu.trivial.service.GameHistoryService;
+import com.ecnu.trivial.vo.UserGameHistoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,4 +17,10 @@ public class GameHistoryServiceImpl extends BaseServiceImpl implements GameHisto
     public List<GameHistory> getLatestTwoGames() {
         return gameHistoryMapper.getLatestTwoGames();
     }
+
+    @Override
+    public GameHistory selectByPrimaryKey(int gameId){
+        return gameHistoryMapper.selectByPrimaryKey(gameId);
+    }
+
 }

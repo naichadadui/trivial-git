@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import javax.servlet.http.HttpServletRequest;
 
 public abstract class BaseController {
-    private static final String USER_ID="user_id";
+    private static final String USER_ID="userId";
     @Autowired
     protected HttpServletRequest request;
 
