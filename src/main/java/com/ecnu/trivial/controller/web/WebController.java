@@ -28,9 +28,9 @@ public class WebController extends BaseController {
     private static final String MODULE_WORK = "work";
     private static final String MODULE_ABOUT = "about";
     private static final String MODULE_BLOG = "blog";
-    private static final String MODULE_RANKING="ranking";
-    private static final String MODULE_JAPANROOM="JapanRoom";
-    private static final String MODULE_JAPANGAME="JapanGame";
+    private static final String MODULE_RANKING = "ranking";
+    private static final String MODULE_JAPANROOM = "JapanRoom";
+    private static final String MODULE_JAPANGAME = "JapanGame";
 
     @Autowired
     private GameHistoryService gameHistoryService;
@@ -48,27 +48,35 @@ public class WebController extends BaseController {
     public String homepage(Map<String, Object> model) {
         List<GameHistory> latestGame = new ArrayList<>();
         latestGame = gameHistoryService.getLatestTwoGames();
-        model.put("latestGame1",latestGame.get(0));
-        model.put("latestGame2",latestGame.get(1));
+        if (latestGame != null) {
+            if (latestGame.size() >= 1) {
+                model.put("endTime1", latestGame.get(0).getEndTime().toString());
+                model.put("winner1", latestGame.get(0).getWinnerId().intValue());
+            }
+            if (latestGame.size() >= 2) {
+                model.put("endTime2", latestGame.get(1).getEndTime().toString());
+                model.put("winner2",latestGame.get(1).getWinnerId().intValue());
+            }
+        }
         model.put("module", MODULE_HOMEPAGE);
         return MODULE_HOMEPAGE;
     }
 
     @RequestMapping(value = "/work")
     public String work(Map<String, Object> model) {
-        Map<Integer,Game> rooms = WebSocketServer.getRooms();
+        Map<Integer, Game> rooms = WebSocketServer.getRooms();
         int roomsNumber = rooms.size();
 
         List<Game> games = new ArrayList<>();
-        for(int i = 0;i<roomsNumber;i++)
-            games.add(i,rooms.get(i));
+        for (int i = 0; i < roomsNumber; i++)
+            games.add(i, rooms.get(i));
         List<Integer> numberOfPlayersInEachRoom = new ArrayList<>();
-        for(int i = 0;i<roomsNumber;i++)
-            numberOfPlayersInEachRoom.add(i,games.get(i).getPlayers().size());
+        for (int i = 0; i < roomsNumber; i++)
+            numberOfPlayersInEachRoom.add(i, games.get(i).getPlayers().size());
         int onLinePlayerNumber = WebSocketServer.getOnlineCount();
         model.put("module", MODULE_WORK);
         model.put("numberOfPlayersInEachRoom", numberOfPlayersInEachRoom);
-        model.put("onLinePlayerNumber",onLinePlayerNumber);
+        model.put("onLinePlayerNumber", onLinePlayerNumber);
         return MODULE_WORK;
     }
 
@@ -84,9 +92,9 @@ public class WebController extends BaseController {
         return MODULE_BLOG;
     }
 
-    @RequestMapping(value="/ranking")
-    public String ranking(Map<String,Object> model){
-        model.put("module",MODULE_RANKING);
+    @RequestMapping(value = "/ranking")
+    public String ranking(Map<String, Object> model) {
+        model.put("module", MODULE_RANKING);
         return MODULE_RANKING;
     }
 
@@ -94,14 +102,14 @@ public class WebController extends BaseController {
     * PathVariable:roomId
     * playerList:该局游戏当前玩家列表
     * */
-    @RequestMapping(value="/JapanRoom/{roomId}")
-    public String japanRoom(Map<String,Object> model,@PathVariable Integer roomId){
+    @RequestMapping(value = "/JapanRoom/{roomId}")
+    public String japanRoom(Map<String, Object> model, @PathVariable Integer roomId) {
         Game room = WebSocketServer.getRoom(roomId);
         List<Player> playerList = new ArrayList<>();
-        if(room!=null)
+        if (room != null)
             playerList = room.getPlayers();
-        model.put("module",MODULE_JAPANROOM);
-        model.put("playerList",playerList);
+        model.put("module", MODULE_JAPANROOM);
+        model.put("playerList", playerList);
         return MODULE_JAPANROOM;
     }
 
@@ -110,12 +118,12 @@ public class WebController extends BaseController {
     * initialProcess:游戏初始状态信息
     * 初始状态下只有roomId,players,currentPlayerId,status四个信息
     * */
-    @RequestMapping(value="/JapanGame/{roomId}")
-    public String japanGame(Map<String,Object> model,@PathVariable Integer roomId){
+    @RequestMapping(value = "/JapanGame/{roomId}")
+    public String japanGame(Map<String, Object> model, @PathVariable Integer roomId) {
         Game room = WebSocketServer.getRoom(roomId);
         GameProcess initialProcess = new GameProcess(room);
-        model.put("initialProcess",initialProcess);
-        model.put("module",MODULE_JAPANGAME);
+        model.put("initialProcess", initialProcess);
+        model.put("module", MODULE_JAPANGAME);
         return MODULE_JAPANGAME;
     }
 

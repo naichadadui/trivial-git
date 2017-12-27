@@ -73,8 +73,8 @@ function loginAjax(){
                     else if(data.userId=='-1'){
                         shakeModal();
                     }else{
-                        makeConnection();
-                        //window.location.href="work";
+                      //  makeConnection();
+                        window.location.href="work";
                     }
                 }
             },
@@ -127,8 +127,7 @@ function registerAjax(){
                     else if(data.userId==='-1'){
                        shakeModal();
                     }else{
-                        makeConnection(data.userId);
-                        //window.location.href="homepage";
+                        window.location.href="work";
                     }
                 }
             },

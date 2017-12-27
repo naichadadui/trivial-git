@@ -104,7 +104,7 @@
                 <li>
                     <img src="/images/woman-small.jpg" alt="Img">
                     <p>
-                        <span id="thelatest">lalala</span> <b>Blog Title 1</b> Lorem ipsum dolor sit amet, consectetur
+                        <span id="thelatest">${endTime1}</span> <b>${winner1}</b> Lorem ipsum dolor sit amet, consectetur
                         adipiscing elit. Proin vel pulvinar tellus.
                     </p>
                     </a>
@@ -112,7 +112,7 @@
                 <li>
                     <img src="/images/smoker-small.jpg" alt="Img">
                     <p>
-                        <span>27 February 2012</span> <b>Blog Title 2</b> Lorem ipsum dolor sit amet,
+                        <span>${endTime2}</span> <b>${winner2}</b> Lorem ipsum dolor sit amet,
                         consectetur adipiscing elit. Proin vel pulvinar tellus.
                     </p>
                     </a>
