@@ -18,7 +18,7 @@
                     <a href="blog">Profile</a>
                 </li>
                 <li>
-                    <a href="contact">Rankings</a>
+                    <a href="ranking">Rankings</a>
                 </li>
             </ul>
         </div>

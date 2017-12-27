@@ -38,22 +38,22 @@
     <div class="promo first">
         <h4>No.2</h4>
         <ul class="features">
-            <li class="brief">${secondScore}$</li>
-            <li class="price">${secondName}</li>
+            <li class="brief">${numberTwo.score}</li>
+            <li class="price">${numberTwo.name}</li>
         </ul>
     </div>
     <div class="promo second">
         <h4>No.3</h4>
         <ul class="features">
-            <li class="brief">${thirdScore}$</li>
-            <li class="price">${thirdName}</li>
+            <li class="brief">${numberThree.score}</li>
+            <li class="price">${numberThree.name}</li>
         </ul>
     </div>
     <div class="promo third scale">
         <h4>No.1</h4>
         <ul class="features">
-            <li class="brief">${firstScore}$</li>
-            <li class="price">${firstName}</li>
+            <li class="brief">${numberOne.score}</li>
+            <li class="price">${numberOne.name}</li>
         </ul>
     </div>
 </div>
