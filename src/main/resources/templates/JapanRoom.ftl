@@ -87,24 +87,27 @@
 <div class="titlecontainer">
     <div class="sentence">
         <h1>Hey! Welcome To Japan </h1>
-        <h2>Room No.1</h2>
+        <h2>Room No.${roomId}</h2>
     </div>
 </div>
 
 <div class="demo">
     <div class="container">
-        <div class="row">
+        <div class="row" id="playerTip">
+
+      <#list playerList as player>
             <div class="col-md-3 col-sm-6">
                 <div class="box">
                     <a href="#">  <img src="/images/doctor.jpg"></a>
                     <div class="box-content">
-                        <h3 class="title">雷神索尔</h3>
-                        <span class="post">胜率:20%</span>
+                        <h3 class="title">${player.playerName}</h3>
+                        <span class="post">胜率:50%</span>
                     </div>
                 </div>
             </div>
+      </#list>
 
-            <div class="col-md-3 col-sm-6">
+       <!--     <div class="col-md-3 col-sm-6">
                 <div class="box">
                     <img src="/images/pirate.jpg">
                     <div class="box-content">
@@ -132,7 +135,7 @@
                         <span class="post">胜率10%</span>
                     </div>
                 </div>
-            </div>
+            </div>  -->
         </div>
     </div>
 </div>

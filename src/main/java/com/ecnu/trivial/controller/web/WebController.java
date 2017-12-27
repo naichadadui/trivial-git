@@ -151,6 +151,8 @@ public class WebController extends BaseController {
             playerList = room.getPlayers();
         model.put("module", MODULE_JAPANROOM);
         model.put("playerList", playerList);
+        System.out.println(playerList.size());
+        model.put("roomId",roomId);
         return MODULE_JAPANROOM;
     }
 

@@ -108,10 +108,10 @@ img {
 	font-size: 16px;
 	width: 600px;
 	margin: 63px 5px 0;
-	text-align: left;
+	text-align: center;
 }
 #welcome p:first-child {
-	text-align: left;
+	text-align: center;
 }
 #welcome img {
 	float: left;

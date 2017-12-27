@@ -15,19 +15,24 @@ function makeConnection(userId) {
 }
 
 function sOpen(){
+    enterRoom();
     alert('connect success!');
 }
 function sError(e){
     alert("error " + e);
 }
 function sMessage(msg){
-    alert('server says:' + msg);
+    top.location.reload();
 }
 function sClose(e){
     alert("connect closed:" + e.code);
 }
-function Send(){
-    socket.send(document.getElementById("msg").value);
+function doSend(msg){
+    socket.send(msg);
+}
+
+function enterRoom(){
+    doSend("enter");
 }
 
 function Close(){

@@ -8,8 +8,12 @@
     <link rel="stylesheet" href="/css/styleNewThreeTable.css">
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/css/table.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src='/js/table.js'></script>
     <script>
-        initRanking(${rankingData});
+        table_data=${rankingData};
+        var json =  eval("(" + table_data + ")");
+        initRanking(json);
     </script>
 </head>
 <body>
@@ -77,8 +81,8 @@
 <br/>
 
 <div id="page">
-    <div id="navigation">
-        <ul>
+    <div id="footer">
+        <ul class="navigation">
             <li>
                 <a href="work">Work</a>
             </li>
@@ -91,7 +95,6 @@
         </ul>
     </div>
 </div>
-<script type="text/javascript" src="/js/jquery.min.js"></script>
-<script type="text/javascript" src='/js/table.js'></script>
+
 </body>
 </html>
