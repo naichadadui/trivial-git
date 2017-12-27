@@ -1,31 +1,31 @@
-var table_data = [
-    {
-        id: '1',
-        start: '2017-12-27 09:19:10',
-        end: '2017-12-27 09:45:10',
-        score: '6'
-    },
-    {
-        id: '2',
-        start: '2017-12-27 09:19:10',
-        end: '2017-12-27 09:45:10',
-        score: '5'
-    },
-    {
-        id: '3',
-        start: '2017-12-27 09:19:10',
-        end: '2017-12-27 09:45:10',
-        score: '5'
-    },
-    {
-        id: '4',
-        start: '2017-12-27 09:19:10',
-        end: '2017-12-27 09:45:10',
-        score: '5'
-    }
-];
+// var table_data = [
+//     {
+//         id: '1',
+//         start: '2017-12-27 09:19:10',
+//         end: '2017-12-27 09:45:10',
+//         score: '6'
+//     },
+//     {
+//         id: '2',
+//         start: '2017-12-27 09:19:10',
+//         end: '2017-12-27 09:45:10',
+//         score: '5'
+//     },
+//     {
+//         id: '3',
+//         start: '2017-12-27 09:19:10',
+//         end: '2017-12-27 09:45:10',
+//         score: '5'
+//     },
+//     {
+//         id: '4',
+//         start: '2017-12-27 09:19:10',
+//         end: '2017-12-27 09:45:10',
+//         score: '5'
+//     }
+// ];
 
-var table_data = ${}
+var table_data;
 
 $(function () {
     $('#table').renderTable();
@@ -203,7 +203,10 @@ function getIndex(obj, nodes) {
         if (obj === nodes[i]) {
             result = i;
         }
-    }
-
-    return result;
+    }    return result;
 };
+
+function initData(data) {
+    table_data=data;
+}
+

@@ -103,7 +103,7 @@ public class WebController extends BaseController {
         System.out.println(jsonArray.toString());
         model.put("user",user);
         //model.put("userGameHistories",gameHistoryVoJson);
-        model.put("userGameHistory",jsonArray);
+        model.put("userGameHistory",jsonArray.toString());
         model.put("module", MODULE_BLOG);
         return MODULE_BLOG;
     }
