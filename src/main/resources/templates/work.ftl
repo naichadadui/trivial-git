@@ -2,12 +2,27 @@
 
 <html>
 <head>
-    <#include "title.ftl">
-        <script src="/js/gamehall.js" type="text/javascript"></script>
+<#include "title.ftl">
+    <script src="/js/gamehall.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="header">
-    <#include "head.ftl">
+    <div>
+        <a href="#" id="logo"><img src="/images/logo.png" alt="LOGO"></a>
+        <div id="navigation">
+            <ul>
+                <li>
+                    <a href="work">Work</a>
+                </li>
+                <li class="selected">
+                    <a href="blog">Profile</a>
+                </li>
+                <li>
+                    <a href="contact">Rankings</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 <div id="page">
     <div id="contents">
@@ -18,9 +33,9 @@
                     <a href="JapanRoom/1"><img src="/images/JapanSmall.jpg" alt="Illustration"></a>
                     <h4>Lorem Ipsum</h4>
                     <p>${onLinePlayerNumber}</p>
-                    <#list numberOfPlayersInEachRoom as numberOfplayers>
-                        <p>${numberOfplayers}</p>
-                    </#list>
+                <#list numberOfPlayersInEachRoom as numberOfplayers>
+                    <p>${numberOfplayers}</p>
+                </#list>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel pulvinar tellus.
                     </p>
@@ -29,7 +44,8 @@
                     <a href="work"><img src="/images/zombie.jpg" alt="Illustration"></a>
                     <h4>Lorem Ipsum</h4>
                     <p>
-                        Pellentesque ut felis nec est vestibulum viverra. Vestibulum a diam eget metus cursus porttitor eu ac elit.
+                        Pellentesque ut felis nec est vestibulum viverra. Vestibulum a diam eget metus cursus porttitor
+                        eu ac elit.
                     </p>
                 </li>
                 <li>
@@ -57,7 +73,8 @@
                     <a href="work"><img src="/images/pirate.jpg" alt="Illustration"></a>
                     <h4>Lorem Ipsum</h4>
                     <p>
-                        Pellentesque ut felis nec est vestibulum viverra. Vestibulum a diam eget metus cursus porttitor eu ac elit.
+                        Pellentesque ut felis nec est vestibulum viverra. Vestibulum a diam eget metus cursus porttitor
+                        eu ac elit.
                     </p>
                 </li>
                 <li>
@@ -77,13 +94,26 @@
             </ul>
             <div id="pagination">
                 <div>
-                    <a href="#">Prev</a> <a href="#" class="selected">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a> <a href="#">6</a> <a href="#" class="last-child">Next</a>
+                    <a href="#">Prev</a> <a href="#" class="selected">1</a> <a href="#">2</a> <a href="#">3</a> <a
+                        href="#">4</a> <a href="#">5</a> <a href="#">6</a> <a href="#" class="last-child">Next</a>
                 </div>
             </div>
         </div>
     </div>
     <div id="footer">
-        <#include "foot.ftl">
+        <div id="navigation">
+            <ul>
+                <li>
+                    <a href="work">Work</a>
+                </li>
+                <li class="selected">
+                    <a href="blog">Profile</a>
+                </li>
+                <li>
+                    <a href="contact">Rankings</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 </body>

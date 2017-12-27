@@ -19,16 +19,10 @@
         <div id="navigation">
             <ul>
                 <li>
-                    <a href="index">Home</a>
-                </li>
-                <li>
                     <a href="work">Work</a>
                 </li>
                 <li>
-                    <a href="blog">Blog</a>
-                </li>
-                <li>
-                    <a href="about">About</a>
+                    <a href="blog">Profile</a>
                 </li>
                 <li class="selected">
                     <a href="ranking">Rankings</a>
@@ -83,8 +77,18 @@
 <br/>
 
 <div id="page">
-    <div id="footer">
-        <#include "foot.ftl">
+    <div id="navigation">
+        <ul>
+            <li>
+                <a href="work">Work</a>
+            </li>
+            <li>
+                <a href="blog">Profile</a>
+            </li>
+            <li class="selected">
+                <a href="ranking">Rankings</a>
+            </li>
+        </ul>
     </div>
 </div>
 <script type="text/javascript" src="/js/jquery.min.js"></script>

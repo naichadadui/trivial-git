@@ -38,11 +38,6 @@ public class WebController extends BaseController {
     @Autowired
     private GameService gameService;
 
-    @RequestMapping(value = "/index")
-    public String index(Map<String, Object> model) {
-        model.put("module", MODULE_INDEX);
-        return MODULE_INDEX;
-    }
 
     @RequestMapping(value = "/homepage")
     public String homepage(Map<String, Object> model) {
@@ -80,11 +75,6 @@ public class WebController extends BaseController {
         return MODULE_WORK;
     }
 
-    @RequestMapping(value = "/about")
-    public String about(Map<String, Object> model) {
-        model.put("module", MODULE_ABOUT);
-        return MODULE_ABOUT;
-    }
 
     @RequestMapping(value = "/blog")
     public String blog(Map<String, Object> model) {
