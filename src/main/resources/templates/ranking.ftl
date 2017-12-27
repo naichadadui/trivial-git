@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="/css/styleNewThreeTable.css">
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/css/table.css">
+    <script>
+        initRanking(${rankingData});
+    </script>
 </head>
 <body>
 <div id="header">
@@ -41,22 +44,22 @@
     <div class="promo first">
         <h4>No.2</h4>
         <ul class="features">
-            <li class="brief">30$</li>
-            <li class="price">闪闪</span></li>
+            <li class="brief">${secondScore}$</li>
+            <li class="price">${secondName}</li>
         </ul>
     </div>
     <div class="promo second">
         <h4>No.3</h4>
         <ul class="features">
-            <li class="brief">70$</li>
-            <li class="price">Sunny</li>
+            <li class="brief">${thirdScore}$</li>
+            <li class="price">${thirdName}</li>
         </ul>
     </div>
     <div class="promo third scale">
         <h4>No.1</h4>
         <ul class="features">
-            <li class="brief">100$</li>
-            <li class="price">嘿嘿</li>
+            <li class="brief">${firstScore}$</li>
+            <li class="price">${firstName}</li>
         </ul>
     </div>
 </div>

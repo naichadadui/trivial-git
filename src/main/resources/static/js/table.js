@@ -1,25 +1,27 @@
-var table_data = [
-    {
-        name: '1',
-        email: '嘿嘿',
-        phone: '100$',
-    },
-    {
-        name: '2',
-        email: '闪闪',
-        phone: '70$',
-    },
-    {
-        name: '3',
-        email: 'SUNNY',
-        phone: '30$',
-    },
-    {
-        name: '4',
-        email: 'EricBell',
-        phone: '70$',
-    }
-];
+// var table_data = [
+//     {
+//         id: '1',
+//         name: '嘿嘿',
+//         score: '100$',
+//     },
+//     {
+//         id: '2',
+//         name: '闪闪',
+//         score: '70$',
+//     },
+//     {
+//         id: '3',
+//         name: 'SUNNY',
+//         score: '30$',
+//     },
+//     {
+//         id: '4',
+//         name: 'EricBell',
+//         score: '70$',
+//     }
+// ];
+
+var table_data;
 
 $(function () {
     $('#table').renderTable();
@@ -201,3 +203,8 @@ function getIndex(obj, nodes) {
 
     return result;
 };
+
+function initRanking(data){
+    table_data=eval ("(" + data + ")");
+}
+

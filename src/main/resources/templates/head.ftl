@@ -3,9 +3,6 @@
     <div id="navigation">
         <ul>
             <li class="selected">
-                <a href="index">Home</a>
-            </li>
-            <li>
                 <a href="work">Work</a>
             </li>
             <li>
@@ -15,7 +12,7 @@
                 <a href="about">About</a>
             </li>
             <li>
-                <a href="contact">Contact</a>
+                <a href="ranking">Rankings</a>
             </li>
         </ul>
     </div>

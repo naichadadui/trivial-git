@@ -15,6 +15,12 @@
 
     <link rel="stylesheet" href="/css/RoomTitle.css">
     <link rel="stylesheet" href="/css/button.css" media="screen" type="text/css" />
+    <script  src="/js/roomTitle.js"></script>
+    <script src="/js/gameRoom.js"></script>
+    <script>
+        var id = ${Session.userId};
+         makeConnection(id);
+    </script>
 
     <style type="text/css">
         .demo{padding: 2em 0;}
@@ -138,6 +144,5 @@
     </a></p>
 </div>
 
-<script  src="/js/roomTitle.js"></script>
 </body>
 </html>

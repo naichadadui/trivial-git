@@ -4,10 +4,6 @@
 <head>
     <#include "title.ftl">
         <script src="/js/gamehall.js" type="text/javascript"></script>
-    <script>
-        var id = ${Session.userId};
-        makeConnection(id);
-    </script>
 </head>
 <body>
 <div id="header">
