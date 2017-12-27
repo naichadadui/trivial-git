@@ -111,7 +111,7 @@ public class WebController extends BaseController {
         model.put("winRate",winRate);
         System.out.println(jsonArray.toString());
         model.put("user",user);
-        model.put("userGameHistory",jsonArray);
+        model.put("userGameHistory",jsonArray.toString());
         model.put("module", MODULE_BLOG);
         return MODULE_BLOG;
     }

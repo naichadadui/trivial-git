@@ -11,10 +11,10 @@
         <a href="#" id="logo"><img src="/images/logo.png" alt="LOGO"></a>
         <div id="navigation">
             <ul>
-                <li>
+                <li class="selected">
                     <a href="work">Work</a>
                 </li>
-                <li class="selected">
+                <li >
                     <a href="blog">Profile</a>
                 </li>
                 <li>
@@ -101,16 +101,15 @@
         </div>
     </div>
     <div id="footer">
-        <div id="navigation">
-            <ul>
-                <li>
+        <ul class="navigation">
+               <li class="selected">
                     <a href="work">Work</a>
                 </li>
-                <li class="selected">
+                <li>
                     <a href="blog">Profile</a>
                 </li>
                 <li>
-                    <a href="contact">Rankings</a>
+                    <a href="ranking">Rankings</a>
                 </li>
             </ul>
         </div>
