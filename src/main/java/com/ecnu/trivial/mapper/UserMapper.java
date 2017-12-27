@@ -53,4 +53,12 @@ public interface UserMapper {
     })
     @ResultMap("BaseResultMap")
     List<User> selectByEmail(@Param("email")String email);
+
+    @Select(value = {
+            "select *",
+            "from user",
+            "order by score desc"
+    })
+    @ResultMap("BaseResultMap")
+    List<User> selectAllUsersOrderByScore();
 }

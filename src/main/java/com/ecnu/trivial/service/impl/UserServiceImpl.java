@@ -58,4 +58,9 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
         }
         return registerResult;
     }
+
+    @Override
+    public List<User> getAllUsersOrderByScore() {
+        return userMapper.selectAllUsersOrderByScore();
+    }
 }

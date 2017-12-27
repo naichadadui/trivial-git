@@ -9,6 +9,7 @@ import com.ecnu.trivial.model.UserGameHistory;
 import com.ecnu.trivial.service.GameHistoryService;
 import com.ecnu.trivial.service.GameService;
 import com.ecnu.trivial.service.UserGameHistoryService;
+import com.ecnu.trivial.service.UserService;
 import com.ecnu.trivial.vo.GameHistoryVo;
 import com.ecnu.trivial.vo.UserGameHistoryVo;
 import com.ecnu.trivial.vo.UserVo;
@@ -45,6 +46,9 @@ public class WebController extends BaseController {
 
     @Autowired
     private GameService gameService;
+
+    @Autowired
+    private UserService userService;
 
 
     @RequestMapping(value = "/homepage")
@@ -110,6 +114,23 @@ public class WebController extends BaseController {
 
     @RequestMapping(value = "/ranking")
     public String ranking(Map<String, Object> model) {
+        List<User> userRankingList = userService.getAllUsersOrderByScore();
+        List<UserVo> userRankingVos = userRankingList.stream().map(this::parse).collect(Collectors.toList());
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        int i = 1;
+        for(UserVo user:userRankingVos){
+            jsonObject.put("id",i);
+            jsonObject.put("name",user.getName());
+            jsonObject.put("score",user.getScore());
+            jsonArray.add(jsonObject);
+            i++;
+        }
+        System.out.println(jsonArray.toString());
+        model.put("rankingData",jsonArray.toString());
+        model.put("numberOne",userRankingVos.get(0));
+        model.put("numberTwo",userRankingVos.get(1));
+        model.put("numberThree",userRankingVos.get(2));
         model.put("module", MODULE_RANKING);
         return MODULE_RANKING;
     }
