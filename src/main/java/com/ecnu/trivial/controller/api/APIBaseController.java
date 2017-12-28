@@ -15,12 +15,21 @@ public class APIBaseController{
     private static final String WRONG_PARAM = "参数错误";
 
     private static final String USER_ID="userId";
+    private static final String ROOM_ID="roomId";
 
     @Autowired
     protected HttpServletRequest request;
 
     public int getCurrentUserID(){
         Object o=request.getSession().getAttribute(USER_ID);
+        if(o==null){
+            throw new ResourceNotFoundException();
+        }
+        return Integer.parseInt(o.toString());
+    }
+
+    public int getCurrentRoomID(){
+        Object o=request.getSession().getAttribute(ROOM_ID);
         if(o==null){
             throw new ResourceNotFoundException();
         }

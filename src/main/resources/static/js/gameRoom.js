@@ -24,9 +24,11 @@ function sError(e){
 }
 function sMessage(msg){
     //top.location.reload();
-    var json=eval("("+msg+")");
+    var json=JSON.parse(msg.data);
+
     var playerContainer=document.getElementById("playerContainer");
     var player = document.getElementById("playerTip");
+
     playerContainer.removeChild(player);
     playerContainer=document.createElement("div");
     playerContainer.id="playerTip";
@@ -40,6 +42,7 @@ function sMessage(msg){
 
     var playerList=json.players;
     for(var i=0;i<playerList.length;i++){
+
         var div1=document.createElement("div");
         div1.className="col-md-3 col-sm-6";
         var div2=document.createElement("div");
@@ -61,7 +64,7 @@ function sMessage(msg){
         div1.appendChild(div2);
        player.appendChild(div1);
 
-       if(playerList[i].User.userId==userID) {
+       if(playerList[i].user.userId==userID) {
            if (i == 0 && playerList.length >= 2) {
                var readyA = document.createElement("a");
                readyA.onclick = "start()";

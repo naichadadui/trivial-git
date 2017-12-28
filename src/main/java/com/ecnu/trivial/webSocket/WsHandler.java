@@ -64,7 +64,7 @@ public class WsHandler extends TextWebSocketHandler {
             this.roomId =1;
             this.userId =1;
             userSocket.put(this.userId, session);
-            System.out.println("有新连接加入！当前在线人数为" + userSocket.size());
+            System.out.println("有新连接加入！当前在线人数为" + userSocket.size() + "sessionId:"+session.getId());
         }
     }
 
@@ -91,10 +91,12 @@ public class WsHandler extends TextWebSocketHandler {
     {
         System.out.println(message.getPayload());
         String msg = message.getPayload();
-        if(msg.equals("enter"))
+//        if(msg.equals("enter"))
             gameService.enterRoom(userId,roomId);
-        if(msg.equals("ready"))
-            gameService.ready(userId,roomId);
+//        if(msg.equals("ready"))
+            //gameService.ready(userId,roomId);
+        if(msg.equals("start"))
+            gameService.start(roomId);
         if(msg.equals("dice"))
             gameService.dice(roomId);
     }
@@ -104,12 +106,13 @@ public class WsHandler extends TextWebSocketHandler {
      */
     public static boolean sendMessageToUser(Integer userId, String message) {
         if (userSocket.containsKey(userId)) {
-            System.out.println(" 给用户Id为" + userId + "的所有终端发送消息："+ message);
+            //System.out.println(" 给用户Id为" + userId + "的所有终端发送消息："+ message);
             WebSocketSession WS = userSocket.get(userId);
             System.out.println("sessionId为:"+ WS.getId());
             TextMessage msg = new TextMessage(message);
             try {
                 WS.sendMessage(msg);
+                System.out.println(" 给用户Id为" + userId + "的所有终端发送消息："+ msg.getPayload());
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("给用户" + userId + "发送消息失败");

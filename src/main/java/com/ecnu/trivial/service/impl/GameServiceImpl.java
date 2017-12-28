@@ -18,7 +18,7 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
     private QuestionsMapper questionsMapper;
 
     /*玩家选择一个房间加入，建立webSocket连接
-    * 如果该房间还没有玩家，则将该房间加入webSocket的roomMap
+    * 如果该房间还没有玩家，则将该房间加入webSocket的roomMap,并将该玩家设置成房主，房主自动准备
     * 如果该房间有玩家
     * 判断如果该房间未在游戏中，并且人数没满，则进入房间成功
     * 否则进入房间失败
@@ -36,6 +36,8 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
         if (room!=null&&!room.isFullPlayer() && !room.isGameStart()){
             try {
                 room.addNewPlayer(user);
+                if(room.getPlayers().size()==1)
+                    ready(userId,roomId);
             } catch (EncodeException e) {
                 e.printStackTrace();
             }
@@ -46,16 +48,28 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
 
     /*
     * 玩家准备，准许游戏开始
+    * */
+    @Override
+    public void ready(int userId,int roomId) {
+        Game room = WsHandler.getRoom(roomId);
+        if(room!=null)
+            try {
+                room.setReady(userId);
+            } catch (EncodeException e) {
+                e.printStackTrace();
+            }
+    }
+
+    /*
     * 如果该房间玩家人数大于等于2且全部准备
     * 则房主可以选择开始游戏
     * 则游戏初始化题目然后游戏开始
     * 初始化的题目从数据库中按type随机选取50道题目
     * */
     @Override
-    public void ready(int userId,int roomId) {
+    public void start(int roomId){
         Game room = WsHandler.getRoom(roomId);
         if(room!=null) {
-            room.setReady(userId);
             if (room.getPlayers().size() >= 2 && room.isAllPlayerReady()) {
                 List<Questions> popQuestions = questionsMapper.selectQuestionsByType(0);
                 List<Questions> scienceQuestions = questionsMapper.selectQuestionsByType(1);

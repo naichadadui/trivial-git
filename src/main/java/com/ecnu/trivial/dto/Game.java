@@ -22,7 +22,7 @@ public class Game {
     public static final int NUMBER_OF_FILES_TO_USE = 1;
     public static final int NUMBER_OF_FULL_PLAYERS = 4;//游戏中最大玩家数
     private final QuestionMaker questionMaker = new QuestionMaker();//初始化游戏题库
-    private ArrayList<Player> players = new ArrayList<Player>();
+    private List<Player> players = new ArrayList<>();
     private int currentPlayerId = 0;
     private static Logger logger = Logger.getLogger("kata.trivia.Game");
     private static FileHandler fileHandler = null;
@@ -53,12 +53,12 @@ public class Game {
     }
 
     /*玩家准备*/
-    public void setReady(Integer userId){
+    public void setReady(Integer userId) throws EncodeException {
         for(Player player:players){
             if (player.getUser().getUserId().equals(userId)) {
                 player.setReady(true);
                 System.out.println(player.getUser().getName() + " was ready");
-                sendMessageToAllUsers(gameProcess.toString());
+                sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
                 return;
             }
         }
@@ -352,11 +352,11 @@ public class Game {
         this.currentPlayerId = currentPlayerId;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
