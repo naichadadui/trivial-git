@@ -92,20 +92,9 @@
 </div>
 
 <div class="demo">
-    <div class="container">
+    <div class="container" id="playerContainer">
         <div class="row" id="playerTip">
 
-      <#list playerList as player>
-            <div class="col-md-3 col-sm-6">
-                <div class="box">
-                    <a href="#">  <img src="/images/doctor.jpg"></a>
-                    <div class="box-content">
-                        <h3 class="title">${player.playerName}</h3>
-                        <span class="post">胜率:50%</span>
-                    </div>
-                </div>
-            </div>
-      </#list>
 
        <!--     <div class="col-md-3 col-sm-6">
                 <div class="box">
@@ -141,10 +130,11 @@
 </div>
 
 <div id="buttoncontainer">
-
-    <p><a href="JapanGame">
+    <p id="buttonP">
+     <!--   <a href="JapanGame">
         Start
-    </a></p>
+    </a> -->
+    </p>
 </div>
 
 </body>
