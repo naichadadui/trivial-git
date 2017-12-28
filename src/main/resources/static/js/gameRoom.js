@@ -57,7 +57,7 @@ function sMessage(msg){
         h1.innerHTML=playerList[i].playerName;
         var span1=document.createElement("span");
         span1.className="post";
-        span1.innerHTML=playerList[i].winRate;
+        span1.innerHTML=123;
         div3.appendChild(h1);
         div3.appendChild(span1);
         div2.appendChild(imgPlayer);

@@ -32,6 +32,69 @@
         <div>
             <h5>Recent Illustrations</h5>
             <ul id="gallery">
+                <li>
+                    <a href="JapanRoom/1"><img src="/images/JapanSmall.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>${onLinePlayerNumber}</p>
+                <#list numberOfPlayersInEachRoom as numberOfplayers>
+                    <p>${numberOfplayers}</p>
+                </#list>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel pulvinar tellus.
+                    </p>
+                </li>
+                <li>
+                    <a href="work"><img src="/images/zombie.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>
+                        Pellentesque ut felis nec est vestibulum viverra. Vestibulum a diam eget metus cursus porttitor
+                        eu ac elit.
+                    </p>
+                </li>
+                <li>
+                    <a href="work"><img src="/images/doctor.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>
+                        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
+                    </p>
+                </li>
+                <li>
+                    <a href="work"><img src="/images/scientist.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>
+                        Aenean vitae massa nulla. Ut tincidunt interdum dui at lobortis.
+                    </p>
+                </li>
+                <li>
+                    <a href="work"><img src="/images/viking.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel pulvinar tellus.
+                    </p>
+                </li>
+                <li>
+                    <a href="work"><img src="/images/pirate.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>
+                        Pellentesque ut felis nec est vestibulum viverra. Vestibulum a diam eget metus cursus porttitor
+                        eu ac elit.
+                    </p>
+                </li>
+                <li>
+                    <a href="work"><img src="/images/caveman.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>
+                        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
+                    </p>
+                </li>
+                <li>
+                    <a href="work"><img src="/images/vendor.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>
+                        Aenean vitae massa nulla. Ut tincidunt interdum dui at lobortis.
+                    </p>
+                </li>
+
           <!--      <li>
                     <img src="/images/JapanSmall.jpg" id="room1" onclick="clickRoom(this.id)" alt="Illustration">
                     <h4>room No.1</h4>
