@@ -5,6 +5,7 @@ import com.ecnu.trivial.model.User;
 import com.ecnu.trivial.service.GameService;
 import com.ecnu.trivial.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
+@Controller
 @RequestMapping(value="/api/game")
 public class GameController extends APIBaseController{
     @Autowired
@@ -25,7 +27,7 @@ public class GameController extends APIBaseController{
     * returnMessage:对应的提示消息
     * */
     @RequestMapping(value="/enterRoom", method = RequestMethod.POST)
-    public Map EnterRoom(@RequestParam("roomId")int roomId){
+    public Map enterRoom(@RequestParam("roomId")int roomId){
         Map<String,Object> result = new HashMap<>();
         int enterResult = 0;
         String returnMessage = "";
@@ -42,6 +44,12 @@ public class GameController extends APIBaseController{
         result.put("enterResult",enterResult);
         result.put("returnMessage",returnMessage);
         return result;
+    }
+
+    public boolean enter(int roomId){
+        boolean isEnterRoomSuccess = false;
+        //isEnterRoomSuccess = gameService.enterRoom(getCurrentUserID(),roomId);
+        return isEnterRoomSuccess;
     }
 
     /*玩家点击ready，表示准许游戏开始

@@ -1,10 +1,13 @@
 package com.ecnu.trivial.webSocket;
 
 import com.ecnu.trivial.dto.Game;
+import com.ecnu.trivial.service.GameService;
 import net.sf.json.JSONObject;
-import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.socket.server.standard.SpringConfigurator;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -13,7 +16,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@ServerEndpoint(value = "/webSocket/{roomId}/{userId}")
+@ServerEndpoint(value = "/webSocket/{roomId}/{userId}",configurator = SpringConfigurator.class)
 @Component
 public class WebSocketServer{
     //日志记录
@@ -31,6 +34,17 @@ public class WebSocketServer{
     private String userId;
     private String roomId;
 
+//    @Autowired
+//    private GameService gameService;
+
+    private GameService gameService;
+
+    private static ApplicationContext applicationContext;
+
+    @Autowired
+    public static void setApplicationContext(ApplicationContext context) {
+        applicationContext  = context;
+    }
 
     /**
      * 当网络连接建立时调用该方法
@@ -72,6 +86,27 @@ public class WebSocketServer{
         if (session == null)
             System.out.println("session null");
         System.out.println("来自客户端"+this.userId+"的消息:" + message);
+        if(message.equals("enter")){
+            //System.out.println(roomId);
+            //if (gameService!=null)
+
+            //applicationContext = ApplicationContextProvider.getApplicationContext();
+            gameService = (GameService)applicationContext.getBean(GameService.class);
+            //gameService=act.getBean(GameService.class);
+            gameService.enterRoom(Integer.parseInt(userId),Integer.parseInt(roomId));
+        }
+//        if(message.equals("ready")){
+//            gameController.ready(Integer.parseInt(roomId));
+//        }
+//        if(message.equals("dice")){
+//            gameController.dice(Integer.parseInt(roomId));
+//        }
+//        if(message.contains("answer")){
+//            gameController.answerQuestion(Integer.parseInt(roomId),message);
+//        }
+//        else{
+//
+//        }
 
         //群发消息
 //        for (WebSocketServer item : webSocketSet) {

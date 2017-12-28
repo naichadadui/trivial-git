@@ -1,7 +1,7 @@
 var sorcket;
 
 function makeConnection(userId) {
-    var ipURL = "ws://localhost:10000/" + "webSocket/0/" + userId;
+    var ipURL = "ws://localhost:10000/" + "webSocket/1/" + userId;
     try {
         socket=new WebSocket(ipURL);
     }catch(e) {
@@ -22,7 +22,7 @@ function sError(e){
     alert("error " + e);
 }
 function sMessage(msg){
-    top.location.reload();
+    //top.location.reload();
 }
 function sClose(e){
     alert("connect closed:" + e.code);
