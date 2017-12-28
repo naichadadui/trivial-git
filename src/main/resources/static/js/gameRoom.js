@@ -45,22 +45,6 @@ function sMessage(msg){
         $("#buttonP").show();
     }
 
-
-    // if(playerList.length()>=2){
-    //     $("#name2").html(playerList[1].playerName);
-    //     $("#winRate2").html(playerList[1].user.winRate);
-    //     $("#player2").show();
-    // }
-    // if(playerList.length()>=3){
-    //     $("#name3").html(playerList[2].playerName);
-    //     $("#winRate3").html(playerList[2].user.winRate);
-    //     $("#player3").show();
-    // }
-    // if(playerList.length()>=4){
-    //     $("#name4").html(playerList[3].playerName);
-    //     $("#winRate4").html(playerList[3].user.winRate);
-    //     $("#player4").show();
-    // }
 }
 function sClose(e){
     alert("connect closed:" + e.code);
