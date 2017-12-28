@@ -4,6 +4,9 @@
 <head>
 <#include "title.ftl">
     <script src="/js/gamehall.js" type="text/javascript"></script>
+    <script>
+         userId= ${Session.userId};
+    </script>
 </head>
 <body>
 <div id="header">
@@ -91,6 +94,64 @@
                         Aenean vitae massa nulla. Ut tincidunt interdum dui at lobortis.
                     </p>
                 </li>
+
+          <!--      <li>
+                    <img src="/images/JapanSmall.jpg" id="room1" onclick="clickRoom(this.id)" alt="Illustration">
+                    <h4>room No.1</h4>
+                    <h4>3/4</h4>
+                    <h4>游戏进行中</h4>
+                </li>
+                <li>
+                    <a href="work"><img src="/images/zombie.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>
+                        Pellentesque ut felis nec est vestibulum viverra. Vestibulum a diam eget metus cursus porttitor
+                        eu ac elit.
+                    </p>
+                </li>
+                <li>
+                    <a href="work"><img src="/images/doctor.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>
+                        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
+                    </p>
+                </li>
+                <li>
+                    <a href="work"><img src="/images/scientist.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>
+                        Aenean vitae massa nulla. Ut tincidunt interdum dui at lobortis.
+                    </p>
+                </li>
+                <li>
+                    <a href="work"><img src="/images/viking.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel pulvinar tellus.
+                    </p>
+                </li>
+                <li>
+                    <a href="work"><img src="/images/pirate.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>
+                        Pellentesque ut felis nec est vestibulum viverra. Vestibulum a diam eget metus cursus porttitor
+                        eu ac elit.
+                    </p>
+                </li>
+                <li>
+                    <a href="work"><img src="/images/caveman.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>
+                        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
+                    </p>
+                </li>
+                <li>
+                    <a href="work"><img src="/images/vendor.jpg" alt="Illustration"></a>
+                    <h4>Lorem Ipsum</h4>
+                    <p>
+                        Aenean vitae massa nulla. Ut tincidunt interdum dui at lobortis.
+                    </p>
+                </li>  -->
             </ul>
             <div id="pagination">
                 <div>
