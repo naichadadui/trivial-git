@@ -1,8 +1,12 @@
 package com.ecnu.trivial.dto;
 
 import com.ecnu.trivial.model.User;
+import com.ecnu.trivial.model.UserGameHistory;
+import com.ecnu.trivial.vo.UserVo;
+import org.springframework.beans.BeanUtils;
 
 import javax.websocket.EncodeException;
+import java.util.List;
 import java.util.Random;
 
 public class GameRunner {
@@ -16,9 +20,9 @@ public class GameRunner {
         User sue = new User(3,"333","333","sue",0);
 
         try {
-            aGame.addNewPlayer(chet);
-            aGame.addNewPlayer(pat);
-            aGame.addNewPlayer(sue);
+            aGame.addNewPlayer(parse(chet));
+            aGame.addNewPlayer(parse(pat));
+            aGame.addNewPlayer(parse(sue));
         } catch (EncodeException e) {
             e.printStackTrace();
         }
@@ -40,5 +44,13 @@ public class GameRunner {
 
         } while (notAWinner);
 
+    }
+
+    private static UserVo parse(User user) {
+        UserVo result = new UserVo();
+        BeanUtils.copyProperties(user, result);
+        double winRate = 0;
+        result.setWinRate(winRate);
+        return result;
     }
 }

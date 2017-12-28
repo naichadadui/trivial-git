@@ -4,18 +4,28 @@ import com.ecnu.trivial.dto.Game;
 import com.ecnu.trivial.mapper.QuestionsMapper;
 import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.model.User;
+import com.ecnu.trivial.model.UserGameHistory;
+import com.ecnu.trivial.service.GameHistoryService;
 import com.ecnu.trivial.service.GameService;
+import com.ecnu.trivial.service.UserGameHistoryService;
+import com.ecnu.trivial.vo.UserGameHistoryVo;
+import com.ecnu.trivial.vo.UserVo;
 import com.ecnu.trivial.webSocket.WsHandler;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.websocket.EncodeException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameServiceImpl extends BaseServiceImpl implements GameService {
     @Autowired
     private QuestionsMapper questionsMapper;
+
+    @Autowired
+    private UserGameHistoryService userGameHistoryService;
 
     /*玩家选择一个房间加入，建立webSocket连接
     * 如果该房间还没有玩家，则将该房间加入webSocket的roomMap,并将该玩家设置成房主，房主自动准备
@@ -27,6 +37,7 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
     public boolean enterRoom(int userId, int roomId){
         Game room = WsHandler.getRoom(roomId);
         User user = getCurrentUser(userId);
+        UserVo userVo = parse(user);
         boolean result = false;
         if(room==null){
             Game game = new Game(roomId);
@@ -35,7 +46,7 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
         }
         if (room!=null&&!room.isFullPlayer() && !room.isGameStart()){
             try {
-                room.addNewPlayer(user);
+                room.addNewPlayer(userVo);
                 if(room.getPlayers().size()==1)
                     ready(userId,roomId);
             } catch (EncodeException e) {
@@ -116,6 +127,22 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
             room.answeredWrong();
         WsHandler.sendMessageToUser(room.getCurrentPlayerId(),room.getGameProcess().toString());
         return isCorrect;
+    }
+
+    private UserVo parse(User user) {
+        UserVo result = new UserVo();
+        BeanUtils.copyProperties(user, result);
+        List<UserGameHistory> userGameHistories = userGameHistoryService.getUserGameHistoryByUserId(user.getUserId());
+        double win = 0;
+        double winRate = 0;
+        for(UserGameHistory userGameHistory:userGameHistories){
+            if(userGameHistory.getScore()==6)
+                win++;
+        }
+        if(userGameHistories.size()!=0)
+            winRate = win/userGameHistories.size()*100;
+        result.setWinRate(winRate);
+        return result;
     }
 
 

@@ -71,14 +71,17 @@ public class WebController extends BaseController {
         Map<Integer, Game> rooms = WsHandler.getRooms();
         int roomsNumber = rooms.size();
         List<Game> games = new ArrayList<>();
-        for (int i = 0; i < roomsNumber; i++)
+        for (int i = 0; i < roomsNumber; i++) {
             games.add(i, rooms.get(i));
+        }
         List<Integer> numberOfPlayersInEachRoom = new ArrayList<>();
         for (int i = 0; i < roomsNumber; i++)
             numberOfPlayersInEachRoom.add(i, games.get(i).getPlayers().size());
         int onLinePlayerNumber = WsHandler.getOnlineCount();
         model.put("module", MODULE_WORK);
-        model.put("numberOfPlayersInEachRoom", numberOfPlayersInEachRoom);
+        model.put("rooms",games);
+        System.out.println(games.toString());
+       model.put("numberOfPlayersInEachRoom", numberOfPlayersInEachRoom);
         model.put("onLinePlayerNumber", onLinePlayerNumber);
         return MODULE_WORK;
     }
@@ -93,21 +96,14 @@ public class WebController extends BaseController {
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         int i = 1;
-        double win = 0;
-        double winRate = 0;
         for(UserGameHistoryVo userGameHistoryVo:gameHistoryVos){
             jsonObject.put("id",i);
             jsonObject.put("start",userGameHistoryVo.getGameHistoryVo().getStartTimeStr());
             jsonObject.put("end",userGameHistoryVo.getGameHistoryVo().getEndTimeStr());
             jsonObject.put("score",userGameHistoryVo.getScore());
             jsonArray.add(jsonObject);
-            if(userGameHistoryVo.getScore()==6)
-                win++;
             i++;
         }
-        if(gameHistoryVos.size()!=0)
-            winRate = win/gameHistoryVos.size()*100;
-        model.put("winRate",winRate);
         System.out.println(jsonArray.toString());
         model.put("user",user);
         model.put("userGameHistory",jsonArray.toString());
@@ -126,6 +122,7 @@ public class WebController extends BaseController {
             jsonObject.put("id",i);
             jsonObject.put("name",user.getName());
             jsonObject.put("score",user.getScore());
+            jsonObject.put("winRate",user.getWinRate());
             jsonArray.add(jsonObject);
             i++;
         }
@@ -172,6 +169,16 @@ public class WebController extends BaseController {
     private UserVo parse(User user) {
         UserVo result = new UserVo();
         BeanUtils.copyProperties(user, result);
+        List<UserGameHistory> userGameHistories = userGameHistoryService.getUserGameHistoryByUserId(user.getUserId());
+        double win = 0;
+        double winRate = 0;
+        for(UserGameHistory userGameHistory:userGameHistories){
+            if(userGameHistory.getScore()==6)
+                win++;
+        }
+        if(userGameHistories.size()!=0)
+            winRate = win/userGameHistories.size()*100;
+        result.setWinRate(winRate);
         return result;
     }
 

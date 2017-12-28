@@ -2,6 +2,7 @@ package com.ecnu.trivial.dto;
 
 import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.model.User;
+import com.ecnu.trivial.vo.UserVo;
 import com.ecnu.trivial.webSocket.WsHandler;
 import lombok.NoArgsConstructor;
 import net.sf.json.JSONObject;
@@ -102,14 +103,15 @@ public class Game {
     /*
     * 有新玩家加入
     * */
-    public void addNewPlayer(User user) throws EncodeException {
+    public void addNewPlayer(UserVo user) throws EncodeException {
         Player player = new Player(user.getName(),user);
         players.add(player);
         gameProcess.setPlayers(players);
         logger.info(user.getName() + " was added");
         logger.info("The total amount of players is " + players.size());
         //sendMessageToAllUsers(gameProcess.toString());
-        sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
+        if(players.size()>1)
+            sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
 
     }
 

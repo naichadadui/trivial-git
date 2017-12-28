@@ -13,4 +13,6 @@ public class UserVo {
     private String name;
 
     private Integer score;
+
+    private double winRate;
 }
