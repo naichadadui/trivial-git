@@ -4,6 +4,9 @@
 <head>
 <#include "title.ftl">
     <script src="/js/gamehall.js" type="text/javascript"></script>
+    <script>
+         userId= ${Session.userId};
+    </script>
 </head>
 <body>
 <div id="header">
@@ -29,16 +32,11 @@
         <div>
             <h5>Recent Illustrations</h5>
             <ul id="gallery">
-                <li>
-                    <a href="JapanRoom/1"><img src="/images/JapanSmall.jpg" alt="Illustration"></a>
-                    <h4>Lorem Ipsum</h4>
-                    <p>${onLinePlayerNumber}</p>
-                <#list numberOfPlayersInEachRoom as numberOfplayers>
-                    <p>${numberOfplayers}</p>
-                </#list>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel pulvinar tellus.
-                    </p>
+          <!--      <li>
+                    <img src="/images/JapanSmall.jpg" id="room1" onclick="clickRoom(this.id)" alt="Illustration">
+                    <h4>room No.1</h4>
+                    <h4>3/4</h4>
+                    <h4>游戏进行中</h4>
                 </li>
                 <li>
                     <a href="work"><img src="/images/zombie.jpg" alt="Illustration"></a>
@@ -90,7 +88,7 @@
                     <p>
                         Aenean vitae massa nulla. Ut tincidunt interdum dui at lobortis.
                     </p>
-                </li>
+                </li>  -->
             </ul>
             <div id="pagination">
                 <div>

@@ -65,7 +65,7 @@ function sMessage(msg){
        if(!playerList[i].isReady)
            isAllReady=false;
 
-       if(playerList[i].User.userId==userID&&i!=0) {
+       if(playerList[i].user.userId==userID&&i!=0) {
            if (!playerList[i].isReady) {
                var readyA = document.createElement("a");
                readyA.onclick = "ready()";
