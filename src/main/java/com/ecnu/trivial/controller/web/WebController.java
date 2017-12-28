@@ -70,9 +70,9 @@ public class WebController extends BaseController {
     public String work(Map<String, Object> model) {
         Map<Integer, Game> rooms = WsHandler.getRooms();
         int roomsNumber = rooms.size();
-        List<Game> games = new ArrayList<>();
+        List<GameProcess> games = new ArrayList<>();
         for (int i = 0; i < roomsNumber; i++) {
-            games.add(i, rooms.get(i));
+            games.add(i, rooms.get(i).getGameProcess());
         }
         List<Integer> numberOfPlayersInEachRoom = new ArrayList<>();
         for (int i = 0; i < roomsNumber; i++)
