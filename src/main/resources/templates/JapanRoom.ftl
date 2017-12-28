@@ -11,13 +11,20 @@
     <link rel="stylesheet" type="text/css" href="/css/demo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 
-    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto:100,700'>
 
     <link rel="stylesheet" href="/css/RoomTitle.css">
     <link rel="stylesheet" href="/css/button.css" media="screen" type="text/css" />
-    <script  src="/js/roomTitle.js"></script>
     <script src="/js/gameRoom.js"></script>
-    <script>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript">
+       $(document).ready( function() {
+            $("#player1").hide();
+            $("#player2").hide();
+            $("#player3").hide();
+            $("#player4").hide();
+            $("#buttonP").hide();
+        });
+        
         var id = ${Session.userId};
          makeConnection(id);
     </script>
@@ -94,48 +101,55 @@
 <div class="demo">
     <div class="container" id="playerContainer">
         <div class="row" id="playerTip">
-
-
-       <!--     <div class="col-md-3 col-sm-6">
+            <div class="col-md-3 col-sm-6" id="player1">
                 <div class="box">
-                    <img src="/images/pirate.jpg">
+                    <img src="/images/player/player1.jpg">
                     <div class="box-content">
-                        <h3 class="title">蜘蛛侠</h3>
-                        <span class="post">胜率:30%</span>
+                        <h3 class="title" id="name1"></h3>
+                        <span class="post" id="winRate1"></span>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-3 col-sm-6" id="player2">
                 <div class="box">
-                    <img src="/images/zombie.jpg">
+                    <img src="/images/player/player2.jpg">
                     <div class="box-content">
-                        <h3 class="title">钢铁侠</h3>
-                        <span class="post">胜率:40%</span>
+                        <h3 class="title" id="name2"></h3>
+                        <span class="post" id="winRate2"></span>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-3 col-sm-6" id="player3">
                 <div class="box">
-                    <img src="/images/caveman.jpg">
+                    <img src="/images/player/player3.jpg">
                     <div class="box-content">
-                        <h3 class="title">钢铁侠</h3>
-                        <span class="post">胜率10%</span>
+                        <h3 class="title" id="name3"></h3>
+                        <span class="post" id="winRate3"></span>
                     </div>
                 </div>
-            </div>  -->
+            </div>
+
+            <div class="col-md-3 col-sm-6" id="player4">
+                <div class="box">
+                    <img src="/images/player/player4.jpg">
+                    <div class="box-content">
+                        <h3 class="title" id="name4"></h3>
+                        <span class="post" id="winRate4"></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <div id="buttoncontainer">
     <p id="buttonP">
-     <!--   <a href="JapanGame">
-        Start
-    </a> -->
+
+    </a>
     </p>
 </div>
-
+<script  src="/js/roomTitle.js"></script>
 </body>
 </html>

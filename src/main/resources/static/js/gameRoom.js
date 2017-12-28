@@ -1,4 +1,4 @@
-var sorcket;
+
 var userID;
 function makeConnection(userId) {
     userID=userId;
@@ -17,7 +17,6 @@ function makeConnection(userId) {
 
 function sOpen(){
     enterRoom();
-    alert('connect success!');
 }
 function sError(e){
     alert("error " + e);
@@ -25,57 +24,43 @@ function sError(e){
 function sMessage(msg){
     //top.location.reload();
     var json=JSON.parse(msg.data);
+    var playerList=json.players;
+    var isAllReady=true;
 
-    var playerContainer=document.getElementById("playerContainer");
-    var player = document.getElementById("playerTip");
+    for(var i=0;i<playerList.length;i++){
+        $("#name"+(i+1)).html(playerList[i].playerName);
+        $("#winRate"+(i+1)).html("胜率"+playerList[i].user.winRate+"%");
+        $("#player"+(i+1)).show();
+        if(!playerList[i].isReady)
+            isAllReady=false;
+        if(i!=0&&!playerList[i].isReady&&userID==playerList[i].user.userId){
+            $("#buttonP").html("Ready");
+            $("#buttonP").show();
+        }
+    }
+
+    if(userID==playerList[0].user.userId&&isAllReady&&playerList.length>=2)
+    {
+        $("#buttonP").html("Start");
+        $("#buttonP").show();
+    }
 
 
-    playerContainer.parentNode.removeChild(player);
-
-   //  var buttonContainer=document.getElementById("buttoncontainer");
-   //  var buttonP=document.getElementById("buttonP");
-   //  buttonContainer.removeChild(buttonP);
-   //  buttonP=document.createElement("p");
-   //  buttonP.id="buttonP";
-   //  var isAllReady=true;
-   //
-     var playerList=json.players;
-   for(var i=0;i<playerList.length;i++){
-
-
-        var div1=document.createElement("div");
-        div1.className="col-md-3 col-sm-6";
-        var div2=document.createElement("div");
-        div2.className="box";
-        var imgPlayer=document.createElement("img");
-        imgPlayer.src="/images/players/player"+(i+1)+".jpg";
-        var div3=document.createElement("div");
-        div3.className="box-content";
-        var h1=document.createElement("h3");
-        h1.className="title";
-        h1.innerHTML=playerList[i].playerName;
-        var span1=document.createElement("span");
-        span1.className="post";
-        span1.innerHTML=123;
-        div3.appendChild(h1);
-        div3.appendChild(span1);
-        div2.appendChild(imgPlayer);
-        div2.appendChild(div3);
-        div1.appendChild(div2);
-       player.appendChild(div1);
-
-   }
-    
-       if(playerList[i].user.userId==userID&&i!=0) {
-           if (!playerList[i].isReady) {
-               var readyA = document.createElement("a");
-               readyA.onclick = "ready()";
-               readyA.innerHTML = "Ready";
-               buttonP.appendChild(readyA);
-           }
-           buttonContainer.appendChild(buttonP);
-       }
-    playerContainer.appendChild(player);
+    // if(playerList.length()>=2){
+    //     $("#name2").html(playerList[1].playerName);
+    //     $("#winRate2").html(playerList[1].user.winRate);
+    //     $("#player2").show();
+    // }
+    // if(playerList.length()>=3){
+    //     $("#name3").html(playerList[2].playerName);
+    //     $("#winRate3").html(playerList[2].user.winRate);
+    //     $("#player3").show();
+    // }
+    // if(playerList.length()>=4){
+    //     $("#name4").html(playerList[3].playerName);
+    //     $("#winRate4").html(playerList[3].user.winRate);
+    //     $("#player4").show();
+    // }
 }
 function sClose(e){
     alert("connect closed:" + e.code);
