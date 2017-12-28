@@ -4,7 +4,9 @@ import com.ecnu.trivial.mapper.UserMapper;
 import com.ecnu.trivial.model.User;
 import com.ecnu.trivial.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BaseServiceImpl implements BaseService {
     @Autowired
     private UserMapper userMapper;

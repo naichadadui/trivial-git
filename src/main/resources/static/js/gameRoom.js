@@ -2,7 +2,7 @@ var sorcket;
 var userID;
 function makeConnection(userId) {
     userID=userId;
-    var ipURL = "ws://localhost:10000/" + "webSocket/0/" + userId;
+    var ipURL = "ws://localhost:10000/" + "webSocket/1/" + userId;
     try {
         socket=new WebSocket(ipURL);
     }catch(e) {
@@ -23,6 +23,7 @@ function sError(e){
     alert("error " + e);
 }
 function sMessage(msg){
+    //top.location.reload();
     var json=eval("("+msg+")");
     var playerContainer=document.getElementById("playerContainer");
     var player = document.getElementById("playerTip");

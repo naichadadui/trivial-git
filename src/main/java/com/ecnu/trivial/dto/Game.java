@@ -2,7 +2,7 @@ package com.ecnu.trivial.dto;
 
 import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.model.User;
-import com.ecnu.trivial.webSocket.WebSocketServer;
+import com.ecnu.trivial.webSocket.WsHandler;
 import lombok.NoArgsConstructor;
 import net.sf.json.JSONObject;
 
@@ -30,11 +30,11 @@ public class Game {
     private int status = 0;//status 1：游戏正在进行中
     private int roomId;
     private GameProcess gameProcess = null;
-    private WebSocketServer gameSocket = null;
+    private WsHandler gameSocket = null;
 
     public Game(int roomId) {
         this.roomId = roomId;
-        gameSocket = new WebSocketServer();
+        gameSocket = new WsHandler();
         gameSocket.addRoom(this);
         gameProcess = new GameProcess(this);
         logToAFile();
