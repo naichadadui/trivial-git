@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="/css/flavr.css"/>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/flavr.min.js"></script>
+    <script type="text/javascript" src="/js/game.js"></script>
     <style type="text/css">
         .demo {
             position: absolute;
@@ -178,8 +179,8 @@
     <span class="tooltip-item" id="demo-stacked-buttons">
     </span>
 </div>
-<div class="card-position">
-    <div class="card">
+<div class="card-position" id="player_cards">
+  <!--  <div class="card">
         <div class="card-image">
             <img src="/images/pirate.jpg"
                  alt="pirate"/>
@@ -254,7 +255,7 @@
             </div>
         </div>
         </a>
-    </div>
+    </div> -->
 </div>
 <div class="counter">
     <div class="nums">
@@ -272,6 +273,9 @@
         <span>1</span>
         <span>0</span>
     </div>
+</div>
+<div class="final">
+    <h1>您超时啦</h1>
 </div>
 
 <div class="demo">

@@ -39,6 +39,7 @@ function sMessage(msg){
     buttonContainer.removeChild(buttonP);
     buttonP=document.createElement("p");
     buttonP.id="buttonP";
+    var isAllReady=true;
 
     var playerList=json.players;
     for(var i=0;i<playerList.length;i++){
@@ -64,14 +65,10 @@ function sMessage(msg){
         div1.appendChild(div2);
        player.appendChild(div1);
 
-       if(playerList[i].user.userId==userID) {
-           if (i == 0 && playerList.length >= 2) {
-               var readyA = document.createElement("a");
-               readyA.onclick = "start()";
-               readyA.innerHTML = "Start";
-               buttonP.appendChild(readyA);
-           }
+       if(!playerList[i].isReady)
+           isAllReady=false;
 
+       if(playerList[i].User.userId==userID&&i!=0) {
            if (!playerList[i].isReady) {
                var readyA = document.createElement("a");
                readyA.onclick = "ready()";
@@ -82,6 +79,16 @@ function sMessage(msg){
        }
     }
     playerContainer.appendChild(player);
+
+    if(userID==playerList[0].User.userId){
+        if (playerList.length >= 2&&isAllReady) {
+            var readyA = document.createElement("a");
+            readyA.onclick = "start()";
+            readyA.innerHTML = "Start";
+            buttonP.appendChild(readyA);
+        }
+        buttonContainer.appendChild(buttonP);
+    }
 }
 function sClose(e){
     alert("connect closed:" + e.code);
@@ -100,4 +107,8 @@ function Close(){
 
 function ready(){
     doSend("ready");
+}
+
+function start(){
+    doSend("start");
 }
