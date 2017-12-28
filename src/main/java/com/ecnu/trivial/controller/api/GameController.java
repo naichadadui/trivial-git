@@ -31,26 +31,31 @@ public class GameController extends APIBaseController{
         Map<String,Object> result = new HashMap<>();
         int enterResult = 0;
         String returnMessage = "";
-        boolean isEnterRoomSuccess = false;
-        isEnterRoomSuccess = gameService.enterRoom(getCurrentUserID(),roomId);
-        if (isEnterRoomSuccess) {
-            enterResult = 1;
-            returnMessage = "Enter room successfully.";
-        }
-        else {
-            enterResult = 0;
-            returnMessage = "Fail to enter room.";
-        }
+        HttpSession session = request.getSession();
+        session.setAttribute("roomId", roomId);
         result.put("enterResult",enterResult);
         result.put("returnMessage",returnMessage);
         return result;
     }
-
-    public boolean enter(int roomId){
-        boolean isEnterRoomSuccess = false;
-        //isEnterRoomSuccess = gameService.enterRoom(getCurrentUserID(),roomId);
-        return isEnterRoomSuccess;
-    }
+//    @RequestMapping(value="/enterRoom", method = RequestMethod.POST)
+//    public Map enterRoom(@RequestParam("roomId")int roomId){
+//        Map<String,Object> result = new HashMap<>();
+//        int enterResult = 0;
+//        String returnMessage = "";
+//        boolean isEnterRoomSuccess = false;
+//        isEnterRoomSuccess = gameService.enterRoom(getCurrentUserID(),roomId);
+//        if (isEnterRoomSuccess) {
+//            enterResult = 1;
+//            returnMessage = "Enter room successfully.";
+//        }
+//        else {
+//            enterResult = 0;
+//            returnMessage = "Fail to enter room.";
+//        }
+//        result.put("enterResult",enterResult);
+//        result.put("returnMessage",returnMessage);
+//        return result;
+//    }
 
     /*玩家点击ready，表示准许游戏开始
     * */
