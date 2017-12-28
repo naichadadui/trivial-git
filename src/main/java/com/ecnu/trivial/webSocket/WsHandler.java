@@ -51,18 +51,15 @@ public class WsHandler extends TextWebSocketHandler {
         super.afterConnectionEstablished(session);
         System.out.println("连接到服务器");
         this.session = session;
+        Map<String, Object> sessionMap = session.getAttributes();
+        this.roomId = Integer.parseInt(sessionMap.get("roomId").toString());
+        this.userId = Integer.parseInt(sessionMap.get("userId").toString());
         addOnlineCount();           //在线数加1
         if (userSocket.containsKey(this.userId)) {
             System.out.println("当前用户Id:"+this.userId+"已在其他终端登录");
             this.afterConnectionClosed(session,CloseStatus.NORMAL);
         }
         else {
-            Map<String, Object> sessionMap = session.getAttributes();
-//            this.roomId = Integer.parseInt(sessionMap.get("roomId").toString());
-//            this.userId = Integer.parseInt(sessionMap.get("userId").toString());
-            /*for test*/
-            this.roomId =1;
-            this.userId =1;
             userSocket.put(this.userId, session);
             System.out.println("有新连接加入！当前在线人数为" + userSocket.size() + "sessionId:"+session.getId());
         }

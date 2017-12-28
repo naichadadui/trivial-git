@@ -70,17 +70,19 @@ public class WebController extends BaseController {
     public String work(Map<String, Object> model) {
         Map<Integer, Game> rooms = WsHandler.getRooms();
         int roomsNumber = rooms.size();
-        List<GameProcess> games = new ArrayList<>();
-        for (int i = 0; i < roomsNumber; i++) {
-            games.add(i, rooms.get(i).getGameProcess());
+        List<Game> games = new ArrayList<>();
+        games.addAll(rooms.values());
+        List<GameProcess> gameProcesses = new ArrayList<>();
+        for (int i = 0; i < games.size(); i++) {
+            GameProcess gameProcess = games.get(i).getGameProcess();
+            gameProcesses.add(gameProcess);
         }
         List<Integer> numberOfPlayersInEachRoom = new ArrayList<>();
         for (int i = 0; i < roomsNumber; i++)
             numberOfPlayersInEachRoom.add(i, games.get(i).getPlayers().size());
         int onLinePlayerNumber = WsHandler.getOnlineCount();
         model.put("module", MODULE_WORK);
-        model.put("rooms",games);
-        System.out.println(games.toString());
+        model.put("rooms",gameProcesses);
        model.put("numberOfPlayersInEachRoom", numberOfPlayersInEachRoom);
         model.put("onLinePlayerNumber", onLinePlayerNumber);
         return MODULE_WORK;
