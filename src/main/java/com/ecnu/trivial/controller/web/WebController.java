@@ -13,7 +13,7 @@ import com.ecnu.trivial.service.UserService;
 import com.ecnu.trivial.vo.GameHistoryVo;
 import com.ecnu.trivial.vo.UserGameHistoryVo;
 import com.ecnu.trivial.vo.UserVo;
-import com.ecnu.trivial.webSocket.WebSocketServer;
+import com.ecnu.trivial.webSocket.WsHandler;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
@@ -68,7 +68,7 @@ public class WebController extends BaseController {
 
     @RequestMapping(value = "/work")
     public String work(Map<String, Object> model) {
-        Map<Integer, Game> rooms = WebSocketServer.getRooms();
+        Map<Integer, Game> rooms = WsHandler.getRooms();
         int roomsNumber = rooms.size();
 
         List<Game> games = new ArrayList<>();
@@ -77,7 +77,7 @@ public class WebController extends BaseController {
         List<Integer> numberOfPlayersInEachRoom = new ArrayList<>();
         for (int i = 0; i < roomsNumber; i++)
             numberOfPlayersInEachRoom.add(i, games.get(i).getPlayers().size());
-        int onLinePlayerNumber = WebSocketServer.getOnlineCount();
+        int onLinePlayerNumber = WsHandler.getOnlineCount();
         model.put("module", MODULE_WORK);
         model.put("numberOfPlayersInEachRoom", numberOfPlayersInEachRoom);
         model.put("onLinePlayerNumber", onLinePlayerNumber);
@@ -145,7 +145,7 @@ public class WebController extends BaseController {
     * */
     @RequestMapping(value = "/JapanRoom/{roomId}")
     public String japanRoom(Map<String, Object> model, @PathVariable Integer roomId) {
-        Game room = WebSocketServer.getRoom(roomId);
+        Game room = WsHandler.getRoom(roomId);
         List<Player> playerList = new ArrayList<>();
         if (room != null)
             playerList = room.getPlayers();
@@ -163,7 +163,7 @@ public class WebController extends BaseController {
     * */
     @RequestMapping(value = "/JapanGame/{roomId}")
     public String japanGame(Map<String, Object> model, @PathVariable Integer roomId) {
-        Game room = WebSocketServer.getRoom(roomId);
+        Game room = WsHandler.getRoom(roomId);
         GameProcess initialProcess = new GameProcess(room);
         model.put("initialProcess", initialProcess);
         model.put("module", MODULE_JAPANGAME);

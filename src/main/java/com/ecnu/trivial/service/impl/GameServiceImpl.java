@@ -5,7 +5,7 @@ import com.ecnu.trivial.mapper.QuestionsMapper;
 import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.model.User;
 import com.ecnu.trivial.service.GameService;
-import com.ecnu.trivial.webSocket.WebSocketServer;
+import com.ecnu.trivial.webSocket.WsHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +25,15 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
     * webSocket服务端向客户端发送游戏进程以更新页面
     * */
     public boolean enterRoom(int userId, int roomId){
-        Game room = WebSocketServer.getRoom(roomId);
+        Game room = WsHandler.getRoom(roomId);
         User user = getCurrentUser(userId);
         boolean result = false;
         if(room==null){
             Game game = new Game(roomId);
-            WebSocketServer.addRoom(game);
+            WsHandler.addRoom(game);
+            room = WsHandler.getRoom(roomId);
         }
-        if (!room.isFullPlayer() && !room.isGameStart()){
+        if (room!=null&&!room.isFullPlayer() && !room.isGameStart()){
             try {
                 room.addNewPlayer(user);
             } catch (EncodeException e) {
@@ -40,29 +41,32 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
             }
             result = true;
         }
-        //WebSocketServer.sendMessageToUser(user.getUserId(),room.getGameProcess().toString());
         return result;
     }
 
-    /*玩家准备，准许游戏开始
+    /*
+    * 玩家准备，准许游戏开始
     * 如果该房间玩家人数大于等于2且全部准备
+    * 则房主可以选择开始游戏
     * 则游戏初始化题目然后游戏开始
     * 初始化的题目从数据库中按type随机选取50道题目
     * */
     @Override
     public void ready(int userId,int roomId) {
-        Game room = WebSocketServer.getRoom(roomId);
-        room.setReady(userId);
-        if (room.getPlayers().size()>=2 && room.isAllPlayerReady()){
-            List<Questions> popQuestions = questionsMapper.selectQuestionsByType(0);
-            List<Questions> scienceQuestions = questionsMapper.selectQuestionsByType(1);
-            List<Questions> sportsQuestions = questionsMapper.selectQuestionsByType(2);
-            List<Questions> rockQuestions = questionsMapper.selectQuestionsByType(3);
-            room.initialQuestions(popQuestions,scienceQuestions,sportsQuestions,rockQuestions);
-            try {
-                room.startGame();
-            } catch (EncodeException e) {
-                e.printStackTrace();
+        Game room = WsHandler.getRoom(roomId);
+        if(room!=null) {
+            room.setReady(userId);
+            if (room.getPlayers().size() >= 2 && room.isAllPlayerReady()) {
+                List<Questions> popQuestions = questionsMapper.selectQuestionsByType(0);
+                List<Questions> scienceQuestions = questionsMapper.selectQuestionsByType(1);
+                List<Questions> sportsQuestions = questionsMapper.selectQuestionsByType(2);
+                List<Questions> rockQuestions = questionsMapper.selectQuestionsByType(3);
+                room.initialQuestions(popQuestions, scienceQuestions, sportsQuestions, rockQuestions);
+                try {
+                    room.startGame();
+                } catch (EncodeException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -73,14 +77,14 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
     * */
     @Override
     public void dice(int tableId) {
-        Game room = WebSocketServer.getRoom(tableId);
+        Game room = WsHandler.getRoom(tableId);
         int rollNumber = room.dice();//抛的骰子点数
         room.roll(rollNumber);
     }
 
     @Override
     public Questions showQuestion(int roomId){
-        Game room = WebSocketServer.getRoom(roomId);
+        Game room = WsHandler.getRoom(roomId);
         return room.showQuestion();
     }
 
@@ -90,13 +94,13 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
     * */
     @Override
     public int answerQuestions(int roomId, String answer) {
-        Game room = WebSocketServer.getRoom(roomId);
+        Game room = WsHandler.getRoom(roomId);
         int isCorrect = room.answerQuestion(answer);
         if(isCorrect==1)
             room.answeredCorrect();
         else
             room.answeredWrong();
-        WebSocketServer.sendMessageToUser(room.getCurrentPlayerId(),room.getGameProcess().toString());
+        WsHandler.sendMessageToUser(room.getCurrentPlayerId(),room.getGameProcess().toString());
         return isCorrect;
     }
 
