@@ -97,10 +97,10 @@ public class WsHandler extends TextWebSocketHandler {
     {
         System.out.println(message.getPayload());
         String msg = message.getPayload();
-//        if(msg.equals("enter"))
+        if(msg.equals("enter"))
             gameService.enterRoom(userId,roomId);
-//        if(msg.equals("ready"))
-            //gameService.ready(userId,roomId);
+        if(msg.equals("ready"))
+            gameService.ready(userId,roomId);
         if(msg.equals("start"))
             gameService.start(roomId);
         if(msg.equals("dice"))

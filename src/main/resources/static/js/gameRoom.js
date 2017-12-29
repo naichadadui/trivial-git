@@ -44,13 +44,27 @@ function sMessage(msg){
             $("#buttonP").show();
             console.log(i+ " button Ready show");
         }
+        if(i!=0&&playerList[i].ready&&userID==playerList[i].user.userId){
+            $("#buttonA").html("Ready");
+            $("#buttonP").hide();
+            console.log(i+ " button Ready hide");
+        }
+
     }
 
     if(userID==playerList[0].user.userId&&isAllReady&&playerList.length>=2)
     {
         $("#buttonA").html("Start");
+        $("#buttonA").attr("onclick","start()");
         $("#buttonP").show();
         console.log(userID + " button Start show");
+    }
+    if(userID==playerList[0].user.userId&&!isAllReady&&playerList.length>=2)
+    {
+        $("#buttonA").html("Start");
+        $("#buttonA").attr("onclick","start()");
+        $("#buttonP").hide();
+        console.log(userID + " button Start hide");
     }
 
 }

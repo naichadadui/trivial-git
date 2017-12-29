@@ -154,7 +154,7 @@
 </div>
 
 <div id="buttoncontainer">
-    <p id="buttonP"><a id="buttonA" onclick="">
+    <p id="buttonP"><a id="buttonA" onclick="ready()">
 
     </a>
     </p>
