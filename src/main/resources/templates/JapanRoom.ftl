@@ -107,6 +107,8 @@
                     <div class="box-content">
                         <h3 class="title" id="name1"></h3>
                         <span class="post" id="winRate1"></span>
+                        <h3></h3>
+                        <span class="post" id="state1"></span>
                     </div>
                 </div>
             </div>
@@ -117,6 +119,8 @@
                     <div class="box-content">
                         <h3 class="title" id="name2"></h3>
                         <span class="post" id="winRate2"></span>
+                        <h3></h3>
+                        <span class="post" id="state2"></span>
                     </div>
                 </div>
             </div>
@@ -127,6 +131,8 @@
                     <div class="box-content">
                         <h3 class="title" id="name3"></h3>
                         <span class="post" id="winRate3"></span>
+                        <h3></h3>
+                        <span class="post" id="state3"></span>
                     </div>
                 </div>
             </div>
@@ -137,6 +143,8 @@
                     <div class="box-content">
                         <h3 class="title" id="name4"></h3>
                         <span class="post" id="winRate4"></span>
+                        <h3></h3>
+                        <span class="post" id="state4"></span>
                     </div>
                 </div>
             </div>
@@ -145,7 +153,7 @@
 </div>
 
 <div id="buttoncontainer">
-    <p id="buttonP">
+    <p id="buttonP"><a id="buttonA" onclick="">
 
     </a>
     </p>

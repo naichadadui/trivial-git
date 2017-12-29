@@ -8,10 +8,10 @@
         <script type="text/javascript">
                 $(document).ready( function() {
                     var rooms=${rooms};
-                    if(!rooms)
+
+                    if(rooms.length!=0)
                     {
-                        var json = eval("(" + rooms + ")");
-                        initGameHall(json);
+                        initGameHall(rooms);
                     }
                     else{
                         nullHall();

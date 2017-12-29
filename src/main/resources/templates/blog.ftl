@@ -40,7 +40,7 @@
                 您好! ${user.name}
             </p>
             <p>
-                您的当前胜率为${winRate}% 所得金币数为${user.score}$
+                您的当前胜率为${user.winRate}% 所得金币数为${user.score}$
             </p>
         </div>
     </div>

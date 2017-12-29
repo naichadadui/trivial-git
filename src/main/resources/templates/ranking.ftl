@@ -74,6 +74,7 @@
         <th>排名</th>
         <th>昵称</th>
         <th>金币</th>
+        <th>胜率</th>
     </tr>
     </thead>
     <tbody></tbody>
