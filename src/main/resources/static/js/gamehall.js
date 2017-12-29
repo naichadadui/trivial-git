@@ -1,7 +1,7 @@
-var userId;
-var rooms;
+
+
 function clickRoom(roomID) {
-    var room = roomID.replace("room", "");
+    var room = roomID.replace("img", "");
     $.ajax(
         {
             type:"post",
@@ -14,7 +14,7 @@ function clickRoom(roomID) {
 
             success:function(data){
                 if(data){
-                        window.location.href="";
+                        window.location.href="/trival/JapanRoom/"+room;
                     }
             },
 
@@ -23,10 +23,10 @@ function clickRoom(roomID) {
             }
         })
 }
-initGameHall();
-function initGameHall(){
+
+function initGameHall(rooms){
     for(var i=0;i<rooms.length;i++){
-        $("#room"+(i+1)).attr("src","/images/JapanSmall.jpg");
+        $("#img"+(i+1)).attr("src","/images/JapanSmall.jpg");
         $("#ratio"+(i+1)).html(rooms[i].players.length +"/4");
         if(rooms[i].status==0)
         {
@@ -38,4 +38,10 @@ function initGameHall(){
     for(var i=rooms.length;i<8;i++){
         $("#state"+(i+1)).html("空的房间，快来创建吧!");
     }
+}
+
+function nullHall(){
+       for(var i=0;i<8;i++){
+           $("#state"+(i+1)).html("空的房间，快来创建吧!");
+       }
 }
