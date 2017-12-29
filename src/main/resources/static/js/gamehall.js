@@ -13,15 +13,12 @@ function clickRoom(roomID) {
             },
 
             success:function(data){
-                alert("!!!");
+
                 //window.location.href="/trival/JapanRoom/"+room;
             },
 
-            error:function(XMLHttpRequest,textStatus,errorThrown){
-                alert(XMLHttpRequest.status);//404
-                alert(XMLHttpRequest.readyState);//4
-                alert(textStatus);//error
-                alert("404!!");
+            error:function(error){
+                console.log(error);
             }
         })
 }
