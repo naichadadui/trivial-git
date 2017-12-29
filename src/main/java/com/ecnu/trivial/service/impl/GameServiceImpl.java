@@ -15,6 +15,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.websocket.EncodeException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +28,9 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
 
     @Autowired
     private UserGameHistoryService userGameHistoryService;
+
+    @Autowired
+    private HttpServletRequest request;
 
     /*玩家选择一个房间加入，建立webSocket连接
     * 如果该房间还没有玩家，则将该房间加入webSocket的roomMap,并将该玩家设置成房主，房主自动准备
@@ -53,6 +58,34 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
                 e.printStackTrace();
             }
             result = true;
+        }
+        return result;
+    }
+
+    /*玩家选择离开房间
+    * 如果游戏还未开始，则退出房间成功，webSocket连接关闭
+    * 若游戏已经开始则不能退出（或者设置惩罚之类的）
+    * webSocket服务端向客户端发送游戏进程以更新页面
+    * return result: 0 退出成功，-1该房间不存在，1游戏正在进行中
+    * */
+    public synchronized int leaveRoom(int userId, int roomId){
+        Game room = WsHandler.getRoom(roomId);
+        User user = getCurrentUser(userId);
+        UserVo userVo = parse(user);
+        int result = 0;
+        if(room==null){
+            result = -1;
+            System.out.println("Room doesn't exist.");
+        }
+        else if(!room.isGameStart()){
+            try {
+                room.quit(userVo);
+//                HttpSession session = request.getSession();
+//                session.setAttribute("roomId",0);
+            } catch (EncodeException e) {
+                e.printStackTrace();
+            }
+            result = 0;
         }
         return result;
     }

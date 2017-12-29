@@ -26,7 +26,8 @@
         });
         
         var id = ${Session.userId};
-         makeConnection(id);
+        var roomId=${Session.roomId};
+         makeConnection(id,roomId);
     </script>
 
     <style type="text/css">

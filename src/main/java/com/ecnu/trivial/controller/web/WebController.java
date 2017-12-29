@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,6 @@ public class WebController extends BaseController {
         int onLinePlayerNumber = WsHandler.getOnlineCount();
         model.put("module", MODULE_WORK);
         model.put("rooms",jsonArray.toString());
-        System.out.println(jsonArray.toString());
         model.put("numberOfPlayersInEachRoom", 1);
         model.put("onLinePlayerNumber", onLinePlayerNumber);
         return MODULE_WORK;
@@ -96,6 +96,7 @@ public class WebController extends BaseController {
         List<UserGameHistory> userGameHistories = userGameHistoryService.getUserGameHistoryByUserId(userId);
         List<UserGameHistoryVo> gameHistoryVos = userGameHistories.stream().map(this::parse).collect(Collectors.toList());
         User user = userGameHistoryService.getCurrentUser(getCurrentUserID());
+        UserVo userVo = parse(user);
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         int i = 1;
@@ -107,8 +108,7 @@ public class WebController extends BaseController {
             jsonArray.add(jsonObject);
             i++;
         }
-        System.out.println(jsonArray.toString());
-        model.put("user",user);
+        model.put("user",userVo);
         model.put("userGameHistory",jsonArray.toString());
         model.put("module", MODULE_BLOG);
         return MODULE_BLOG;
@@ -129,7 +129,6 @@ public class WebController extends BaseController {
             jsonArray.add(jsonObject);
             i++;
         }
-        System.out.println(jsonArray.toString());
         model.put("rankingData",jsonArray.toString());
         model.put("numberOne",userRankingVos.get(0));
         model.put("numberTwo",userRankingVos.get(1));
@@ -150,7 +149,7 @@ public class WebController extends BaseController {
             playerList = room.getPlayers();
         model.put("module", MODULE_JAPANROOM);
         model.put("playerList", playerList);
-        System.out.println(playerList.size());
+        System.out.println(playerList);
         model.put("roomId",roomId);
         return MODULE_JAPANROOM;
     }
@@ -181,6 +180,7 @@ public class WebController extends BaseController {
         }
         if(userGameHistories.size()!=0)
             winRate = win/userGameHistories.size()*100;
+        winRate = (double)Math.round(winRate*100)/100;
         result.setWinRate(winRate);
         return result;
     }

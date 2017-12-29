@@ -37,6 +37,22 @@ public class GameController extends APIBaseController{
         return result;
     }
 
+    /*用户退出房间
+    * leaveResult：表示退出房间是否成功  0：成功 -1：失败 1：正在游戏中，不能退出
+    * returnMessage:对应的提示消息
+    * */
+    @RequestMapping(value="/leaveRoom", method = RequestMethod.POST)
+    public Map leaveRoom(@RequestParam("roomId")String roomId){
+        Map<String,Object> result = new HashMap<>();
+        int leaveResult = -1;
+        String returnMessage = "";
+        HttpSession session = request.getSession();
+        session.setAttribute("roomId",0);
+        result.put("leaveResult",leaveResult);
+        result.put("returnMessage",returnMessage);
+        return result;
+    }
+
     /*玩家点击ready，表示准许游戏开始
     * */
     @RequestMapping(value="/ready", method = RequestMethod.POST)

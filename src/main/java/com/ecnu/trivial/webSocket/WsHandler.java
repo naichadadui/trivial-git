@@ -80,6 +80,9 @@ public class WsHandler extends TextWebSocketHandler {
         super.afterConnectionClosed(session, status);
         if (userSocket.get(this.userId) != null) {
             userSocket.remove(this.userId);
+            gameService.leaveRoom(this.userId,this.roomId);
+            if(rooms.get(this.roomId).getPlayers().size()==0)
+                removeRoom(rooms.get(this.roomId));
             subOnlineCount();
             System.out.println("有一连接关闭！当前在线人数为" + userSocket.size());
         }
@@ -132,10 +135,8 @@ public class WsHandler extends TextWebSocketHandler {
      */
     public static boolean sendJSONMessageToUser(Integer userId, JSONObject message) throws EncodeException {
         if (userSocket.containsKey(userId)) {
-            System.out.println(" 给用户Id为" + userId + "的所有终端发送消息："+ message);
             WebSocketSession WS = userSocket.get(userId);
             System.out.println("sessionId为:"+ WS.getId());
-            //System.out.println(WS.getAttributes().get("userId"));
             TextMessage msg = new TextMessage(message.toString());
             try {
                 WS.sendMessage(msg);
@@ -169,9 +170,6 @@ public class WsHandler extends TextWebSocketHandler {
     }
 
 
-
-
-
     public static void addRoom(Game game){
         rooms.put(game.getRoomId(),game);
     }
@@ -185,6 +183,10 @@ public class WsHandler extends TextWebSocketHandler {
             return rooms.get(roomId);
         else
             return null;
+    }
+
+    public static void setRoom(Game room){
+        rooms.replace(room.getRoomId(),room);
     }
 
     public static Map<Integer, Game> getRooms() {

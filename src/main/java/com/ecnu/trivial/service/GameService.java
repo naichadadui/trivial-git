@@ -10,4 +10,5 @@ public interface GameService extends BaseService{
     public void dice(int roomId);
     public Questions showQuestion(int roomId);
     public int answerQuestions(int roomId, String answer);
+    public int leaveRoom(int userId,int roomId);
 }

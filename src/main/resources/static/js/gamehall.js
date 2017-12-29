@@ -23,22 +23,22 @@ function clickRoom(roomID) {
 
 function initGameHall(rooms) {
     var isRealRoom = false;
-    for (var i = 0; i < 8; i++) {
+    for (var i = 1; i <= 8; i++) {
         isRealRoom=false;
         for(var j=0;j<rooms.length;j++){
             if(i==rooms[j].roomId){
                 isRealRoom=true;
-                $("#img" + (i + 1)).attr("src", "/images/JapanSmall.jpg");
-                $("#ratio" + (i + 1)).html(rooms[j].players.length + "/4");
+                $("#img" + i).attr("src", "/images/JapanSmall.jpg");
+                $("#ratio" + i).html(rooms[j].players.length + "/4");
                 if (rooms[j].status == 0) {
-                    $("#state" + (i + 1)).html("等待中");
+                    $("#state" + i).html("等待中");
                 } else {
-                    $("#state" + (i + 1)).html("正在游戏中");
+                    $("#state" + i).html("正在游戏中");
                 }
             }
         }
         if(!isRealRoom){
-            $("#state" + (i + 1)).html("空的房间，快来创建吧!");
+            $("#state" + i).html("空的房间，快来创建吧!");
         }
     }
 }

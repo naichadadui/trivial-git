@@ -36,7 +36,7 @@ public class Game {
     public Game(int roomId) {
         this.roomId = roomId;
         gameSocket = new WsHandler();
-        gameSocket.addRoom(this);
+        //gameSocket.addRoom(this);
         gameProcess = new GameProcess(this);
         logToAFile();
     }
@@ -111,6 +111,26 @@ public class Game {
         logger.info("The total amount of players is " + players.size());
         //sendMessageToAllUsers(gameProcess.toString());
         if(players.size()>1)
+            sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
+
+    }
+
+    /*
+    * 有玩家离开房间
+    * */
+    public synchronized void quit(UserVo user) throws EncodeException {
+        List<Player> delList = new ArrayList<>();
+        for(Player player : players){
+            if(player.getUser().equals(user)) {
+                delList.add(player);
+            }
+        }
+        players.removeAll(delList);
+        gameProcess.setPlayers(players);
+        logger.info(user.getName() + " quit");
+        logger.info("The total amount of players is " + players.size());
+        //sendMessageToAllUsers(gameProcess.toString());
+        if(players.size()>=1)
             sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
 
     }

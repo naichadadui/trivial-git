@@ -15,7 +15,7 @@ import javax.websocket.server.ServerEndpointConfig;
 
 @Configuration
 @EnableWebSocket
-public class WebSocketConfig extends ServerEndpointConfig.Configurator implements WebSocketConfigurer{
+public class WebSocketConfig implements WebSocketConfigurer{
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry){
         registry.addHandler(WsHandler(),"/webSocket/{roomId}/{userId}");
