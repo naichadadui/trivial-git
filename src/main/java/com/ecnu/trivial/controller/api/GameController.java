@@ -1,9 +1,9 @@
 package com.ecnu.trivial.controller.api;
 
 import com.ecnu.trivial.model.Questions;
-import com.ecnu.trivial.model.User;
 import com.ecnu.trivial.service.GameService;
 import com.ecnu.trivial.service.UserService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,43 +19,25 @@ import java.util.Map;
 public class GameController extends APIBaseController{
     @Autowired
     private GameService gameService;
-    @Autowired
-    private UserService userService;
 
     /*用户选择一个房间进入
     * enterResult：表示进入房间是否成功  1：成功 0：失败
     * returnMessage:对应的提示消息
     * */
     @RequestMapping(value="/enterRoom", method = RequestMethod.POST)
-    public Map enterRoom(@RequestParam("roomId")int roomId){
+    public JSONObject enterRoom(@RequestParam("roomId")String roomId){
         Map<String,Object> result = new HashMap<>();
         int enterResult = 0;
-        String returnMessage = "";
+        String returnMessage = "success";
         HttpSession session = request.getSession();
-        session.setAttribute("roomId", roomId);
+        session.setAttribute("roomId", Integer.parseInt(roomId));
         result.put("enterResult",enterResult);
         result.put("returnMessage",returnMessage);
-        return result;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("enterResult",0);
+        System.out.println(jsonObject.toString());
+        return jsonObject;
     }
-//    @RequestMapping(value="/enterRoom", method = RequestMethod.POST)
-//    public Map enterRoom(@RequestParam("roomId")int roomId){
-//        Map<String,Object> result = new HashMap<>();
-//        int enterResult = 0;
-//        String returnMessage = "";
-//        boolean isEnterRoomSuccess = false;
-//        isEnterRoomSuccess = gameService.enterRoom(getCurrentUserID(),roomId);
-//        if (isEnterRoomSuccess) {
-//            enterResult = 1;
-//            returnMessage = "Enter room successfully.";
-//        }
-//        else {
-//            enterResult = 0;
-//            returnMessage = "Fail to enter room.";
-//        }
-//        result.put("enterResult",enterResult);
-//        result.put("returnMessage",returnMessage);
-//        return result;
-//    }
 
     /*玩家点击ready，表示准许游戏开始
     * */

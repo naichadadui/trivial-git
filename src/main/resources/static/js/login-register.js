@@ -66,7 +66,6 @@ function loginAjax(){
 
             success:function(data){
                 if(data){
-
                     if(data.userId=='0'){
                         shakeModal();
                     }
@@ -74,6 +73,7 @@ function loginAjax(){
                         shakeModal();
                     }else{
                       //  makeConnection();
+                        alert(data.userId);
                         window.location.href="work";
                     }
                 }

@@ -9,16 +9,18 @@ function clickRoom(roomID) {
             timeout:8000,
             dataType:"json",
             data:{
-                "roomId":roomID
+                "roomId":room
             },
 
             success:function(data){
-                if(data){
-                        window.location.href="/trival/JapanRoom/"+room;
-                    }
+                alert("!!!");
+                //window.location.href="/trival/JapanRoom/"+room;
             },
 
-            error:function(){
+            error:function(XMLHttpRequest,textStatus,errorThrown){
+                alert(XMLHttpRequest.status);//404
+                alert(XMLHttpRequest.readyState);//4
+                alert(textStatus);//error
                 alert("404!!");
             }
         })
