@@ -9,12 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping(value="/api/game")
 public class GameController extends APIBaseController{
     @Autowired
@@ -25,7 +26,7 @@ public class GameController extends APIBaseController{
     * returnMessage:对应的提示消息
     * */
     @RequestMapping(value="/enterRoom", method = RequestMethod.POST)
-    public JSONObject enterRoom(@RequestParam("roomId")String roomId){
+    public Map enterRoom(@RequestParam("roomId")String roomId){
         Map<String,Object> result = new HashMap<>();
         int enterResult = 0;
         String returnMessage = "success";
@@ -33,10 +34,7 @@ public class GameController extends APIBaseController{
         session.setAttribute("roomId", Integer.parseInt(roomId));
         result.put("enterResult",enterResult);
         result.put("returnMessage",returnMessage);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("enterResult",0);
-        System.out.println(jsonObject.toString());
-        return jsonObject;
+        return result;
     }
 
     /*玩家点击ready，表示准许游戏开始

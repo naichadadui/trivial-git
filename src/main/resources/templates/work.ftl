@@ -4,7 +4,7 @@
 <head>
 <#include "title.ftl">
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="/js/gamehall.js"></script>
+    <script type="text/javascript" src="/js/gamehall.js"></script>
         <script type="text/javascript">
                 $(document).ready( function() {
                     var rooms=${rooms};
