@@ -73,17 +73,18 @@ public class WebController extends BaseController {
         List<Game> games = new ArrayList<>();
         games.addAll(rooms.values());
         List<GameProcess> gameProcesses = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray();
+        //JSONObject jsonObject = new JSONObject();
         for (int i = 0; i < games.size(); i++) {
             GameProcess gameProcess = games.get(i).getGameProcess();
             gameProcesses.add(gameProcess);
         }
-        List<Integer> numberOfPlayersInEachRoom = new ArrayList<>();
-        for (int i = 0; i < roomsNumber; i++)
-            numberOfPlayersInEachRoom.add(i, games.get(i).getPlayers().size());
+        jsonArray = JSONArray.fromObject(gameProcesses);
         int onLinePlayerNumber = WsHandler.getOnlineCount();
         model.put("module", MODULE_WORK);
-        model.put("rooms",gameProcesses);
-       model.put("numberOfPlayersInEachRoom", numberOfPlayersInEachRoom);
+        model.put("rooms",jsonArray.toString());
+        System.out.println(jsonArray.toString());
+        model.put("numberOfPlayersInEachRoom", 1);
         model.put("onLinePlayerNumber", onLinePlayerNumber);
         return MODULE_WORK;
     }
