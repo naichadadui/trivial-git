@@ -35,9 +35,9 @@
             <h5>Recent Illustrations</h5>
             <ul id="gallery">
                 <li id="room1">
-                    <img src="/images/artist.jpg" onclick="clickRoom(this.id)">
+                    <img src="/images/shoes.jpg" onclick="clickRoom(this.id)">
                     <h4 id="title1">room No.1</h4>
-                    <h4 id="ratio1">3/4</h4>
+                    <h4 id="ratio1"></h4>
                     <h4 id="state1"></h4>
                 </li>
                 <li id="room2">
