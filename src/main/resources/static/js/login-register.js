@@ -73,7 +73,6 @@ function loginAjax(){
                         shakeModal();
                     }else{
                       //  makeConnection();
-                        alert(data.userId);
                         window.location.href="work";
                     }
                 }

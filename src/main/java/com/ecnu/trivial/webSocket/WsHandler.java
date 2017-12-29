@@ -1,5 +1,6 @@
 package com.ecnu.trivial.webSocket;
 
+import com.ecnu.trivial.configuration.WebSocketConfig;
 import com.ecnu.trivial.dto.Game;
 import com.ecnu.trivial.service.GameService;
 import net.sf.json.JSONObject;
@@ -12,8 +13,12 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+import org.springframework.web.socket.sockjs.transport.session.WebSocketServerSockJsSession;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.websocket.EncodeException;
+import javax.websocket.EndpointConfig;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import java.io.IOException;
@@ -51,9 +56,10 @@ public class WsHandler extends TextWebSocketHandler {
         super.afterConnectionEstablished(session);
         System.out.println("连接到服务器");
         this.session = session;
-        Map<String, Object> sessionMap = session.getAttributes();
-        this.roomId = Integer.parseInt(sessionMap.get("roomId").toString());
-        this.userId = Integer.parseInt(sessionMap.get("userId").toString());
+        String uri = session.getUri().getPath();
+        String[] path = uri.split("/");
+        this.roomId = Integer.parseInt(path[2]);
+        this.userId = Integer.parseInt(path[3]);
         addOnlineCount();           //在线数加1
         if (userSocket.containsKey(this.userId)) {
             System.out.println("当前用户Id:"+this.userId+"已在其他终端登录");
