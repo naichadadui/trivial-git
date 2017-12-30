@@ -65,4 +65,23 @@ public interface QuestionsMapper {
     /*从数据库中按type随机选取50道题目
     * 这个sql语句效率不高 后面最好改进一下*/
     List<Questions> selectQuestionsByType(Integer type);
+
+    @Select({
+            "select *",
+            "from questions",
+            "order by rand() limit 0,50"
+
+    })
+    @ResultMap("BaseResultMap")
+    /*从数据库中按type随机选取50道题目
+    * 这个sql语句效率不高 后面最好改进一下*/
+    List<Questions> selectFiftyQuestions();
+
+    @Select({
+            "select true_ans ",
+            "from questions ",
+            "where question_id = #{questionId}"
+    })
+    @ResultMap("BaseResultMap")
+    String selectTrueAnswerByQuestionId(int questionId);
 }

@@ -1,6 +1,7 @@
 package com.ecnu.trivial.dto;
 
 import com.ecnu.trivial.model.Questions;
+import com.ecnu.trivial.vo.QuestionVo;
 
 import java.util.List;
 
@@ -8,11 +9,12 @@ public class GameProcess {
     private String actionType;
     private int roomId;
     private List<Player> players;
-    private Questions currentQuestion;
+    private QuestionVo currentQuestion;
     private int currentPlayerId;
     private int status;//0:等待中 1:游戏中
     private int dice;
     private Player winner;
+    private int rollNumber;
 
     public GameProcess(Game game){
         this.actionType = "room";
@@ -38,11 +40,11 @@ public class GameProcess {
         this.players = players;
     }
 
-    public Questions getCurrentQuestion() {
+    public QuestionVo getCurrentQuestion() {
         return currentQuestion;
     }
 
-    public void setCurrentQuestion(Questions currentQuestion) {
+    public void setCurrentQuestion(QuestionVo currentQuestion) {
         this.currentQuestion = currentQuestion;
     }
 
@@ -84,5 +86,13 @@ public class GameProcess {
 
     public void setActionType(String actionType) {
         this.actionType = actionType;
+    }
+
+    public int getRollNumber() {
+        return rollNumber;
+    }
+
+    public void setRollNumber(int rollNumber) {
+        this.rollNumber = rollNumber;
     }
 }

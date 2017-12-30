@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.EncodeException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,23 +70,23 @@ public class GameController extends APIBaseController{
         gameService.ready(getCurrentUserID(), roomId);
     }
 
-    @RequestMapping(value = "/dice",method = RequestMethod.POST)
-    public void dice(@RequestParam("roomId")int roomId){
-        //User user = userService.getCurrentUser(getCurrentUserID());
-        gameService.dice(roomId);
-    }
+//    @RequestMapping(value = "/dice",method = RequestMethod.POST)
+//    public void dice(@RequestParam("roomId")int roomId){
+//        //User user = userService.getCurrentUser(getCurrentUserID());
+//        gameService.dice(roomId);
+//    }
 
     /*玩家点击闪烁的小马
     * 弹出框中显示问题内容
     * 这里还存在问题：随机显示选项顺序*/
-    @RequestMapping(value = "/showQuestion",method = RequestMethod.POST)
-    public Map showQuestion(@RequestParam("roomId")int roomId){
-        Map<String,Object> result = new HashMap<>();
-        //User user = userService.getCurrentUser(getCurrentUserID());
-        Questions curQuestion = gameService.showQuestion(roomId);
-        result.put("question",curQuestion);
-        return result;
-    }
+//    @RequestMapping(value = "/showQuestion",method = RequestMethod.POST)
+//    public Map showQuestion(@RequestParam("roomId")int roomId){
+//        Map<String,Object> result = new HashMap<>();
+//        //User user = userService.getCurrentUser(getCurrentUserID());
+//        Questions curQuestion = gameService.showQuestion(roomId);
+//        result.put("question",curQuestion);
+//        return result;
+//    }
 
     /*玩家选择答案回答问题
     * 返回答案是否正确
@@ -94,7 +95,12 @@ public class GameController extends APIBaseController{
     public Map answerQuestion(@RequestParam("roomId")int roomId,@RequestParam("answer")String answer){
         Map<String,Object> result = new HashMap<>();
         //User user = userService.getCurrentUser(getCurrentUserID());
-        int isCorrect = gameService.answerQuestions(roomId , answer);
+        int isCorrect = 0;
+        try {
+            isCorrect = gameService.answerQuestions(roomId , answer);
+        } catch (EncodeException e) {
+            e.printStackTrace();
+        }
         result.put("isCorrect",isCorrect);
         return result;
     }

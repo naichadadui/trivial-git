@@ -2,19 +2,20 @@ package com.ecnu.trivial.dto;
 
 import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.model.User;
+import com.ecnu.trivial.vo.QuestionVo;
 import com.ecnu.trivial.vo.UserVo;
 import com.ecnu.trivial.webSocket.WsHandler;
 import lombok.NoArgsConstructor;
 import net.sf.json.JSONObject;
+import org.springframework.beans.BeanUtils;
 
 import javax.websocket.EncodeException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 public class Game {
@@ -33,12 +34,12 @@ public class Game {
     private GameProcess gameProcess = null;
     private WsHandler gameSocket = null;
     private String actionType;
+    private int rollNumber;
 
     public Game(int roomId) {
         this.roomId = roomId;
         this.actionType = "room";
         gameSocket = new WsHandler();
-        //gameSocket.addRoom(this);
         gameProcess = new GameProcess(this);
         //logToAFile();
     }
@@ -62,7 +63,6 @@ public class Game {
                 player.setReady(true);
                 logger.info(player.getUser().getName() + " was ready");
                 sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
-                //System.out.println(JSONObject.fromObject(gameProcess).toString());
                 return;
             }
         }
@@ -96,11 +96,14 @@ public class Game {
     /*在游戏开始前初始化问题列表
     * 每类题目50题
     * */
-    public void initialQuestions(List<Questions> popQuestions,List<Questions> scienceQuestions,List<Questions> sportsQuestions,List<Questions> rockQuestions){
-        questionMaker.setPopQuestionList(popQuestions);
-        questionMaker.setScienceQuestionList(scienceQuestions);
-        questionMaker.setSportsQuestionList(sportsQuestions);
-        questionMaker.setRockQuestionList(rockQuestions);
+//    public void initialQuestions(List<Questions> popQuestions,List<Questions> scienceQuestions,List<Questions> sportsQuestions,List<Questions> rockQuestions){
+//        questionMaker.setPopQuestionList(popQuestions);
+//        questionMaker.setScienceQuestionList(scienceQuestions);
+//        questionMaker.setSportsQuestionList(sportsQuestions);
+//        questionMaker.setRockQuestionList(rockQuestions);
+//    }
+    public void initialQuestions(List<Questions> totalQuestions){
+        questionMaker.setTotalQuestionList(totalQuestions);
     }
 
     /*
@@ -150,11 +153,36 @@ public class Game {
         this.actionType = "room to game";
         this.status = 1;
         this.currentPlayerId = 0;
+
+        /*修改gameProcess属性*/
         gameProcess.setCurrentPlayerId(0);
         gameProcess.setStatus(status);
         gameProcess.setActionType(actionType);
+
+        this.rollNumber = dice();
+        QuestionVo curQues = parse(questionMaker.getFirstQuestion());
+        gameProcess.setRollNumber(rollNumber);
+        gameProcess.setCurrentQuestion(curQues);
+        gameProcess.setPlayers(players);
         sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
         //gameProcess.setFirstRound(false);
+    }
+
+    /*移动当前玩家的位置，
+    * currentPlayerId修改，
+    * 预先计算下一个玩家的骰子点数以及要回答的问题
+    * */
+    public void prepareNextDiceAndNextQuestion() throws EncodeException {
+        currentPlayerMovesToNewPlace();
+        nextPlayer();
+        this.rollNumber = dice();
+        this.actionType = "game";
+        QuestionVo curQues = parse(questionMaker.getFirstQuestion());
+        gameProcess.setRollNumber(rollNumber);
+        gameProcess.setCurrentQuestion(curQues);
+        gameProcess.setPlayers(players);
+        gameProcess.setActionType(actionType);
+        sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
     }
 
     /*
@@ -165,6 +193,14 @@ public class Game {
         return (rand.nextInt(5)+1);
     }
 
+    public void getOutOfPenaltyBox(){
+        players.get(currentPlayerId).getOutOfPenaltyBox();
+    }
+
+    public void sentIntoPenaltyBox(){
+        players.get(currentPlayerId).sentToPenaltyBox();
+    }
+
     /*
     * 当前玩家开始行动
     * 如果玩家不在禁闭室内，则玩家前进骰子点数的步数并且回答问题
@@ -172,32 +208,31 @@ public class Game {
     * 如果玩家能出禁闭室，则出禁闭室走相应步数并回答问题
     * 如果抛出的点数不能使他出狱，则不出禁闭室
     * */
-    public void roll(int rollingNumber) {
-        logger.info(players.get(currentPlayerId) + " is the current player");
-        logger.info("They have rolled a " + rollingNumber);
-
-        if (!players.get(currentPlayerId).isInPenaltyBox()) {
-            currentPlayerMovesToNewPlaceAndAnswersAQuestion(rollingNumber);
-            return;
-        }
-
-        boolean isRollingNumberForGettingOutOfPenaltyBox = rollingNumber != 4;
-        if (isRollingNumberForGettingOutOfPenaltyBox) {
-            players.get(currentPlayerId).getOutOfPenaltyBox();
-            logger.info(players.get(currentPlayerId) + " is getting out of the penalty box");
-            currentPlayerMovesToNewPlaceAndAnswersAQuestion(rollingNumber);
-            return;
-        }
-        logger.info(players.get(currentPlayerId) + " is not getting out of the penalty box");
-        players.get(currentPlayerId).sentToPenaltyBox();
-    }
+//    public void roll(int rollingNumber) {
+//        logger.info(players.get(currentPlayerId) + " is the current player");
+//        logger.info("They have rolled a " + rollingNumber);
+//
+//        if (!players.get(currentPlayerId).isInPenaltyBox()) {
+//            currentPlayerMovesToNewPlaceAndAnswersAQuestion();
+//            return;
+//        }
+//
+//        boolean isRollingNumberForGettingOutOfPenaltyBox = rollingNumber != 4;
+//        if (isRollingNumberForGettingOutOfPenaltyBox) {
+//            players.get(currentPlayerId).getOutOfPenaltyBox();
+//            logger.info(players.get(currentPlayerId) + " is getting out of the penalty box");
+//            currentPlayerMovesToNewPlaceAndAnswersAQuestion();
+//            return;
+//        }
+//        logger.info(players.get(currentPlayerId) + " is not getting out of the penalty box");
+//        players.get(currentPlayerId).sentToPenaltyBox();
+//    }
 
     /*
     * 当前玩家前进相应步数
-    * （并且回答问题）先不回答问题
     */
-    private void currentPlayerMovesToNewPlaceAndAnswersAQuestion(int rollingNumber) {
-        players.get(currentPlayerId).moveForwardSteps(rollingNumber);
+    private void currentPlayerMovesToNewPlace() {
+        players.get(currentPlayerId).moveForwardSteps(rollNumber);
 
         logger.info(players.get(currentPlayerId)
                 + "'s new location is "
@@ -207,62 +242,24 @@ public class Game {
     }
 
     /*
-    * 当前玩家回答问题，并将题目从题目列表中移除
-    * 修改：返回回答正确与否,添加参数answer,修改可见性为public
+    * 判断玩家回答是否正确
     * */
-    public int answerQuestion(String answer) {
-        Questions questions = new Questions();
-        if (players.get(currentPlayerId).getCurrentCategory() == "Pop")
-            questions = questionMaker.getPopQuestionList().get(0);
-        if (players.get(currentPlayerId).getCurrentCategory() == "Science")
-            questions = questionMaker.getScienceQuestionList().get(0);
-        if (players.get(currentPlayerId).getCurrentCategory() == "Sports")
-            questions = questionMaker.getSportsQuestionList().get(0);
-        if (players.get(currentPlayerId).getCurrentCategory() == "Rock")
-            questions = questionMaker.getRockQuestionList().get(0);
-        if(questions.getTrueAns().equals(answer))
-            return 1;
-        else
-            return 0;
+    public boolean answerQuestion(String answer,String right) {
+        return answer.equals(right);
     }
-//    private void answerQuestion() {
-//        if (players.get(currentPlayerId).getCurrentCategory() == "Pop")
-//            logger.info(questionMaker.removeFirstPopQuestion());
-//        if (players.get(currentPlayerId).getCurrentCategory() == "Science")
-//            logger.info(questionMaker.removeFirstScienceQuestion());
-//        if (players.get(currentPlayerId).getCurrentCategory() == "Sports")
-//            logger.info(questionMaker.removeFirstSportsQuestion());
-//        if (players.get(currentPlayerId).getCurrentCategory() == "Rock")
-//            logger.info(questionMaker.removeFirstRockQuestion());
-//    }
 
-    /*
-    * 返回当前的问题
-    * */
-    public Questions showQuestion() {
-        Questions curQuestion = new Questions();
-        if (players.get(currentPlayerId).getCurrentCategory() == "Pop")
-            curQuestion = questionMaker.getPopQuestionList().get(0);
-        if (players.get(currentPlayerId).getCurrentCategory() == "Science")
-            curQuestion = questionMaker.getScienceQuestionList().get(0);
-        if (players.get(currentPlayerId).getCurrentCategory() == "Sports")
-            curQuestion = questionMaker.getSportsQuestionList().get(0);
-        if (players.get(currentPlayerId).getCurrentCategory() == "Rock")
-            curQuestion = questionMaker.getRockQuestionList().get(0);
-        return curQuestion;
-    }
 
     /*
     * 如果当前玩家在禁闭室内，则轮到下一个玩家
     * 否则玩家获得一枚金币轮到下一个玩家
     * 返回游戏是否结束
     * */
-    public boolean answeredCorrect() {
-        if (players.get(currentPlayerId).isInPenaltyBox()) {
-            nextPlayer();
-            boolean theGameIsStillInProgress = true;
-            return theGameIsStillInProgress;
-        }
+    public boolean answeredCorrect() throws EncodeException {
+//        if (players.get(currentPlayerId).isInPenaltyBox()) {
+//            nextPlayer();
+//            boolean theGameIsStillInProgress = true;
+//            return theGameIsStillInProgress;
+//        }
         return currentPlayerGetsAGoldCoinAndSelectNextPlayer();
     }
 
@@ -271,7 +268,7 @@ public class Game {
     * 下一位玩家进行游戏
     * 返回游戏是否结束
     * */
-    private boolean currentPlayerGetsAGoldCoinAndSelectNextPlayer() {
+    private boolean currentPlayerGetsAGoldCoinAndSelectNextPlayer() throws EncodeException {
         logger.info("Answer was correct!!!!");
         players.get(currentPlayerId).winAGoldCoin();
 
@@ -279,9 +276,12 @@ public class Game {
                 + " now has "
                 + players.get(currentPlayerId).countGoldCoins()
                 + " Gold Coins.");
-
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("actionType","question");
+        jsonObject.put("result","您答对了！获得一枚金币！");
+        sendJSONMessageToUser(jsonObject);
         boolean isGameStillInProgress = isGameStillInProgress();
-        nextPlayer();
+        //nextPlayer();
 
         return isGameStillInProgress;
     }
@@ -301,12 +301,15 @@ public class Game {
     * 下一位玩家进行游戏
     * 游戏继续
     * */
-    public boolean answeredWrong() {
+    public boolean answeredWrong() throws EncodeException {
         logger.info("Question was incorrectly answered");
         logger.info(players.get(currentPlayerId) + " was sent to the penalty box");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("actionType","question");
+        jsonObject.put("result","您答错了！被送进了监狱！");
+        sendJSONMessageToUser(jsonObject);
         players.get(currentPlayerId).sentToPenaltyBox();
-
-        nextPlayer();
+        //nextPlayer();
         boolean theGameIsStillInProgress = true;
         return theGameIsStillInProgress;
     }
@@ -339,19 +342,6 @@ public class Game {
     }
 
     /*
-    * 给该房间内的所有玩家发送游戏进程以更新游戏进程(String)
-    * */
-    private int sendMessageToAllUsers(String msg) {
-        int result = 0;
-        for (Player player : players) {
-            if (!gameSocket.sendMessageToUser(player.getUser().getUserId(), msg)) {
-                result++;
-            }
-        }
-        return result;
-    }
-
-    /*
     * 给该房间内的所有玩家发送游戏进程以更新游戏进程(JSON格式)
     * */
     private int sendJSONMessageToAllUsers(JSONObject msg) throws EncodeException {
@@ -362,6 +352,27 @@ public class Game {
                 result++;
             }
         }
+        return result;
+    }
+
+    private int sendJSONMessageToUser(JSONObject msg) throws EncodeException {
+        int result = 0;
+        if (!gameSocket.sendJSONMessageToUser(players.get(currentPlayerId).getUser().getUserId(), msg)) {
+            result++;
+        }
+        return result;
+    }
+
+    private QuestionVo parse(Questions questions) {
+        QuestionVo result = new QuestionVo();
+        BeanUtils.copyProperties(questions, result);
+        List<String> optionList = new ArrayList<>();
+        optionList.add(questions.getTrueAns());
+        optionList.add(questions.getFalseAns1());
+        optionList.add(questions.getFalseAns2());
+        optionList.add(questions.getFalseAns3());
+        Collections.shuffle(optionList);
+        result.setOptions((String[])optionList.toArray());
         return result;
     }
 

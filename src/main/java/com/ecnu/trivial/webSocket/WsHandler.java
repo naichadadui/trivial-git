@@ -107,8 +107,14 @@ public class WsHandler extends TextWebSocketHandler {
             gameService.ready(userId,roomId);
         if(msg.equals("start"))
             gameService.start(roomId);
-        if(msg.equals("dice"))
-            gameService.dice(roomId);
+        if(msg.contains("answerQuestion")) {
+            String answer = msg.split(":")[1];
+            gameService.answerQuestions(roomId,answer);
+        }
+        if(msg.equals("outOfPrison"))
+            gameService.outOfPrison(roomId);
+        if(msg.equals("notOutOfPrison"))
+            gameService.notOutOfPrison(roomId);
     }
 
     /**

@@ -23,11 +23,12 @@ public class Player {
     public static final String ROCK = "Rock";
 
     private String playerName;
-    private int place = 0;//玩家的初始位置
+    private int place = 0;//玩家的位置
     private int sumOfGoldCoins = 0;//玩家本局游戏获得金币数
     private boolean isInPenaltyBox = false;//玩家是否在禁闭室内
     private boolean isReady = false;// 玩家是否同意游戏开始
     private UserVo user; //绑定Player和User
+    private int nextPlace = 0;
 
     public Player(String playerName,UserVo user) {
         this.playerName = playerName;
@@ -103,6 +104,14 @@ public class Player {
 
     public void setUser(UserVo user) {
         this.user = user;
+    }
+
+    public int getNextPlace() {
+        return nextPlace;
+    }
+
+    public void setNextPlace(int nextPlace) {
+        this.nextPlace = nextPlace;
     }
 
     @Override

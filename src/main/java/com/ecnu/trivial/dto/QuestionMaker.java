@@ -1,6 +1,7 @@
 package com.ecnu.trivial.dto;
 
 import com.ecnu.trivial.model.Questions;
+import com.ecnu.trivial.vo.QuestionVo;
 import lombok.NoArgsConstructor;
 
 import java.util.LinkedList;
@@ -18,16 +19,21 @@ public class QuestionMaker {
 //    private LinkedList<String> sportsQuestions = new LinkedList<String>();
 //    private LinkedList<String> rockQuestions = new LinkedList<String>();
 
-    private List<Questions> popQuestionList = new LinkedList<>();
-    private List<Questions> scienceQuestionList = new LinkedList<>();
-    private List<Questions> sportsQuestionList = new LinkedList<>();
-    private List<Questions> rockQuestionList = new LinkedList<>();
+    private List<Questions> totalQuestionList = new LinkedList<>();
+//    private List<Questions> popQuestionList = new LinkedList<>();
+//    private List<Questions> scienceQuestionList = new LinkedList<>();
+//    private List<Questions> sportsQuestionList = new LinkedList<>();
+//    private List<Questions> rockQuestionList = new LinkedList<>();
+//
+//    public QuestionMaker(List<Questions> popQuestionList,List<Questions> scienceQuestionList,List<Questions> sportsQuestionList,List<Questions> rockQuestionList){
+//        this.popQuestionList = popQuestionList;
+//        this.scienceQuestionList = scienceQuestionList;
+//        this.sportsQuestionList = sportsQuestionList;
+//        this.rockQuestionList = rockQuestionList;
+//    }
 
-    public QuestionMaker(List<Questions> popQuestionList,List<Questions> scienceQuestionList,List<Questions> sportsQuestionList,List<Questions> rockQuestionList){
-        this.popQuestionList = popQuestionList;
-        this.scienceQuestionList = scienceQuestionList;
-        this.sportsQuestionList = sportsQuestionList;
-        this.rockQuestionList = rockQuestionList;
+    public QuestionMaker(List<Questions> totalQuestionList){
+        this.totalQuestionList = totalQuestionList;
     }
 
 //    public QuestionMaker() {
@@ -70,36 +76,20 @@ public class QuestionMaker {
 //    public String removeFirstRockQuestion() {
 //        return rockQuestions.removeFirst();
 //    }
-
-    public List<Questions> getPopQuestionList() {
-        return popQuestionList;
+    public Questions getFirstQuestion(){
+        if(totalQuestionList.size()>0) {
+            Questions questions = totalQuestionList.get(0);
+            totalQuestionList.remove(0);
+            return questions;
+        }
+        return null;
     }
 
-    public void setPopQuestionList(List<Questions> popQuestionList) {
-        this.popQuestionList = popQuestionList;
+    public List<Questions> getTotalQuestionList() {
+        return totalQuestionList;
     }
 
-    public List<Questions> getScienceQuestionList() {
-        return scienceQuestionList;
-    }
-
-    public void setScienceQuestionList(List<Questions> scienceQuestionList) {
-        this.scienceQuestionList = scienceQuestionList;
-    }
-
-    public List<Questions> getSportsQuestionList() {
-        return sportsQuestionList;
-    }
-
-    public void setSportsQuestionList(List<Questions> sportsQuestionList) {
-        this.sportsQuestionList = sportsQuestionList;
-    }
-
-    public List<Questions> getRockQuestionList() {
-        return rockQuestionList;
-    }
-
-    public void setRockQuestionList(List<Questions> rockQuestionList) {
-        this.rockQuestionList = rockQuestionList;
+    public void setTotalQuestionList(List<Questions> totalQuestionList) {
+        this.totalQuestionList = totalQuestionList;
     }
 }

@@ -3,12 +3,14 @@ package com.ecnu.trivial.service;
 import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.model.User;
 
+import javax.websocket.EncodeException;
+
 public interface GameService extends BaseService{
-    public boolean enterRoom(int userId, int roomId);
-    public void ready(int userId,int roomId);
-    public void start(int roomId);
-    public void dice(int roomId);
-    public Questions showQuestion(int roomId);
-    public int answerQuestions(int roomId, String answer);
-    public int leaveRoom(int userId,int roomId);
+    boolean enterRoom(int userId, int roomId);
+    void ready(int userId,int roomId);
+    void start(int roomId);
+    int answerQuestions(int roomId, String answer) throws EncodeException;
+    int leaveRoom(int userId,int roomId);
+    void outOfPrison(int roomId);
+    void notOutOfPrison(int roomId);
 }

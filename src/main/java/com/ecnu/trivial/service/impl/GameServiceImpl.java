@@ -107,19 +107,16 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
     /*
     * 如果该房间玩家人数大于等于2且全部准备
     * 则房主可以选择开始游戏
-    * 则游戏初始化题目然后游戏开始
-    * 初始化的题目从数据库中按type随机选取50道题目
+    * 游戏初始化题目然后所有玩家进入房间，游戏开始
+    * 初始化的题目从数据库中随机选取50道题目
     * */
     @Override
     public void start(int roomId){
         Game room = WsHandler.getRoom(roomId);
         if(room!=null) {
             if (room.getPlayers().size() >= 2 && room.isAllPlayerReady()) {
-                List<Questions> popQuestions = questionsMapper.selectQuestionsByType(0);
-                List<Questions> scienceQuestions = questionsMapper.selectQuestionsByType(1);
-                List<Questions> sportsQuestions = questionsMapper.selectQuestionsByType(2);
-                List<Questions> rockQuestions = questionsMapper.selectQuestionsByType(3);
-                room.initialQuestions(popQuestions, scienceQuestions, sportsQuestions, rockQuestions);
+                List<Questions> totalQuestions = questionsMapper.selectFiftyQuestions();
+                room.initialQuestions(totalQuestions);
                 try {
                     room.startGame();
                 } catch (EncodeException e) {
@@ -129,37 +126,62 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
         }
     }
 
-    /*当前轮到的玩家可以抛骰子
-    * 根据骰子点数进行相应的行动
-    * 这里也可以是前端js写随机函数，然后将结果作为参数传过来
-    * */
-    @Override
-    public void dice(int tableId) {
-        Game room = WsHandler.getRoom(tableId);
-        int rollNumber = room.dice();//抛的骰子点数
-        room.roll(rollNumber);
-    }
-
-    @Override
-    public Questions showQuestion(int roomId){
-        Game room = WsHandler.getRoom(roomId);
-        return room.showQuestion();
-    }
-
-    /*当前轮到的玩家点击回答问题
-    * 判断玩家的回答是否正确  1:正确 0：错误
+    /*
+    * 当前轮到的玩家点击回答问题
+    * 判断玩家的回答是否正确,游戏是否结束  0:正确 1：错误 -1：游戏结束
     * webSocket服务器给客户端发送游戏进程信息以更新前端显示
     * */
     @Override
-    public int answerQuestions(int roomId, String answer) {
+    public int answerQuestions(int roomId, String answer){
         Game room = WsHandler.getRoom(roomId);
-        int isCorrect = room.answerQuestion(answer);
-        if(isCorrect==1)
-            room.answeredCorrect();
-        else
-            room.answeredWrong();
-        WsHandler.sendMessageToUser(room.getCurrentPlayerId(),room.getGameProcess().toString());
-        return isCorrect;
+        boolean isCorrect = false;
+        boolean isGameEnd = false;
+        int result = 0;
+        if(room!=null) {
+            int questionId = room.getGameProcess().getCurrentQuestion().getQuestionId();
+            String trueAnswer = questionsMapper.selectTrueAnswerByQuestionId(questionId);
+            isCorrect = room.answerQuestion(answer, trueAnswer);
+            result = 0;
+            try {
+                if (isCorrect) {
+                    isGameEnd = room.answeredCorrect();
+                    result = 0;
+                } else {
+                    isGameEnd = room.answeredWrong();
+                    result = 1;
+                }
+                if (isGameEnd)
+                    result = -1;
+                room.prepareNextDiceAndNextQuestion();
+            } catch (EncodeException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    /*
+    * 当前玩家在监狱中
+    * 抛掷骰子之后判断他是否能出监狱
+    * 若是则调用该函数
+    * */
+    @Override
+    public void outOfPrison(int roomId) {
+        Game room = WsHandler.getRoom(roomId);
+        if (room!=null)
+            room.getOutOfPenaltyBox();
+    }
+
+    /*
+    * 当前玩家在监狱中
+    * 抛掷骰子之后判断他是否能出监狱
+    * 若否则调用该函数
+    * */
+    @Override
+    public void notOutOfPrison(int roomId) {
+        Game room = WsHandler.getRoom(roomId);
+        if (room!=null)
+            room.sentIntoPenaltyBox();
     }
 
     private UserVo parse(User user) {

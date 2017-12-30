@@ -32,16 +32,17 @@ public class GameRunner {
 
         do {
 
-            aGame.roll(rand.nextInt(5) + 1);
-
-            if (rand.nextInt(9) == 7) {
-                // TODO-later: The name of the variable notAWinner should be isGameStillInProgress
-                notAWinner = aGame.answeredWrong();
-            } else {
-                notAWinner = aGame.answeredCorrect();
+            //aGame.roll(rand.nextInt(5) + 1);
+            try {
+                if (rand.nextInt(9) == 7) {
+                    // TODO-later: The name of the variable notAWinner should be isGameStillInProgress
+                    notAWinner = aGame.answeredWrong();
+                }
+                else
+                    notAWinner = aGame.answeredCorrect();
+            } catch (EncodeException e) {
+                e.printStackTrace();
             }
-
-
         } while (notAWinner);
 
     }
