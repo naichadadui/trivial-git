@@ -133,6 +133,8 @@ public class Game {
         logger.info("The amount of players in Room "+roomId+ " is " + players.size());
         if(players.size()>=1)
             sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
+        else
+            gameSocket.removeRoom(this);
 
     }
 
