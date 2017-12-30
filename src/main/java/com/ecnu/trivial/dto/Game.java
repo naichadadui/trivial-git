@@ -160,9 +160,10 @@ public class Game {
         gameProcess.setActionType(actionType);
 
         this.rollNumber = dice();
-        QuestionVo curQues = parse(questionMaker.getFirstQuestion());
         gameProcess.setRollNumber(rollNumber);
-        gameProcess.setCurrentQuestion(curQues);
+
+        prepareNextQuestion();
+
         gameProcess.setPlayers(players);
         System.out.println(JSONObject.fromObject(gameProcess));
         sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
@@ -178,13 +179,21 @@ public class Game {
         nextPlayer();
         this.rollNumber = dice();
         this.actionType = "game";
-        QuestionVo curQues = parse(questionMaker.getFirstQuestion());
         gameProcess.setRollNumber(rollNumber);
-        gameProcess.setCurrentQuestion(curQues);
         gameProcess.setPlayers(players);
+
+        prepareNextQuestion();
+
         gameProcess.setActionType(actionType);
         System.out.println(JSONObject.fromObject(gameProcess));
         sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
+    }
+
+    public void prepareNextQuestion(){
+        Questions curQuestion = questionMaker.getFirstQuestion();
+        QuestionVo curQues;
+        curQues = parse(curQuestion);
+        gameProcess.setCurrentQuestion(curQues);
     }
 
     /*
