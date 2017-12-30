@@ -26,7 +26,9 @@ function sMessage(msg){
     var json=JSON.parse(msg.data);
     var playerList=json.players;
     var isAllReady=true;
-    console.log("players: "+playerList);
+
+    //console.log("players: "+playerList);
+
     console.log("This is "+userID);
     for(var i=0;i<playerList.length;i++){
         $("#name"+(i+1)).html(playerList[i].playerName);
@@ -40,18 +42,20 @@ function sMessage(msg){
             $("#state"+(i+1)).html("已准备");
         }
 
-
         if(i!=0&&!playerList[i].ready&&userID==playerList[i].user.userId){
+            console.log("test2");
             $("#buttonA").html("Ready");
             $("#buttonP").show();
             console.log(i+ " button Ready show");
         }
+        console.log("test3");
         if(i!=0&&playerList[i].ready&&userID==playerList[i].user.userId){
+            console.log("test4");
             $("#buttonA").html("Ready");
             $("#buttonP").hide();
             console.log(i+ " button Ready hide");
         }
-
+        console.log("test5");
     }
 
     if(userID==playerList[0].user.userId&&isAllReady&&playerList.length>=2)
@@ -61,10 +65,8 @@ function sMessage(msg){
         $("#buttonP").show();
         console.log(userID + " button Start show");
     }
-    if(userID==playerList[0].user.userId&&!isAllReady&&playerList.length>=2)
+    if(userID==playerList[0].user.userId&&!isAllReady)
     {
-        $("#buttonA").html("Start");
-        $("#buttonA").attr("onclick","start()");
         $("#buttonP").hide();
         console.log(userID + " button Start hide");
     }

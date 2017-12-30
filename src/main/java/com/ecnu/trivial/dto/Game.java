@@ -58,12 +58,13 @@ public class Game {
         for(Player player:players){
             if (player.getUser().getUserId().equals(userId)) {
                 player.setReady(true);
-                System.out.println(player.getUser().getName() + " was ready");
+                logger.info(player.getUser().getName() + " was ready");
                 sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
+                //System.out.println(JSONObject.fromObject(gameProcess).toString());
                 return;
             }
         }
-        System.out.println(userId + " was not found");
+        logger.info(userId + " was not found");
     }
 
     /*是否全部玩家都准备*/
@@ -106,10 +107,10 @@ public class Game {
     public void addNewPlayer(UserVo user) throws EncodeException {
         Player player = new Player(user.getName(),user);
         players.add(player);
+        currentPlayerId++;
         gameProcess.setPlayers(players);
         logger.info(user.getName() + " was added");
-        logger.info("The total amount of players is " + players.size());
-        //sendMessageToAllUsers(gameProcess.toString());
+        logger.info("The amount of players in Room "+roomId+ " is " + players.size());
         if(players.size()>1)
             sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
 
@@ -127,9 +128,9 @@ public class Game {
         }
         players.removeAll(delList);
         gameProcess.setPlayers(players);
+        currentPlayerId--;
         logger.info(user.getName() + " quit");
-        logger.info("The total amount of players is " + players.size());
-        //sendMessageToAllUsers(gameProcess.toString());
+        logger.info("The amount of players in Room "+roomId+ " is " + players.size());
         if(players.size()>=1)
             sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
 
@@ -144,9 +145,8 @@ public class Game {
     public void startGame() throws EncodeException {
         this.status = 1;
         this.currentPlayerId = 0;
-        gameProcess.setCurrentPlayerId(players.get(currentPlayerId).getUser().getUserId());
+        gameProcess.setCurrentPlayerId(0);
         gameProcess.setStatus(status);
-        //sendMessageToAllUsers(gameProcess.toString());
         sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
         //gameProcess.setFirstRound(false);
     }
@@ -316,7 +316,7 @@ public class Game {
     /*
     * 游戏结束
     * 结算每个玩家所得的金币数*/
-    public void endGame() {
+    public void endGame() throws EncodeException {
         logger.info("游戏结束，结算各玩家所得的金币数");
         status = 0;
         gameProcess.setStatus(status);
@@ -328,7 +328,7 @@ public class Game {
             }
         }
         gameProcess.setWinner(winner);
-        sendMessageToAllUsers(gameProcess.toString());
+        sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
         gameSocket.removeRoom(this);
     }
 
@@ -351,6 +351,7 @@ public class Game {
     private int sendJSONMessageToAllUsers(JSONObject msg) throws EncodeException {
         int result = 0;
         for (Player player : players) {
+            //gameSocket.sendJSONMessageToUser(player.getUser().getUserId(), msg);
             if (!gameSocket.sendJSONMessageToUser(player.getUser().getUserId(), msg)) {
                 result++;
             }

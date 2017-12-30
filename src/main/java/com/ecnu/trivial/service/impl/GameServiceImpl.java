@@ -11,6 +11,8 @@ import com.ecnu.trivial.service.UserGameHistoryService;
 import com.ecnu.trivial.vo.UserGameHistoryVo;
 import com.ecnu.trivial.vo.UserVo;
 import com.ecnu.trivial.webSocket.WsHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +31,6 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
     @Autowired
     private UserGameHistoryService userGameHistoryService;
 
-    @Autowired
-    private HttpServletRequest request;
 
     /*玩家选择一个房间加入，建立webSocket连接
     * 如果该房间还没有玩家，则将该房间加入webSocket的roomMap,并将该玩家设置成房主，房主自动准备
@@ -80,13 +80,13 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
         else if(!room.isGameStart()){
             try {
                 room.quit(userVo);
-//                HttpSession session = request.getSession();
-//                session.setAttribute("roomId",0);
             } catch (EncodeException e) {
                 e.printStackTrace();
             }
             result = 0;
         }
+        else
+            result = 1;
         return result;
     }
 
@@ -174,6 +174,7 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
         }
         if(userGameHistories.size()!=0)
             winRate = win/userGameHistories.size()*100;
+        winRate = (double)Math.round(winRate*100)/100;
         result.setWinRate(winRate);
         return result;
     }
