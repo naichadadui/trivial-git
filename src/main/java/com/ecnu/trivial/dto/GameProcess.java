@@ -5,15 +5,17 @@ import com.ecnu.trivial.model.Questions;
 import java.util.List;
 
 public class GameProcess {
+    private String actionType;
     private int roomId;
     private List<Player> players;
     private Questions currentQuestion;
     private int currentPlayerId;
-    private int status;
+    private int status;//0:等待中 1:游戏中
     private int dice;
     private Player winner;
 
     public GameProcess(Game game){
+        this.actionType = "room";
         this.roomId = game.getRoomId();
         this.players = game.getPlayers();
         this.currentPlayerId = game.getCurrentPlayerId();
@@ -74,5 +76,13 @@ public class GameProcess {
 
     public void setWinner(Player winner) {
         this.winner = winner;
+    }
+
+    public String getActionType() {
+        return actionType;
+    }
+
+    public void setActionType(String actionType) {
+        this.actionType = actionType;
     }
 }

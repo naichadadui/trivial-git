@@ -32,13 +32,15 @@ public class Game {
     private int roomId;
     private GameProcess gameProcess = null;
     private WsHandler gameSocket = null;
+    private String actionType;
 
     public Game(int roomId) {
         this.roomId = roomId;
+        this.actionType = "room";
         gameSocket = new WsHandler();
         //gameSocket.addRoom(this);
         gameProcess = new GameProcess(this);
-        logToAFile();
+        //logToAFile();
     }
 
     private void logToAFile() {
@@ -145,10 +147,12 @@ public class Game {
     * 并且同步设置gameProcess相应属性
     * */
     public void startGame() throws EncodeException {
+        this.actionType = "room to game";
         this.status = 1;
         this.currentPlayerId = 0;
         gameProcess.setCurrentPlayerId(0);
         gameProcess.setStatus(status);
+        gameProcess.setActionType(actionType);
         sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
         //gameProcess.setFirstRound(false);
     }
