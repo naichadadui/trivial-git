@@ -372,7 +372,8 @@ public class Game {
         optionList.add(questions.getFalseAns2());
         optionList.add(questions.getFalseAns3());
         Collections.shuffle(optionList);
-        result.setOptions((String[])optionList.toArray());
+        String[] array =new String[optionList.size()];
+        result.setOptions(optionList.toArray(array));
         return result;
     }
 
