@@ -182,7 +182,7 @@
     <img src="/images/horse/horse3.png" style=" left:130px; top:315px">
 </div>
 <div class="tooltip">
-    <span class="tooltip-item" id="demo-stacked-buttons">
+    <span class="tooltip-item" id="demo-stacked-buttons" style=" left:710px; top:160px" >
     </span>
 </div>
 <div class="card-position" id="player_cards">
@@ -280,7 +280,6 @@
         <div id="dice" class="dice dice_1"></div>
     </div>
 </div>
-<script type="text/javascript" src="/js/timeO.js"></script>
 <script type="text/javascript" src="/js/questionCommon.js"></script>
 </body>
 </html>

@@ -24,7 +24,12 @@
             $("#player2").hide();
             $("#player3").hide();
             $("#player4").hide();
+            $("#horse1").hide();
+            $("#horse2").hide();
+            $("#horse3").hide();
+            $("#horse4").hide();
             $("#buttonP").hide();
+            $("#questionCircle").hide();
         });
         var id = ${Session.userId};
         var roomId =${Session.roomId};
@@ -183,7 +188,7 @@
         <img id="horse4" src="/images/horse/horse4.png" style=" left:243px; top:464px">
     </div>
     <div class="tooltip" id="questionCircle">
-    <span class="tooltip-item" id="demo-stacked-buttons">
+    <span class="tooltip-item" id="demo-stacked-buttons" style=" left:710px; top:160px">
     </span>
     </div>
     <div class="card-position" id="player_cards">
@@ -260,7 +265,7 @@
         </div>
     </div>
     <div class="final">
-        <h1 id="final_word">您超时啦</h1>
+        <h1 id="final_word"></h1>
     </div>
 
     <div class="demo">
