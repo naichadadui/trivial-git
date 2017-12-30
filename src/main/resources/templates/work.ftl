@@ -80,7 +80,7 @@
                     <h4 id="state6"></h4>
                 </li>
                 <li id="room7">
-                    <img src="/images/room/room7.jpg" id="img7 " onclick="clickRoom(this.id)">
+                    <img src="/images/room/room7.jpg" id="img7" onclick="clickRoom(this.id)">
                     <h4 id="title7">room No.7</h4>
                     <h4 id="ratio7"></h4>
                     <h4 id="state7"></h4>

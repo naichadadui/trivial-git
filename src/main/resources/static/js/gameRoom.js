@@ -1,96 +1,104 @@
-
 var userID;
-function makeConnection(userId,roomId) {
-    userID=userId;
-    var ipURL = "ws://localhost:10000/" + "webSocket/"+roomId+"/" + userId;
+
+function makeConnection(userId, roomId) {
+    userID = userId;
+    var ipURL = "ws://localhost:10000/" + "webSocket/" + roomId + "/" + userId;
     try {
-        socket=new WebSocket(ipURL);
-    }catch(e) {
+        socket = new WebSocket(ipURL);
+    } catch (e) {
         alert("error happend");
         close;
     }
     socket.onopen = sOpen;
     socket.onerror = sError;
-    socket.onmessage= sMessage;
-    socket.onclose= sClose;
+    socket.onmessage = sMessage;
+    socket.onclose = sClose;
 }
 
-function sOpen(){
+function sOpen() {
     enterRoom();
 }
-function sError(e){
+
+function sError(e) {
     alert("error " + e);
 }
-function sMessage(msg){
+
+function sMessage(msg) {
     //top.location.reload();
-    var json=JSON.parse(msg.data);
-    var playerList=json.players;
-    var isAllReady=true;
+    var json = JSON.parse(msg.data);
+    var playerList = json.players;
+    var isAllReady = true;
 
     //console.log("players: "+playerList);
 
-    console.log("This is "+userID);
-    for(var i=0;i<playerList.length;i++){
-        $("#name"+(i+1)).html(playerList[i].playerName);
-        $("#winRate"+(i+1)).html("胜率"+playerList[i].user.winRate+"%");
-        $("#player"+(i+1)).show();
-        if(!playerList[i].ready) {
-            $("#state"+(i+1)).html("未准备");
+    console.log("This is " + userID);
+    for (var i = 0; i < playerList.length; i++) {
+        $("#name" + (i + 1)).html(playerList[i].playerName);
+        $("#winRate" + (i + 1)).html("胜率" + playerList[i].user.winRate + "%");
+        $("#player" + (i + 1)).show();
+        if (!playerList[i].ready) {
+            $("#state" + (i + 1)).html("未准备");
             isAllReady = false;
         }
         else {
-            $("#state"+(i+1)).html("已准备");
+            $("#state" + (i + 1)).html("已准备");
         }
 
-        if(i!=0&&!playerList[i].ready&&userID==playerList[i].user.userId){
+        if (i != 0 && !playerList[i].ready && userID == playerList[i].user.userId) {
             console.log("test2");
             $("#buttonA").html("Ready");
             $("#buttonP").show();
-            console.log(i+ " button Ready show");
+            console.log(i + " button Ready show");
         }
         console.log("test3");
-        if(i!=0&&playerList[i].ready&&userID==playerList[i].user.userId){
+        if (i != 0 && playerList[i].ready && userID == playerList[i].user.userId) {
             console.log("test4");
             $("#buttonA").html("Ready");
             $("#buttonP").hide();
-            console.log(i+ " button Ready hide");
+            console.log(i + " button Ready hide");
         }
         console.log("test5");
     }
-
-    if(userID==playerList[0].user.userId&&isAllReady&&playerList.length>=2)
-    {
+    for (var i = playerList.length-1; i < 4; i++) {
+        $("#player" + (i + 1)).hide();
+    }
+    if (userID == playerList[0].user.userId && playerList.length == 1) {
+        $("#buttonP").hide();
+        console.log(userID + " button Start hide");
+    }
+    if (userID == playerList[0].user.userId && isAllReady && playerList.length >= 2) {
         $("#buttonA").html("Start");
-        $("#buttonA").attr("onclick","start()");
+        $("#buttonA").attr("onclick", "start()");
         $("#buttonP").show();
         console.log(userID + " button Start show");
     }
-    if(userID==playerList[0].user.userId&&!isAllReady)
-    {
+    if (userID == playerList[0].user.userId && !isAllReady) {
         $("#buttonP").hide();
         console.log(userID + " button Start hide");
     }
 
 }
-function sClose(e){
+
+function sClose(e) {
     alert("connect closed:" + e.code);
 }
-function doSend(msg){
+
+function doSend(msg) {
     socket.send(msg);
 }
 
-function enterRoom(){
+function enterRoom() {
     doSend("enter");
 }
 
-function Close(){
+function Close() {
     socket.close();
 }
 
-function ready(){
+function ready() {
     doSend("ready");
 }
 
-function start(){
+function start() {
     doSend("start");
 }
