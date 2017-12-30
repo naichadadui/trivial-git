@@ -60,6 +60,7 @@ public class Game {
                 player.setReady(true);
                 logger.info(player.getUser().getName() + " was ready");
                 sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
+                //System.out.println(JSONObject.fromObject(gameProcess).toString());
                 return;
             }
         }
@@ -350,6 +351,7 @@ public class Game {
     private int sendJSONMessageToAllUsers(JSONObject msg) throws EncodeException {
         int result = 0;
         for (Player player : players) {
+            //gameSocket.sendJSONMessageToUser(player.getUser().getUserId(), msg);
             if (!gameSocket.sendJSONMessageToUser(player.getUser().getUserId(), msg)) {
                 result++;
             }

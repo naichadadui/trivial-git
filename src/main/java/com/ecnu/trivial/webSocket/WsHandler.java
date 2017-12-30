@@ -116,9 +116,7 @@ public class WsHandler extends TextWebSocketHandler {
      */
     public static boolean sendMessageToUser(Integer userId, String message) {
         if (userSocket.containsKey(userId)) {
-            //System.out.println(" 给用户Id为" + userId + "的所有终端发送消息："+ message);
             WebSocketSession WS = userSocket.get(userId);
-            System.out.println("sessionId为:"+ WS.getId());
             TextMessage msg = new TextMessage(message);
             try {
                 WS.sendMessage(msg);
@@ -140,10 +138,10 @@ public class WsHandler extends TextWebSocketHandler {
     public static boolean sendJSONMessageToUser(Integer userId, JSONObject message) throws EncodeException {
         if (userSocket.containsKey(userId)) {
             WebSocketSession WS = userSocket.get(userId);
-            System.out.println("sessionId为:"+ WS.getId());
             TextMessage msg = new TextMessage(message.toString());
             try {
                 WS.sendMessage(msg);
+                System.out.println("给用户"+userId+"发送消息");
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("给用户" + userId + "发送消息失败");
