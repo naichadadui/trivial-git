@@ -1,3 +1,6 @@
+var japanMap_left=new Array(85,154,204,243);
+var japanMap_top=new Array(515,439,513,464);
+
 function makeConnection(userId) {
     var ipURL = "ws://localhost:10000/" + "webSocket/1/" + userId;
     try {
@@ -32,27 +35,28 @@ function Close(){
     socket.close();
 }
 
-function initPlayerCards(playerList){
-    var cardsList=document.getElementById("player_cards");
+function initPlayerCards(json){
+
+    var playerList=json.players;
+    console.log("enterGame:载入人物 "+playerList);
     for(var i=0;i<playerList.length;i++){
-        var div1=document.createElement("div");
-        div1.className="card";
-        var div2=document.createElement("div");
-        div2.className="card-image";
-        var img1=document.createElement("img");
-        img1.src="/images/players/player"+(i+1)+".jpg";
-        div2.appendChild(img1);
-        var div3=document.createElement("div");
-        div3.className="card-body";
-        var div4=document.createElement("div");
-        div4.className="card-date";
-        var time1=document.createElement("time");
-        time1.innerHTML=playerList[i].playerName;
-        div4.appendChild(time1);
-        var div5=document.createElement("div");
-        div5.className="card-title";
-        var div6=document.createElement("div");
-        div6.className="card-exceprt";
+        $("#name"+(i+1)).html(playerList[i].playerName);
+        $("#score"+(i+1)).html(playerList[i].sumOfGoldCoins);
+        if(i==json.currentPlayerId)
+        {
+            $("#state"+(i+1)).html("进行");
+        }else
+        {
+            if(playerList[i].isInPenaltyBox){
+                $("#state"+(i+1)).html("监狱");
+            }
+            else{
+                $("#state"+(i+1)).html("等待");
+            }
+        }
+        $("#card"+(i+1)).show();
     }
+
+
 }
 

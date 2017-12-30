@@ -26,7 +26,7 @@ function sMessage(msg){
     var json=JSON.parse(msg.data);
     var playerList=json.players;
     var isAllReady=true;
-
+    console.log("players: "+playerList);
     console.log("This is "+userID);
     for(var i=0;i<playerList.length;i++){
         $("#name"+(i+1)).html(playerList[i].playerName);
@@ -39,6 +39,8 @@ function sMessage(msg){
         else {
             $("#state"+(i+1)).html("已准备");
         }
+
+
         if(i!=0&&!playerList[i].ready&&userID==playerList[i].user.userId){
             $("#buttonA").html("Ready");
             $("#buttonP").show();

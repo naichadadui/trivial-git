@@ -1,3 +1,4 @@
+
 function clickRoom(roomID) {
     var room = roomID.replace("img", "");
     $.ajax(
@@ -38,6 +39,8 @@ function initGameHall(rooms) {
             }
         }
         if(!isRealRoom){
+            $("img"+i).attr("src","/images/room/room"+i+".jpg");
+            $("#ratio"+i).hide();
             $("#state" + i).html("空的房间，快来创建吧!");
         }
     }

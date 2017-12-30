@@ -101,6 +101,12 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+
+            $("#card1").hide();
+            $("#card2").hide();
+            $("#card3").hide();
+            $("#card4").hide();
+
             var dice = $("#dice");
             dice.click(function () {
                 $(".wrap").append("<div id='dice_mask'></div>");//加遮罩
@@ -180,86 +186,77 @@
     </span>
 </div>
 <div class="card-position" id="player_cards">
-  <!--  <div class="card">
+    <div id="card1" class="card">
         <div class="card-image">
             <img src="/images/pirate.jpg"
                  alt="pirate"/>
         </div>
         <div class="card-body">
             <div class="card-date">
-                <time>
-                    闪闪
+                <time id="name1">
                 </time>
             </div>
-            <div class="card-title">
-                <h3>
-                    分数：5
-                </h3>
+            <div class="card-title" id="score1">
+
+            </div>
+            <div class="card-exceprt" id="state1">
             </div>
         </div>
-        </a>
     </div>
-    <div class="card">
+    <div id="card2" class="card">
         <div class="card-image">
             <img src="/images/doctor.jpg"
                  alt="pirate"/>
         </div>
         <div class="card-body">
             <div class="card-date">
-                <time>
-                    闪闪
+                <time id="name2">
                 </time>
             </div>
-            <div class="card-title">
-                <h3>
-                    分数：5
-                </h3>
+            <div class="card-title" id="score2">
+
+            </div>
+            <div class="card-exceprt" id="state2">
+
             </div>
         </div>
-        </a>
     </div>
-    <div class="card">
+    <div id="card3" class="card">
         <div class="card-image">
             <img src="/images/zombie.jpg"
                  alt="pirate"/>
         </div>
         <div class="card-body">
             <div class="card-date">
-                <time>
-                    闪闪
+                <time id="name3">
                 </time>
             </div>
-            <div class="card-title">
-                <h3>
-                    分数：5
-                </h3>
+            <div class="card-title" id="score3">
+            </div>
+            <div class="card-exceprt" id="state3">
             </div>
         </div>
-        </a>
     </div>
-    <div class="card">
+    <div id="card4" class="card">
         <div class="card-image">
             <img src="/images/caveman.jpg"
                  alt="pirate"/>
         </div>
         <div class="card-body">
             <div class="card-date">
-                <time>
-                    闪闪
+                <time id="name4">
                 </time>
             </div>
-            <div class="card-title">
-                <h3>
-                    分数：5
-                </h3>
+            <div class="card-title" id="score4">
+            </div>
+            <div class="card-exceprt" id="state4">
             </div>
         </div>
-        </a>
-    </div> -->
+    </div>
 </div>
-<div class="counter">
-    <div class="nums">
-        <span class="in">12</span>
+<div id="counter" class="counter">
+    <div id="counter_id" class="nums">
+     <!--   <span class="in">12</span>
         <span>11</span>
         <span>10</span>
         <span>9</span>
@@ -271,11 +268,11 @@
         <span>3</span>
         <span>2</span>
         <span>1</span>
-        <span>0</span>
+        <span>0</span> -->
     </div>
 </div>
 <div class="final">
-    <h1>您超时啦</h1>
+    <h1 id="final_word">您超时啦</h1>
 </div>
 
 <div class="demo">
