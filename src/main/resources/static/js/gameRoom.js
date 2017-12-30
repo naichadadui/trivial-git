@@ -118,7 +118,6 @@ function fromRoomToGame(){
     $("head").append("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/questionStyle.css\"/><link rel=\"stylesheet\" type=\"text/css\" href=\"/css/flavr.css\"/>\n");
     $("#wholeGame").show();
 
-
     var dice = $("#dice");
     dice.click(function () {
         $(".wrap").append("<div id='dice_mask'></div>");//加遮罩
@@ -135,7 +134,7 @@ function fromRoomToGame(){
             dice.removeClass("dice_e").addClass("dice_" + num);
             // $("#result").html("您掷得点数是<span>"+num+"</span>");
             dice.css('cursor', 'pointer');
-            $("#dice_mask").remove();//移除遮罩
+            //$("#dice_mask").remove();//移除遮罩
         });
     });
     /*  -------------------------------------------------------------------------------
@@ -179,3 +178,6 @@ function fromRoomToGame(){
         });
     });
 }
+
+
+
