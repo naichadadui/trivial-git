@@ -29,10 +29,12 @@ function sError(e) {
 function sMessage(msg) {
     //top.location.reload();
     var json = JSON.parse(msg.data);
+    console.log(json.actionType);
     if (json.actionType == "room") {
         refreshRoom(json);
     }
     if (json.actionType == "room to game") {
+        console.log("执行了"+"room to game");
         fromRoomToGame();
         game(json);
     }

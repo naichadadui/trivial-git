@@ -164,6 +164,7 @@ public class Game {
         gameProcess.setRollNumber(rollNumber);
         gameProcess.setCurrentQuestion(curQues);
         gameProcess.setPlayers(players);
+        System.out.println(JSONObject.fromObject(gameProcess));
         sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
         //gameProcess.setFirstRound(false);
     }
@@ -182,6 +183,7 @@ public class Game {
         gameProcess.setCurrentQuestion(curQues);
         gameProcess.setPlayers(players);
         gameProcess.setActionType(actionType);
+        System.out.println(JSONObject.fromObject(gameProcess));
         sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
     }
 
