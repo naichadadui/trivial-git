@@ -1,6 +1,7 @@
 package com.ecnu.trivial.webSocket;
 
 import com.ecnu.trivial.configuration.WebSocketConfig;
+import com.ecnu.trivial.controller.api.GameController;
 import com.ecnu.trivial.dto.Game;
 import com.ecnu.trivial.service.GameService;
 import net.sf.json.JSONObject;
@@ -47,6 +48,9 @@ public class WsHandler extends TextWebSocketHandler {
     @Autowired
     GameService gameService;
 
+    @Autowired
+    GameController gameController;
+
     /**
      * 当网络连接建立时调用该方法
      * */
@@ -54,7 +58,7 @@ public class WsHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception
     {
         super.afterConnectionEstablished(session);
-        System.out.println("连接到服务器");
+        logger.info("连接到服务器");
         this.session = session;
         String uri = session.getUri().getPath();
         String[] path = uri.split("/");
@@ -62,12 +66,12 @@ public class WsHandler extends TextWebSocketHandler {
         this.userId = Integer.parseInt(path[3]);
         addOnlineCount();           //在线数加1
         if (userSocket.containsKey(this.userId)) {
-            System.out.println("当前用户Id:"+this.userId+"已在其他终端登录");
+            logger.info("当前用户Id:"+userId+"已在其他终端登录");
             this.afterConnectionClosed(session,CloseStatus.NORMAL);
         }
         else {
             userSocket.put(this.userId, session);
-            System.out.println("有新连接加入！当前在线人数为" + userSocket.size() + "sessionId:"+session.getId());
+            logger.info("有新连接加入！当前在线人数为" + userSocket.size());
         }
     }
 
@@ -79,12 +83,12 @@ public class WsHandler extends TextWebSocketHandler {
     {
         super.afterConnectionClosed(session, status);
         if (userSocket.get(this.userId) != null) {
-            userSocket.remove(this.userId);
             gameService.leaveRoom(this.userId,this.roomId);
-            if(rooms.get(this.roomId).getPlayers().size()==0)
-                removeRoom(rooms.get(this.roomId));
+            userSocket.remove(this.userId);
+            this.userId = 0;
+            this.roomId = 0;
             subOnlineCount();
-            System.out.println("有一连接关闭！当前在线人数为" + userSocket.size());
+            logger.info("有一连接关闭！当前在线人数为" + userSocket.size());
         }
     }
 
@@ -97,10 +101,10 @@ public class WsHandler extends TextWebSocketHandler {
     {
         System.out.println(message.getPayload());
         String msg = message.getPayload();
-//        if(msg.equals("enter"))
+        if(msg.equals("enter"))
             gameService.enterRoom(userId,roomId);
-//        if(msg.equals("ready"))
-            //gameService.ready(userId,roomId);
+        if(msg.equals("ready"))
+            gameService.ready(userId,roomId);
         if(msg.equals("start"))
             gameService.start(roomId);
         if(msg.equals("dice"))

@@ -2,10 +2,7 @@ package com.ecnu.trivial.controller.api;
 
 import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.service.GameService;
-import com.ecnu.trivial.service.UserService;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,11 +44,22 @@ public class GameController extends APIBaseController{
         int leaveResult = -1;
         String returnMessage = "";
         HttpSession session = request.getSession();
-        session.setAttribute("roomId",0);
+        session.removeAttribute("roomId");
         result.put("leaveResult",leaveResult);
         result.put("returnMessage",returnMessage);
         return result;
     }
+
+//    public void leave() {
+//        //HttpSession session = request.getSession();
+//        //session.removeAttribute("roomId");
+//        gameService.leaveRoom(getCurrentUserID(),getCurrentRoomID());
+//        Game game = WsHandler.getRoom(getCurrentRoomID());
+//        if(game!=null) {
+//            if (game.getPlayers().size() == 0)
+//                WsHandler.removeRoom(WsHandler.getRoom(getCurrentRoomID()));
+//        }
+//    }
 
     /*玩家点击ready，表示准许游戏开始
     * */
