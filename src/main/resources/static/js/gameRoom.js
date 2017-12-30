@@ -1,7 +1,7 @@
 var userID;
 var gamePeriod = 0;
-var japanMap_left = new Array(85, 154, 204, 243);
-var japanMap_top = new Array(515, 439, 513, 464);
+var japanMap_left = new Array(85, 154, 204, 243,290,340,440,450,550,590,620,660,700,780,890,820);
+var japanMap_top = new Array(515, 439, 513, 464,550,500,550,460,450,380,550,320,210,190,190,120);
 
 function makeConnection(userId, roomId) {
     userID = userId;
@@ -137,6 +137,7 @@ function refreshRoom(json) {
     }
 }
 
+
 function fromRoomToGame() {
     $("#wholeRoom").hide();
     $("link").remove();
@@ -191,13 +192,11 @@ function game(json) {
             movePerson(i, playerList[i].place);
         }
         $("#horse" + (i + 1)).show();
-
-
-        console.log("载入15s倒计时");
-        $("#counter_id").append("<span class=\"in\">15</span>");
-        for (var i = 14; i >= 0; i--) {
-            $("#counter_id").append("<span>" + i + "</span>");
-        }
+    }
+    console.log("载入15s倒计时");
+    $("#counter_id").append("<span class=\"in\">15</span>");
+    for (var i = 14; i >= 0; i--) {
+        $("#counter_id").append("<span>" + i + "</span>");
     }
 }
 
