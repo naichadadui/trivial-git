@@ -1,7 +1,10 @@
 package com.ecnu.trivial.model;
 
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
+@NoArgsConstructor
 public class GameHistory {
     private Integer gameId;
 
@@ -10,6 +13,12 @@ public class GameHistory {
     private Date endTime;
 
     private Integer winnerId;
+
+    public GameHistory(Date startTime,Date endTime,Integer winnerId) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.winnerId = winnerId;
+    }
 
     public Integer getGameId() {
         return gameId;

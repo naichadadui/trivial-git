@@ -61,4 +61,11 @@ public interface UserMapper {
     })
     @ResultMap("BaseResultMap")
     List<User> selectAllUsersOrderByScore();
+
+    @Update({
+            "update `user` ",
+            "set score = #{score}",
+            "where user_id = #{userId}"
+    })
+    int updateScoreByUserId(int score,int userId);
 }

@@ -37,9 +37,14 @@ public class Game {
     private int rollNumber;
     private boolean isRight;
 
+    private int gameId;
+    private Date startTime;
+    private Date endTime;
+
     public Game(int roomId) {
         this.roomId = roomId;
         this.actionType = "room";
+        this.startTime = new Date();
         gameSocket = new WsHandler();
         gameProcess = new GameProcess(this);
         //logToAFile();
@@ -167,10 +172,11 @@ public class Game {
     * 并且同步设置gameProcess相应属性
     * 向所有玩家发送信息actionType:"startGame"
     * */
-    public void startGame() throws EncodeException {
+    public void startGame(Date startTime) throws EncodeException {
         this.actionType = "startGame";
         this.status = 1;
         this.currentPlayerId = 0;
+        this.startTime = startTime;
 
         /*修改gameProcess属性*/
         gameProcess.setCurrentPlayerId(0);
@@ -193,10 +199,6 @@ public class Game {
     * 预先计算下一个玩家的骰子点数以及要回答的问题
     * */
     public void prepareNextDiceAndNextQuestion() throws EncodeException {
-        if(!isGameStillInProgress()) {
-            endGame();
-            return;
-        }
         nextPlayer();
         this.rollNumber = dice();
         this.actionType = "startGame";
@@ -400,7 +402,7 @@ public class Game {
     * 是否有玩家达到获胜条件
     * 即游戏是否还能继续
     * */
-    private boolean isGameStillInProgress() {
+    public boolean isGameStillInProgress() {
         return !(players.get(currentPlayerId).countGoldCoins() == NUMBER_OF_GOLD_COINS_TO_WON_AND_GAME_OVER);
     }
 
@@ -416,7 +418,7 @@ public class Game {
         Player winner = null;
         for (Player player : players) {
             logger.info(player.toString() + " : " + player.countGoldCoins() + "枚金币");
-            if (player.countGoldCoins() == 6) {
+            if (player.countGoldCoins() == NUMBER_OF_GOLD_COINS_TO_WON_AND_GAME_OVER) {
                 winner = player;
             }
         }
@@ -499,5 +501,29 @@ public class Game {
 
     public void setGameProcess(GameProcess gameProcess) {
         this.gameProcess = gameProcess;
+    }
+
+    public int getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

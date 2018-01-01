@@ -80,7 +80,7 @@ function sMessage(msg) {
                         quit: {
                             text: 'quit', style: 'quit',
                             action: function () {
-                                window.location.href="work";
+                                window.location.href="/trivial/work";
                                 return false;
                             }
                         }

@@ -1,7 +1,12 @@
 package com.ecnu.trivial.service.impl;
 
 import com.ecnu.trivial.dto.Game;
+import com.ecnu.trivial.dto.Player;
+import com.ecnu.trivial.mapper.GameHistoryMapper;
 import com.ecnu.trivial.mapper.QuestionsMapper;
+import com.ecnu.trivial.mapper.UserGameHistoryMapper;
+import com.ecnu.trivial.mapper.UserMapper;
+import com.ecnu.trivial.model.GameHistory;
 import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.model.User;
 import com.ecnu.trivial.model.UserGameHistory;
@@ -20,6 +25,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.websocket.EncodeException;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +33,15 @@ import java.util.stream.Collectors;
 public class GameServiceImpl extends BaseServiceImpl implements GameService {
     @Autowired
     private QuestionsMapper questionsMapper;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private UserGameHistoryMapper userGameHistoryMapper;
+
+    @Autowired
+    private GameHistoryMapper gameHistoryMapper;
 
     @Autowired
     private UserGameHistoryService userGameHistoryService;
@@ -131,8 +146,9 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
         Game room = WsHandler.getRoom(roomId);
         if(room!=null) {
             try {
+                Date startTime = new Date();
+                room.startGame(startTime);
 
-                room.startGame();
             } catch (EncodeException e) {
                 e.printStackTrace();
             }
@@ -187,12 +203,33 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
         return result;
     }
 
+    /*
+    * 判断游戏是否结束
+    * 若未结束则下一个玩家进行游戏，
+    * 若已结束则结算游戏结果并将结果存入数据库
+    * */
     @Override
     public void nextTurn(int roomId) {
         Game room = WsHandler.getRoom(roomId);
         if(room!=null) {
             try {
-                room.prepareNextDiceAndNextQuestion();
+                if(room.isGameStillInProgress())
+                    room.prepareNextDiceAndNextQuestion();
+                else {
+                    room.endGame();
+                    Date endTime = new Date();
+                    GameHistory gameHistory = new GameHistory(room.getStartTime(),endTime,room.getGameProcess().getWinner().getUser().getUserId());
+                    gameHistoryMapper.insertSelective(gameHistory);
+                    for(Player player:room.getPlayers()){
+                        int score = player.getUser().getScore()+player.getSumOfGoldCoins();
+                        int userId = player.getUser().getUserId();
+                        User user = userMapper.selectByPrimaryKey(player.getUser().getUserId());
+                        user.setScore(score);
+                        userMapper.updateByPrimaryKey(user);
+                        UserGameHistory userGameHistory = new UserGameHistory(gameHistory.getGameId(),userId,player.getSumOfGoldCoins());
+                        userGameHistoryMapper.insertSelective(userGameHistory);
+                    }
+                }
             } catch (EncodeException e) {
                 e.printStackTrace();
             }

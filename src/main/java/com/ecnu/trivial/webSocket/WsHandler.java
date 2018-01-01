@@ -132,10 +132,6 @@ public class WsHandler extends TextWebSocketHandler {
                     receiveMessage = 0;
                 }
         }
-        if (msg.equals("outOfPrison"))
-            gameService.outOfPrison(roomId);
-        if (msg.equals("notOutOfPrison"))
-            gameService.notOutOfPrison(roomId);
     }
 
     /**
