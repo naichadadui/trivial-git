@@ -273,6 +273,7 @@ function stayPrison(json) {
         }
         $("#horse" + (i + 1)).show();
     }
+    setTimeout(function () { }, 5000);
     clickDiceFun(json);
     nextTurn();
 
@@ -308,6 +309,7 @@ function goOutPrison() {
         }
         $("#horse" + (i + 1)).show();
     }
+    setTimeout(function () { }, 5000);
     clickDiceFun(json);
     nextTurn();
 }
@@ -319,6 +321,7 @@ function answerQuestion(json) {
     clickDiceFun(json);
 
     clearCounter();
+    setTimeout(function () { }, 5000);
     console.log("载入60s倒计时");
     $("#counter_nums").append("<span class=\"in\">60</span>");
     for (var i = 59; i >= 0; i--) {
@@ -327,6 +330,7 @@ function answerQuestion(json) {
     var nums = document.querySelectorAll('.nums span');
     var counter = document.querySelector('.counter');
     runAnimation(json,nums,counter);
+
 
     for (var i = 0; i < playerList.length; i++) {
         if (playerList[i].inPenaltyBox) {
@@ -391,6 +395,7 @@ function answerQuestion(json) {
 }
 
 function checkAnswer(json) {
+    clearCounter();
     var playerList = json.players;
     $("#questionCircle").hide();
     for (var i = 0; i < playerList.length; i++) {
@@ -405,6 +410,15 @@ function checkAnswer(json) {
             }
             else {
                 $("#gameState" + (i + 1)).html("等待");
+            }
+        }
+
+        if(userID==playerList[json.currentPlayerId].user.userId){
+            if(json.right) {
+                alert(json.currentPlayerId + "号玩家回答正确");
+            }
+            else{
+                alert(json.currentPlayerId + "号玩家回答错误进入监狱");
             }
         }
 
@@ -469,7 +483,7 @@ function movePerson(id, index) {
 
 function moveCircle(index) {
     $("#demo-stacked-buttons").css("left", japanMap_left[index] + 10);
-    $("#demo-stacked-buttons").css("top", japanMap_top[index] - 35);
+    $("#demo-stacked-buttons").css("top", japanMap_top[index] - 45);
 }
 
 function clearCounter() {
@@ -477,9 +491,9 @@ function clearCounter() {
 }
 
 function runAnimation(json,nums,counter) {
-    console.log("进入倒计时runAnimation"+nums.length+"++++");
+
     nums.forEach(function (num, idx) {
-        console.log("进入forEach");
+
         var penultimate = nums.length - 1;
         num.addEventListener('animationend', function (e) {
             if (e.animationName === 'goIn' && idx !== penultimate) {
