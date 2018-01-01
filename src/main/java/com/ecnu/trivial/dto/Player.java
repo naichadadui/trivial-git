@@ -3,11 +3,13 @@ package com.ecnu.trivial.dto;
 import com.ecnu.trivial.model.User;
 import com.ecnu.trivial.vo.UserVo;
 
+import java.util.Random;
+
 /**
  * Created by benwu on 14-5-28.
  */
 public class Player {
-    public static final int MAX_NUMBER_OF_PLACE = 20;//地图总格数（这里还要修改）
+    public static final int MAX_NUMBER_OF_PLACE = 16;//地图最大下标格数
     public static final int CATEGORY_POP_1 = 0;
     public static final int CATEGORY_POP_2 = 4;
     public static final int CATEGORY_POP_3 = 8;
@@ -66,10 +68,13 @@ public class Player {
     }
 
     public void getOutOfPenaltyBox() {
+        Random rand = new Random();
+        this.place = rand.nextInt(15);
         this.isInPenaltyBox = false;
     }
 
     public void sentToPenaltyBox() {
+        this.place = MAX_NUMBER_OF_PLACE;
         this.isInPenaltyBox = true;
     }
 

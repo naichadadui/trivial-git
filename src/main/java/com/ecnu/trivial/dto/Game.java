@@ -249,19 +249,19 @@ public class Game {
         }
 
         //如果玩家在禁闭室内，判断骰子点数是否能让玩家出禁闭室
-        //如果能出，则actionType:goOutPrison 修改玩家isInPenaltyBox属性
-        //如果不能，则actionType:stayPrison
-        //发送玩家当前位置和骰子点数给该房间全部玩家(这里的位置是抛骰子之后位置，要根据骰子点数以及是否在禁闭室内判断)
+        //如果能出，则actionType:goOutPrison 修改玩家isInPenaltyBox属性,将玩家随机放置在地图某一点
+        //如果不能，则actionType:stayPrison 修改玩家isInPenaltyBox属性,将玩家放置在地图监狱点
+        //发送玩家当前位置和骰子点数给该房间全部玩家
         boolean isRollingNumberForGettingOutOfPenaltyBox = (this.rollNumber%2==1);
         if (isRollingNumberForGettingOutOfPenaltyBox) {
-            players.get(currentPlayerId).getOutOfPenaltyBox();
+            getOutOfPenaltyBox();
             logger.info(players.get(currentPlayerId) + " is getting out of the penalty box");
             this.actionType = "goOutPrison";
             gameProcess.setActionType(actionType);
             sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
         }
         else {
-            players.get(currentPlayerId).sentToPenaltyBox();
+            sentIntoPenaltyBox();
             logger.info(players.get(currentPlayerId) + " is not getting out of the penalty box");
             this.actionType = "stayPrison";
             gameProcess.setActionType(actionType);
@@ -305,7 +305,7 @@ public class Game {
         logger.info(players.get(currentPlayerId)
                 + "'s new location is "
                 + players.get(currentPlayerId).getPlace());
-        logger.info("The category is " + players.get(currentPlayerId).getCurrentCategory());
+        //logger.info("The category is " + players.get(currentPlayerId).getCurrentCategory());
         //answerQuestion();
     }
 
@@ -382,7 +382,8 @@ public class Game {
         logger.info(players.get(currentPlayerId) + " was sent to the penalty box");
         this.isRight = false;
         gameProcess.setRight(isRight);
-        players.get(currentPlayerId).sentToPenaltyBox();
+        sentIntoPenaltyBox();
+        logger.info(players.get(currentPlayerId).getPlayerName() + "'s new location is"+players.get(currentPlayerId).getPlace());
 //        JSONObject jsonObject = new JSONObject();
 //        jsonObject.put("actionType","question");
 //        jsonObject.put("result","您答错了！被送进了监狱！");
