@@ -344,7 +344,7 @@ public class Game {
 
         logger.info(players.get(currentPlayerId)
                 + " now has "
-                + players.get(currentPlayerId).countGoldCoins()
+                + players.get(currentPlayerId).getSumOfGoldCoins()
                 + " Gold Coins.");
 //        JSONObject jsonObject = new JSONObject();
 //        jsonObject.put("actionType","checkAnswer");

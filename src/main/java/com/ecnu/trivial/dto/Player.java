@@ -28,7 +28,6 @@ public class Player {
     private boolean isInPenaltyBox = false;//玩家是否在禁闭室内
     private boolean isReady = false;// 玩家是否同意游戏开始
     private UserVo user; //绑定Player和User
-    private int nextPlace = 0;
 
     public Player(String playerName,UserVo user) {
         this.playerName = playerName;
@@ -106,12 +105,16 @@ public class Player {
         this.user = user;
     }
 
-    public int getNextPlace() {
-        return nextPlace;
+    public int getSumOfGoldCoins() {
+        return sumOfGoldCoins;
     }
 
-    public void setNextPlace(int nextPlace) {
-        this.nextPlace = nextPlace;
+    public void setSumOfGoldCoins(int sumOfGoldCoins) {
+        this.sumOfGoldCoins = sumOfGoldCoins;
+    }
+
+    public void setInPenaltyBox(boolean inPenaltyBox) {
+        isInPenaltyBox = inPenaltyBox;
     }
 
     @Override
