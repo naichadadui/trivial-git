@@ -35,6 +35,7 @@ public class Game {
     private WsHandler gameSocket = null;
     private String actionType;
     private int rollNumber;
+    private boolean isRight;
 
     public Game(int roomId) {
         this.roomId = roomId;
@@ -147,10 +148,12 @@ public class Game {
     * 游戏开始
     * 设置游戏状态为1
     * 当前玩家编号为0
+    * 预先设置玩家抛的骰子点数以及要回答的问题
     * 并且同步设置gameProcess相应属性
+    * 向所有玩家发送信息actionType:"startGame"
     * */
     public void startGame() throws EncodeException {
-        this.actionType = "room to game";
+        this.actionType = "startGame";
         this.status = 1;
         this.currentPlayerId = 0;
 
@@ -176,9 +179,13 @@ public class Game {
     * */
     public void prepareNextDiceAndNextQuestion() throws EncodeException {
         currentPlayerMovesToNewPlace();
+        if(!isGameStillInProgress()) {
+            endGame();
+            return;
+        }
         nextPlayer();
         this.rollNumber = dice();
-        this.actionType = "game";
+        this.actionType = "startGame";
         gameProcess.setRollNumber(rollNumber);
         gameProcess.setPlayers(players);
 
@@ -210,6 +217,39 @@ public class Game {
 
     public void sentIntoPenaltyBox(){
         players.get(currentPlayerId).sentToPenaltyBox();
+    }
+
+    public void roll() throws EncodeException {
+        logger.info(players.get(currentPlayerId) + " is the current player");
+        logger.info("They have rolled a " + this.rollNumber);
+
+        //如果玩家不在禁闭室内，则发送问题玩家位置以及骰子点数等信息给房间内所有玩家
+        if (!players.get(currentPlayerId).isInPenaltyBox()) {
+            this.actionType = "sendQuestion";
+            gameProcess.setActionType(actionType);
+            sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
+            return;
+        }
+
+        //如果玩家在禁闭室内，判断骰子点数是否能让玩家出禁闭室
+        //如果能出，则actionType:goOutPrison 修改玩家isInPenaltyBox属性
+        //如果不能，则actionType:stayPrison
+        //发送玩家位置和骰子点数给该房间全部玩家(这里的位置还是原来的位置，要根据骰子点数以及是否在禁闭室内判断)
+        boolean isRollingNumberForGettingOutOfPenaltyBox = (this.rollNumber%2==1);
+        if (isRollingNumberForGettingOutOfPenaltyBox) {
+            players.get(currentPlayerId).getOutOfPenaltyBox();
+            logger.info(players.get(currentPlayerId) + " is getting out of the penalty box");
+            this.actionType = "goOutPrison";
+            gameProcess.setActionType(actionType);
+            sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
+        }
+        else {
+            players.get(currentPlayerId).sentToPenaltyBox();
+            logger.info(players.get(currentPlayerId) + " is not getting out of the penalty box");
+            this.actionType = "stayPrison";
+            gameProcess.setActionType(actionType);
+            sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
+        }
     }
 
     /*
@@ -255,7 +295,9 @@ public class Game {
     /*
     * 判断玩家回答是否正确
     * */
-    public boolean answerQuestion(String answer,String right) {
+    public boolean answerQuestion(String answer,String right) throws EncodeException {
+        this.actionType = "checkAnswer";
+        gameProcess.setActionType(actionType);
         return answer.equals(right);
     }
 
@@ -271,6 +313,8 @@ public class Game {
 //            boolean theGameIsStillInProgress = true;
 //            return theGameIsStillInProgress;
 //        }
+        this.isRight = true;
+        gameProcess.setRight(isRight);
         return currentPlayerGetsAGoldCoinAndSelectNextPlayer();
     }
 
@@ -287,10 +331,12 @@ public class Game {
                 + " now has "
                 + players.get(currentPlayerId).countGoldCoins()
                 + " Gold Coins.");
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("actionType","question");
-        jsonObject.put("result","您答对了！获得一枚金币！");
-        sendJSONMessageToUser(jsonObject);
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("actionType","checkAnswer");
+//        jsonObject.put("result","您答对了！获得一枚金币！");
+//        sendJSONMessageToUser(jsonObject);
+        System.out.println(JSONObject.fromObject(gameProcess).toString());
+        sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
         boolean isGameStillInProgress = isGameStillInProgress();
         //nextPlayer();
 
@@ -315,14 +361,16 @@ public class Game {
     public boolean answeredWrong() throws EncodeException {
         logger.info("Question was incorrectly answered");
         logger.info(players.get(currentPlayerId) + " was sent to the penalty box");
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("actionType","question");
-        jsonObject.put("result","您答错了！被送进了监狱！");
-        sendJSONMessageToUser(jsonObject);
+        this.isRight = false;
+        gameProcess.setRight(isRight);
         players.get(currentPlayerId).sentToPenaltyBox();
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("actionType","question");
+//        jsonObject.put("result","您答错了！被送进了监狱！");
+//        sendJSONMessageToUser(jsonObject);
+        sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
         //nextPlayer();
-        boolean theGameIsStillInProgress = true;
-        return theGameIsStillInProgress;
+        return true;
     }
 
     /*
@@ -340,6 +388,8 @@ public class Game {
         logger.info("游戏结束，结算各玩家所得的金币数");
         status = 0;
         gameProcess.setStatus(status);
+        actionType = "gameOver";
+        gameProcess.setActionType(actionType);
         Player winner = null;
         for (Player player : players) {
             logger.info(player.toString() + " : " + player.countGoldCoins() + "枚金币");

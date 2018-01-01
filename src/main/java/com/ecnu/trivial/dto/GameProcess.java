@@ -15,6 +15,7 @@ public class GameProcess {
     private int dice;
     private Player winner;
     private int rollNumber;
+    private boolean isRight;
 
     public GameProcess(Game game){
         this.actionType = "room";
@@ -94,5 +95,13 @@ public class GameProcess {
 
     public void setRollNumber(int rollNumber) {
         this.rollNumber = rollNumber;
+    }
+
+    public boolean isRight() {
+        return isRight;
+    }
+
+    public void setRight(boolean right) {
+        isRight = right;
     }
 }

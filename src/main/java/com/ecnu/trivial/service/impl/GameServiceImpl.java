@@ -127,8 +127,23 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
     }
 
     /*
+    * 如果当前玩家点击骰子或者投骰子时间超时，则调用roll()函数
+    * */
+    @Override
+    public void roll(int roomId){
+        Game room = WsHandler.getRoom(roomId);
+        if(room!=null) {
+            try {
+                room.roll();
+            } catch (EncodeException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /*
     * 当前轮到的玩家点击回答问题
-    * 判断玩家的回答是否正确,游戏是否结束  0:正确 1：错误 -1：游戏结束
+    * 判断玩家的回答是否正确,游戏是否结束  0:正确 1：错误 (-1：游戏结束)
     * webSocket服务器给客户端发送游戏进程信息以更新前端显示
     * */
     @Override
@@ -140,9 +155,8 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
         if(room!=null) {
             int questionId = room.getGameProcess().getCurrentQuestion().getQuestionId();
             String trueAnswer = questionsMapper.selectTrueAnswerByQuestionId(questionId);
-            isCorrect = room.answerQuestion(answer, trueAnswer);
-            result = 0;
             try {
+                isCorrect = room.answerQuestion(answer, trueAnswer);
                 if (isCorrect) {
                     isGameEnd = room.answeredCorrect();
                     result = 0;
@@ -152,12 +166,24 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
                 }
                 if (isGameEnd)
                     result = -1;
-                room.prepareNextDiceAndNextQuestion();
+                //room.prepareNextDiceAndNextQuestion();
             } catch (EncodeException e) {
                 e.printStackTrace();
             }
         }
         return result;
+    }
+
+    @Override
+    public void nextTurn(int roomId) {
+        Game room = WsHandler.getRoom(roomId);
+        if(room!=null) {
+            try {
+                room.prepareNextDiceAndNextQuestion();
+            } catch (EncodeException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /*

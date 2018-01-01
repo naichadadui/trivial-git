@@ -94,7 +94,7 @@ public class WsHandler extends TextWebSocketHandler {
 
 
     /**
-     * 给特定用户发送消息
+     * 接受用户发送的消息
      */
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception
@@ -107,10 +107,14 @@ public class WsHandler extends TextWebSocketHandler {
             gameService.ready(userId,roomId);
         if(msg.equals("start"))
             gameService.start(roomId);
-        if(msg.contains("answerQuestion")) {
+        if(msg.equals("clickDice"))
+            gameService.roll(roomId);
+        if(msg.contains("answer")) {
             String answer = msg.split(":")[1];
             gameService.answerQuestions(roomId,answer);
         }
+        if(msg.equals("nextTurn"))
+            gameService.nextTurn(roomId);
         if(msg.equals("outOfPrison"))
             gameService.outOfPrison(roomId);
         if(msg.equals("notOutOfPrison"))
