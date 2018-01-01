@@ -82,6 +82,5 @@ public interface QuestionsMapper {
             "from questions ",
             "where question_id = #{questionId}"
     })
-    @ResultMap("BaseResultMap")
     String selectTrueAnswerByQuestionId(int questionId);
 }

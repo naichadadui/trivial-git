@@ -193,7 +193,6 @@ public class Game {
     * 预先计算下一个玩家的骰子点数以及要回答的问题
     * */
     public void prepareNextDiceAndNextQuestion() throws EncodeException {
-        currentPlayerMovesToNewPlace();
         if(!isGameStillInProgress()) {
             endGame();
             return;
@@ -239,9 +238,11 @@ public class Game {
         logger.info("They have rolled a " + this.rollNumber);
 
         //如果玩家不在禁闭室内，则发送问题玩家位置以及骰子点数等信息给房间内所有玩家
+        //(这里的位置是抛骰子之后位置，要根据骰子点数以及是否在禁闭室内判断)
         if (!players.get(currentPlayerId).isInPenaltyBox()) {
             this.actionType = "sendQuestion";
             gameProcess.setActionType(actionType);
+            currentPlayerMovesToNewPlace();
             System.out.println(JSONObject.fromObject(gameProcess).toString());
             sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
             return;
@@ -250,7 +251,7 @@ public class Game {
         //如果玩家在禁闭室内，判断骰子点数是否能让玩家出禁闭室
         //如果能出，则actionType:goOutPrison 修改玩家isInPenaltyBox属性
         //如果不能，则actionType:stayPrison
-        //发送玩家位置和骰子点数给该房间全部玩家(这里的位置还是原来的位置，要根据骰子点数以及是否在禁闭室内判断)
+        //发送玩家当前位置和骰子点数给该房间全部玩家(这里的位置是抛骰子之后位置，要根据骰子点数以及是否在禁闭室内判断)
         boolean isRollingNumberForGettingOutOfPenaltyBox = (this.rollNumber%2==1);
         if (isRollingNumberForGettingOutOfPenaltyBox) {
             players.get(currentPlayerId).getOutOfPenaltyBox();
@@ -366,7 +367,9 @@ public class Game {
     * */
     private void nextPlayer() {
         currentPlayerId++;
-        if (currentPlayerId == players.size()) currentPlayerId = 0;
+        if (currentPlayerId == players.size())
+            currentPlayerId = 0;
+        gameProcess.setCurrentPlayerId(currentPlayerId);
     }
 
     /*

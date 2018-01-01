@@ -100,7 +100,7 @@ public class WsHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception
     {
-        System.out.println(message.getPayload());
+        System.out.println("uri:"+session.getUri()+"    message:"+message.getPayload());
         String msg = message.getPayload();
         if (msg.equals("enter"))
             gameService.enterRoom(userId, roomId);
