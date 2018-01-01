@@ -313,8 +313,6 @@ public class Game {
     * 判断玩家回答是否正确
     * */
     public boolean answerQuestion(String answer,String right) throws EncodeException {
-        this.actionType = "checkAnswer";
-        gameProcess.setActionType(actionType);
         return answer.equals(right);
     }
 
@@ -330,8 +328,6 @@ public class Game {
 //            boolean theGameIsStillInProgress = true;
 //            return theGameIsStillInProgress;
 //        }
-        this.isRight = true;
-        gameProcess.setRight(isRight);
         return currentPlayerGetsAGoldCoinAndSelectNextPlayer();
     }
 
@@ -341,6 +337,10 @@ public class Game {
     * 返回游戏是否结束
     * */
     private boolean currentPlayerGetsAGoldCoinAndSelectNextPlayer() throws EncodeException {
+        this.actionType = "checkAnswer";
+        gameProcess.setActionType(actionType);
+        this.isRight = true;
+        gameProcess.setRight(isRight);
         logger.info("Answer was correct!!!!");
         players.get(currentPlayerId).winAGoldCoin();
 
@@ -380,14 +380,17 @@ public class Game {
     public boolean answeredWrong() throws EncodeException {
         logger.info("Question was incorrectly answered");
         logger.info(players.get(currentPlayerId) + " was sent to the penalty box");
+        this.actionType = "checkAnswer";
+        gameProcess.setActionType(actionType);
         this.isRight = false;
         gameProcess.setRight(isRight);
         sentIntoPenaltyBox();
-        logger.info(players.get(currentPlayerId).getPlayerName() + "'s new location is"+players.get(currentPlayerId).getPlace());
+        logger.info(players.get(currentPlayerId).getPlayerName() + "'s new location is "+players.get(currentPlayerId).getPlace());
 //        JSONObject jsonObject = new JSONObject();
 //        jsonObject.put("actionType","question");
 //        jsonObject.put("result","您答错了！被送进了监狱！");
 //        sendJSONMessageToUser(jsonObject);
+        System.out.println(JSONObject.fromObject(gameProcess).toString());
         sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
         //nextPlayer();
         return true;
