@@ -1,8 +1,8 @@
 var userID;
 var gamePeriod = 0;
-var turn=0;
-var japanMap_left = new Array(85, 154, 204, 243, 290, 340, 440, 450, 550, 590, 620, 660, 700, 780, 890, 820,130);
-var japanMap_top = new Array(515, 439, 513, 464, 550, 500, 550, 460, 450, 380, 550, 320, 210, 190, 190, 120,315);
+var turn = 0;
+var japanMap_left = new Array(85, 154, 204, 243, 290, 340, 440, 450, 550, 590, 620, 660, 700, 780, 890, 820, 130);
+var japanMap_top = new Array(515, 439, 513, 464, 550, 500, 550, 460, 450, 380, 550, 320, 210, 190, 190, 120, 315);
 
 function makeConnection(userId, roomId) {
     userID = userId;
@@ -30,7 +30,6 @@ function sError(e) {
 function sMessage(msg) {
     //top.location.reload();
     var json = JSON.parse(msg.data);
-    console.log(json.actionType);
 
     if (json.actionType == "room") {
         refreshRoom(json);
@@ -56,10 +55,12 @@ function sMessage(msg) {
 
     }
     if (json.actionType == "sendQuestion") {
+        console.log("执行了" + "sendQuestion");
         gamePeriod = 1;
         answerQuestion(json);
     }
     if (json.actionType == "checkAnswer") {
+        console.log("执行了" + "checkAnswer");
         checkAnswer(json);
     }
     if (json.actionType == "gameOver") {
@@ -121,9 +122,6 @@ function refreshRoom(json) {
     var playerList = json.players;
     var isAllReady = true;
 
-    //console.log("players: "+playerList);
-
-    console.log("This is " + userID);
     for (var i = 0; i < playerList.length; i++) {
         $("#name" + (i + 1)).html(playerList[i].playerName);
         $("#winRate" + (i + 1)).html("胜率" + playerList[i].user.winRate + "%");
@@ -169,9 +167,7 @@ function refreshRoom(json) {
 
 /*进入游戏*/
 function fromRoomToGame() {
-    turn++;
-    console.log("!!!!这是第"+(turn)+"轮游戏");
-    console.log("载入游戏成功");
+    console.log(userID + "fromRoomToGame");
     $("#wholeRoom").hide();
     $("link").remove();
     $("style").remove();
@@ -187,12 +183,12 @@ function fromRoomToGame() {
 
 /*开始一轮新游戏*/
 function startNewGame(json) {
+    console.log(userID + "startNewGame");
     $("#dice_mask").remove();
     var playerList = json.players;
 
     for (var i = 0; i < playerList.length; i++) {
 
-        console.log("载入人物");
         $("#gameName" + (i + 1)).html(playerList[i].playerName);
         $("#score" + (i + 1)).html(playerList[i].sumOfGoldCoins);
         if (i == json.currentPlayerId) {
@@ -207,7 +203,7 @@ function startNewGame(json) {
         }
         $("#card" + (i + 1)).show();
 
-        console.log("载入骰子");
+
         var dice = $("#dice");
         if (json.currentPlayerId == i && userID == playerList[i].user.userId) {
             $("#dice_mask").remove();
@@ -216,8 +212,6 @@ function startNewGame(json) {
             $(".wrap").append("<div id='dice_mask'></div>");
         }
 
-        console.log("载入马");
-
         if (playerList[i].inPenaltyBox) {
             movePerson(i, 16);
         } else {
@@ -227,32 +221,29 @@ function startNewGame(json) {
     }
 
 
-    $("#dice").click(function () {
+    $("#dice").off("click").on("click", function () {
         clearCounter();
         clickDice();
     });
 
 
-    console.log("载入15s倒计时");
     $("#counter_nums").append("<span class=\"in\">15</span>");
     for (var i = 14; i >= 0; i--) {
         $("#counter_nums").append("<span>" + i + "</span>");
     }
     var nums = document.querySelectorAll('.nums span');
     var counter = document.querySelector('.counter');
-    runAnimation(json,nums,counter);
+    runAnimation(json, nums, counter);
 }
 
 /*留在监狱*/
 function stayPrison(json) {
-    console.log("留在监狱");
+    console.log(userID + "stayPrison");
     var playerList = json.players;
 
-    console.log("清空大家的倒计时");
     clearCounter();
 
     for (var i = 0; i < playerList.length; i++) {
-        console.log("显示个人信息");
         $("#gameName" + (i + 1)).html(playerList[i].playerName);
         $("#score" + (i + 1)).html(playerList[i].sumOfGoldCoins);
         if (i == json.currentPlayerId) {
@@ -266,7 +257,6 @@ function stayPrison(json) {
             }
         }
 
-        console.log("载入马");
         if (playerList[i].inPenaltyBox) {
             movePerson(i, 16);
         } else {
@@ -274,21 +264,20 @@ function stayPrison(json) {
         }
         $("#horse" + (i + 1)).show();
     }
-    setTimeout(function () { }, 5000);
+
     clickDiceFun(json);
     nextTurn();
 
 }
 
 function goOutPrison() {
-    console.log("出监狱");
+    console.log(userID + "goOutPrison");
     var playerList = json.players;
 
-    console.log("清空大家的倒计时");
     clearCounter();
 
     for (var i = 0; i < playerList.length; i++) {
-        console.log("显示个人信息");
+
         $("#gameName" + (i + 1)).html(playerList[i].playerName);
         $("#score" + (i + 1)).html(playerList[i].sumOfGoldCoins);
         if (i == json.currentPlayerId) {
@@ -302,7 +291,6 @@ function goOutPrison() {
             }
         }
 
-        console.log("载入马");
         if (playerList[i].inPenaltyBox) {
             movePerson(i, 16);
         } else {
@@ -310,27 +298,23 @@ function goOutPrison() {
         }
         $("#horse" + (i + 1)).show();
     }
-    setTimeout(function () { }, 5000);
     clickDiceFun(json);
     nextTurn();
 }
 
 function answerQuestion(json) {
-
+    console.log(userID + "answerQuestion")
+    clearCounter();
     var playerList = json.players;
-
     clickDiceFun(json);
 
-    clearCounter();
-    setTimeout(function () { }, 5000);
-    console.log("载入60s倒计时");
     $("#counter_nums").append("<span class=\"in\">60</span>");
     for (var i = 59; i >= 0; i--) {
         $("#counter_nums").append("<span>" + i + "</span>");
     }
     var nums = document.querySelectorAll('.nums span');
     var counter = document.querySelector('.counter');
-    runAnimation(json,nums,counter);
+    runAnimation(json, nums, counter);
 
 
     for (var i = 0; i < playerList.length; i++) {
@@ -354,7 +338,7 @@ function answerQuestion(json) {
         console.log("载入问题" + question);
 
         if (userID == json.players[json.currentPlayerId].user.userId) {
-            $('#demo-stacked-buttons ').on('click', function () {
+            $('#demo-stacked-buttons ').off("click").on('click', function () {
                 clearCounter();
                 new $.flavr({
                     buttonDisplay: 'stacked',
@@ -396,11 +380,12 @@ function answerQuestion(json) {
 }
 
 function checkAnswer(json) {
+    console.log(userID + "checkAnswer");
     clearCounter();
     var playerList = json.players;
     $("#questionCircle").hide();
     for (var i = 0; i < playerList.length; i++) {
-        console.log("显示个人信息");
+
         $("#gameName" + (i + 1)).html(playerList[i].playerName);
         $("#score" + (i + 1)).html(playerList[i].sumOfGoldCoins);
         if (i == json.currentPlayerId) {
@@ -414,24 +399,24 @@ function checkAnswer(json) {
             }
         }
 
-        if(userID==playerList[json.currentPlayerId].user.userId){
-            if(json.right) {
+        if (userID == playerList[json.currentPlayerId].user.userId) {
+            if (json.right) {
                 new $.flavr({
-                    content      : json.currentPlayerId + "号玩家回答正确",
-                    closeOverlay : true,
-                    closeEsc     : true
+                    content: "恭喜第" + (i + 1) + "号玩家回答正确",
+                    closeOverlay: true,
+                    closeEsc: true
                 });
+
             }
-            else{
+            else {
                 new $.flavr({
-                    content      : json.currentPlayerId + "号玩家回答错误\n"+"进入监狱",
-                    closeOverlay : true,
-                    closeEsc     : true
+                    content: "第" + (i + 1) + "号玩家回答错误\n进入监狱",
+                    closeOverlay: true,
+                    closeEsc: true
                 });
             }
         }
 
-        console.log("载入马");
         if (playerList[i].inPenaltyBox) {
             movePerson(i, 16);
         } else {
@@ -449,10 +434,11 @@ function checkAnswer(json) {
 
 function timeOver(json) {
     if (gamePeriod == 0) {
-        console.log("超时自动抛");
+        console.log(userID + "超时自动抛");
         clickDice();
     }
     if (gamePeriod == 1) {
+        console.log(userID + "超时自动回答问题");
         sendChoice(json.currentQuestion.options[0]);
     }
 }
@@ -499,7 +485,7 @@ function clearCounter() {
     $("#counter_nums").empty();
 }
 
-function runAnimation(json,nums,counter) {
+function runAnimation(json, nums, counter) {
 
     nums.forEach(function (num, idx) {
 
@@ -513,7 +499,7 @@ function runAnimation(json,nums,counter) {
             } else {
                 counter.classList.add('hide');
                 if (userID == json.players[json.currentPlayerId].user.userId) {
-                   // timeOver(json);
+                    timeOver(json);
                 }
             }
         });
