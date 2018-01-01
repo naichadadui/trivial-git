@@ -2,7 +2,7 @@ var userID;
 var gamePeriod = 0;
 var turn = 0;
 var japanMap_left = new Array(85, 154, 204, 243, 290, 340, 440, 450, 550, 590, 620, 660, 700, 780, 890, 820, 130);
-var japanMap_top = new Array(515, 439, 513, 464, 550, 500, 550, 460, 450, 380, 550, 320, 210, 190, 190, 120, 315);
+var japanMap_top = new Array(515, 439, 513, 464, 550, 500, 550, 460, 550, 450, 380, 320, 210, 190, 190, 120, 315);
 
 function makeConnection(userId, roomId) {
     userID = userId;
@@ -64,7 +64,30 @@ function sMessage(msg) {
         checkAnswer(json);
     }
     if (json.actionType == "gameOver") {
+        console.log("执行了" + "gameOver");
+        for (var i = 0; i < json.players.length; i++) {
+            if (userID == json.players[i].user.userId) {
+                if (userID == json.winner.user.userId) {
+                    var endWord = "恭喜您成为本局赢家";
+                }else
+                {
+                    var endWord="本局赢家为 "+ json.winner.playerName+" 您得分为"+" "+json.players[i].sumOfGoldCoins;
+                }
 
+                new $.flavr({
+                    content: endWord,
+                    buttons: {
+                        quit: {
+                            text: 'quit', style: 'quit',
+                            action: function () {
+                                window.location.href="work";
+                                return false;
+                            }
+                        }
+                    }
+                });
+            }
+        }
     }
 }
 
@@ -106,7 +129,6 @@ function gameReady() {
 
 function clickDice() {
     console.log("send clickDice");
-    gamePeriod = 1;
     doSend("clickDice");
 }
 
@@ -266,11 +288,16 @@ function stayPrison(json) {
     }
 
     clickDiceFun(json);
+    new $.flavr({
+        content: "第" + (json.currentPlayerId + 1) + "号玩家不幸留在了监狱",
+        closeOverlay: true,
+        closeEsc: true
+    });
     nextTurn();
 
 }
 
-function goOutPrison() {
+function goOutPrison(json) {
     console.log(userID + "goOutPrison");
     var playerList = json.players;
 
@@ -299,6 +326,11 @@ function goOutPrison() {
         $("#horse" + (i + 1)).show();
     }
     clickDiceFun(json);
+    new $.flavr({
+        content: "第" + (json.currentPlayerId + 1) + "号玩家终于从监狱里出来了",
+        closeOverlay: true,
+        closeEsc: true
+    });
     nextTurn();
 }
 
@@ -399,10 +431,10 @@ function checkAnswer(json) {
             }
         }
 
-        if (userID == playerList[json.currentPlayerId].user.userId) {
+        if (userID == playerList[i].user.userId) {
             if (json.right) {
                 new $.flavr({
-                    content: "恭喜第" + (i + 1) + "号玩家回答正确",
+                    content: "恭喜第" + ( json.currentPlayerId + 1) + "号玩家回答正确",
                     closeOverlay: true,
                     closeEsc: true
                 });
@@ -410,7 +442,7 @@ function checkAnswer(json) {
             }
             else {
                 new $.flavr({
-                    content: "第" + (i + 1) + "号玩家回答错误\n进入监狱",
+                    content: "第" + (json.currentPlayerId + 1) + "号玩家回答错误\n进入监狱",
                     closeOverlay: true,
                     closeEsc: true
                 });
@@ -497,7 +529,6 @@ function runAnimation(json, nums, counter) {
             } else if (e.animationName === 'goOut' && num.nextElementSibling) {
                 num.nextElementSibling.classList.add('in');
             } else {
-                counter.classList.add('hide');
                 if (userID == json.players[json.currentPlayerId].user.userId) {
                     timeOver(json);
                 }
