@@ -55,13 +55,13 @@ function sMessage(msg) {
 
     }
     if (json.actionType == "sendQuestion") {
-        gamePeriod=1;
+        gamePeriod = 1;
         answerQuestion(json);
     }
     if (json.actionType == "checkAnswer") {
         checkAnswer(json);
     }
-    if(json.actionType=="gameOver"){
+    if (json.actionType == "gameOver") {
 
     }
 }
@@ -90,19 +90,14 @@ function start() {
     doSend("start");
 }
 
-function outOfPrison() {
-    doSend("outOfPrison");
-}
-
-function notOutOfPrison() {
-    doSend("notOutOfPrison");
-}
 
 function sendChoice(choice) {
+    console.log("sendChoice");
     doSend("answer:" + choice);
 }
 
 function nextTurn() {
+    console.log("next turn");
     doSend("nextTurn");
 }
 
@@ -145,19 +140,16 @@ function refreshRoom(json) {
         }
 
         if (i != 0 && !playerList[i].ready && userID == playerList[i].user.userId) {
-            console.log("test2");
             $("#buttonA").html("Ready");
             $("#buttonP").show();
             console.log(i + " button Ready show");
         }
-        console.log("test3");
+
         if (i != 0 && playerList[i].ready && userID == playerList[i].user.userId) {
-            console.log("test4");
             $("#buttonA").html("Ready");
             $("#buttonP").hide();
             console.log(i + " button Ready hide");
         }
-        console.log("test5");
     }
     for (var i = playerList.length; i <= 4; i++) {
         $("#player" + (i + 1)).hide();
@@ -218,16 +210,16 @@ function startNewGame(json) {
 
         console.log("载入骰子");
         var dice = $("#dice");
-        dice.click(function () {
-            clearCounter();
-            clickDice();
-        });
         if (json.currentPlayerId == i && userID == playerList[i].user.userId) {
             $("#dice_mask").remove();
         }
         if (json.currentPlayerId != i && userID == playerList[i].user.userId) {
             $(".wrap").append("<div id='dice_mask'></div>");
         }
+        dice.click(function () {
+            clearCounter();
+            clickDice();
+        });
 
         console.log("载入马");
         if (playerList[i].inPenaltyBox) {
@@ -321,6 +313,7 @@ function answerQuestion(json) {
 
     clickDiceFun(json);
 
+    clearCounter();
     console.log("载入60s倒计时");
     $("#counter_id").append("<span class=\"in\">60</span>");
     for (var i = 59; i >= 0; i--) {
@@ -342,13 +335,13 @@ function answerQuestion(json) {
 
     if (userID == playerList[json.currentPlayerId].user.userId) {
         var question = json.currentQuestion.content;
-        var op1 = json.currentQuestion.option[0];
-        var op2 = json.currentQuestion.option[1];
-        var op3 = json.currentQuestion.option[2];
-        var op4 = json.currentQuestion.option[3];
+        var op1 = json.currentQuestion.options[0];
+        var op2 = json.currentQuestion.options[1];
+        var op3 = json.currentQuestion.options[2];
+        var op4 = json.currentQuestion.options[3];
         console.log("载入问题" + question);
 
-        if (userID == json.players[currentPlayerId].user.userID) {
+        if (userID == json.players[json.currentPlayerId].user.userId) {
             $('#demo-stacked-buttons ').on('click', function () {
                 clearCounter();
                 new $.flavr({
@@ -390,7 +383,7 @@ function answerQuestion(json) {
     }
 }
 
-function checkAnswer(json){
+function checkAnswer(json) {
     var playerList = json.players;
     $("#questionCircle").hide();
     for (var i = 0; i < playerList.length; i++) {
@@ -426,10 +419,11 @@ function checkAnswer(json){
 
 function timeOver(json) {
     if (gamePeriod == 0) {
+        console.log("超时自动抛");
         clickDice();
     }
     if (gamePeriod == 1) {
-        sendChoice(json.currentQuestion.option[0]);
+        sendChoice(json.currentQuestion.options[0]);
     }
 }
 
@@ -481,6 +475,7 @@ const counter = document.querySelector('.counter');
 const finalMessage = document.querySelector('.final');
 
 function runAnimation(json) {
+
     nums.forEach(function (num, idx) {
         var penultimate = nums.length - 1;
         num.addEventListener('animationend', function (e) {
