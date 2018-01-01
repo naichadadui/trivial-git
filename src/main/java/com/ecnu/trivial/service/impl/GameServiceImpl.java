@@ -131,6 +131,7 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
         Game room = WsHandler.getRoom(roomId);
         if(room!=null) {
             try {
+
                 room.startGame();
             } catch (EncodeException e) {
                 e.printStackTrace();

@@ -78,7 +78,7 @@ public class Game {
                 count++;
         }
         if(count==players.size()){
-            System.out.println("All players are ready!");
+            logger.info("All players are ready!");
             return true;
         }
         return false;
@@ -242,6 +242,7 @@ public class Game {
         if (!players.get(currentPlayerId).isInPenaltyBox()) {
             this.actionType = "sendQuestion";
             gameProcess.setActionType(actionType);
+            System.out.println(JSONObject.fromObject(gameProcess).toString());
             sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
             return;
         }

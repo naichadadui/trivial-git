@@ -44,6 +44,7 @@ public class WsHandler extends TextWebSocketHandler {
 
     private int userId;
     private int roomId;
+    private int receiveMessage = 0;
 
     @Autowired
     GameService gameService;
@@ -101,25 +102,39 @@ public class WsHandler extends TextWebSocketHandler {
     {
         System.out.println(message.getPayload());
         String msg = message.getPayload();
-        if(msg.equals("enter"))
-            gameService.enterRoom(userId,roomId);
-        if(msg.equals("ready"))
-            gameService.ready(userId,roomId);
-        if(msg.equals("start"))
+        if (msg.equals("enter"))
+            gameService.enterRoom(userId, roomId);
+        if (msg.equals("ready"))
+            gameService.ready(userId, roomId);
+        if (msg.equals("start"))
             gameService.prepareToGame(roomId);
-        if(msg.equals("gameReady"))
-            gameService.start(roomId);
-        if(msg.equals("clickDice"))
-            gameService.roll(roomId);
-        if(msg.contains("answer")) {
-            String answer = msg.split(":")[1];
-            gameService.answerQuestions(roomId,answer);
+        if (msg.equals("gameReady")) {
+            receiveMessage++;
+            Game room = getRoom(roomId);
+            if(room!=null)
+                if (receiveMessage == room.getPlayers().size()) {
+                    gameService.start(roomId);
+                    receiveMessage = 0;
+                }
         }
-        if(msg.equals("nextTurn"))
-            gameService.nextTurn(roomId);
-        if(msg.equals("outOfPrison"))
+        if (msg.equals("clickDice"))
+            gameService.roll(roomId);
+        if (msg.contains("answer")) {
+            String answer = msg.split(":")[1];
+            gameService.answerQuestions(roomId, answer);
+        }
+        if (msg.equals("nextTurn")) {
+            receiveMessage++;
+            Game room = getRoom(roomId);
+            if(room!=null)
+                if (receiveMessage == room.getPlayers().size()) {
+                    gameService.nextTurn(roomId);
+                    receiveMessage = 0;
+                }
+        }
+        if (msg.equals("outOfPrison"))
             gameService.outOfPrison(roomId);
-        if(msg.equals("notOutOfPrison"))
+        if (msg.equals("notOutOfPrison"))
             gameService.notOutOfPrison(roomId);
     }
 
