@@ -24,12 +24,17 @@
             $("#player2").hide();
             $("#player3").hide();
             $("#player4").hide();
+            $("#buttonP").hide();
+
             $("#horse1").hide();
             $("#horse2").hide();
             $("#horse3").hide();
             $("#horse4").hide();
-            $("#buttonP").hide();
             $("#questionCircle").hide();
+            $("#card1").hide();
+            $("#card2").hide();
+            $("#card3").hide();
+            $("#card4").hide();
         });
         var id = ${Session.userId};
         var roomId =${Session.roomId};
@@ -199,13 +204,13 @@
             </div>
             <div class="card-body">
                 <div class="card-date">
-                    <time id="name1">
+                    <time id="gameName1">
                     </time>
                 </div>
                 <div class="card-title" id="score1">
 
                 </div>
-                <div class="card-exceprt" id="state1">
+                <div class="card-exceprt" id="gameState1">
                 </div>
             </div>
         </div>
@@ -216,13 +221,13 @@
             </div>
             <div class="card-body">
                 <div class="card-date">
-                    <time id="name2">
+                    <time id="gameName2">
                     </time>
                 </div>
                 <div class="card-title" id="score2">
 
                 </div>
-                <div class="card-exceprt" id="state2">
+                <div class="card-exceprt" id="gameState2">
 
                 </div>
             </div>
@@ -234,12 +239,12 @@
             </div>
             <div class="card-body">
                 <div class="card-date">
-                    <time id="name3">
+                    <time id="gameName3">
                     </time>
                 </div>
                 <div class="card-title" id="score3">
                 </div>
-                <div class="card-exceprt" id="state3">
+                <div class="card-exceprt" id="gameState3">
                 </div>
             </div>
         </div>
@@ -250,12 +255,12 @@
             </div>
             <div class="card-body">
                 <div class="card-date">
-                    <time id="name4">
+                    <time id="gameName4">
                     </time>
                 </div>
                 <div class="card-title" id="score4">
                 </div>
-                <div class="card-exceprt" id="state4">
+                <div class="card-exceprt" id="gameState4">
                 </div>
             </div>
         </div>
@@ -275,7 +280,6 @@
     </div>
 </div>
 <script src="/js/roomTitle.js"></script>
-<script type="text/javascript" src="/js/timeO.js"></script>
 <script type="text/javascript" src="/js/questionCommon.js"></script>
 </body>
 </html>
