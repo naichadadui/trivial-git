@@ -1,7 +1,8 @@
 var userID;
 var gamePeriod = 0;
-var japanMap_left = new Array(85, 154, 204, 243, 290, 340, 440, 450, 550, 590, 620, 660, 700, 780, 890, 820);
-var japanMap_top = new Array(515, 439, 513, 464, 550, 500, 550, 460, 450, 380, 550, 320, 210, 190, 190, 120);
+var turn=0;
+var japanMap_left = new Array(85, 154, 204, 243, 290, 340, 440, 450, 550, 590, 620, 660, 700, 780, 890, 820,130);
+var japanMap_top = new Array(515, 439, 513, 464, 550, 500, 550, 460, 450, 380, 550, 320, 210, 190, 190, 120,315);
 
 function makeConnection(userId, roomId) {
     userID = userId;
@@ -96,10 +97,6 @@ function sendChoice(choice) {
     doSend("answer:" + choice);
 }
 
-function nextTurn() {
-    console.log("next turn");
-    doSend("nextTurn");
-}
 
 function gameReady() {
     console.log("send gameReady");
@@ -172,6 +169,8 @@ function refreshRoom(json) {
 
 /*进入游戏*/
 function fromRoomToGame() {
+    turn++;
+    console.log("!!!!这是第"+(turn)+"轮游戏");
     console.log("载入游戏成功");
     $("#wholeRoom").hide();
     $("link").remove();
@@ -188,7 +187,7 @@ function fromRoomToGame() {
 
 /*开始一轮新游戏*/
 function startNewGame(json) {
-
+    $("#dice_mask").remove();
     var playerList = json.players;
 
     for (var i = 0; i < playerList.length; i++) {
@@ -218,6 +217,7 @@ function startNewGame(json) {
         }
 
         console.log("载入马");
+
         if (playerList[i].inPenaltyBox) {
             movePerson(i, 16);
         } else {
@@ -225,6 +225,7 @@ function startNewGame(json) {
         }
         $("#horse" + (i + 1)).show();
     }
+
 
     $("#dice").click(function () {
         clearCounter();
@@ -415,10 +416,18 @@ function checkAnswer(json) {
 
         if(userID==playerList[json.currentPlayerId].user.userId){
             if(json.right) {
-                alert(json.currentPlayerId + "号玩家回答正确");
+                new $.flavr({
+                    content      : json.currentPlayerId + "号玩家回答正确",
+                    closeOverlay : true,
+                    closeEsc     : true
+                });
             }
             else{
-                alert(json.currentPlayerId + "号玩家回答错误进入监狱");
+                new $.flavr({
+                    content      : json.currentPlayerId + "号玩家回答错误\n"+"进入监狱",
+                    closeOverlay : true,
+                    closeEsc     : true
+                });
             }
         }
 
@@ -478,7 +487,7 @@ function clickDiceFun(json) {
 function movePerson(id, index) {
     //  $("#horse" + (id+1)).attr("style", "left:" + japanMap_left[index] + "px ; top:" + japanMap_top[index] + " px");
     $("#horse" + (id + 1)).css("left", japanMap_left[index]);
-    $("horse" + (id + 1)).css("top", japanMap_top[index]);
+    $("#horse" + (id + 1)).css("top", japanMap_top[index]);
 }
 
 function moveCircle(index) {
@@ -504,7 +513,7 @@ function runAnimation(json,nums,counter) {
             } else {
                 counter.classList.add('hide');
                 if (userID == json.players[json.currentPlayerId].user.userId) {
-                    timeOver(json);
+                   // timeOver(json);
                 }
             }
         });
