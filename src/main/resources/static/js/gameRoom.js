@@ -216,10 +216,6 @@ function startNewGame(json) {
         if (json.currentPlayerId != i && userID == playerList[i].user.userId) {
             $(".wrap").append("<div id='dice_mask'></div>");
         }
-        dice.click(function () {
-            clearCounter();
-            clickDice();
-        });
 
         console.log("载入马");
         if (playerList[i].inPenaltyBox) {
@@ -229,12 +225,21 @@ function startNewGame(json) {
         }
         $("#horse" + (i + 1)).show();
     }
+
+    $("#dice").click(function () {
+        clearCounter();
+        clickDice();
+    });
+
+
     console.log("载入15s倒计时");
-    $("#counter_id").append("<span class=\"in\">15</span>");
+    $("#counter_nums").append("<span class=\"in\">15</span>");
     for (var i = 14; i >= 0; i--) {
-        $("#counter_id").append("<span>" + i + "</span>");
+        $("#counter_nums").append("<span>" + i + "</span>");
     }
-    runAnimation(json);
+    var nums = document.querySelectorAll('.nums span');
+    var counter = document.querySelector('.counter');
+    runAnimation(json,nums,counter);
 }
 
 /*留在监狱*/
@@ -315,11 +320,13 @@ function answerQuestion(json) {
 
     clearCounter();
     console.log("载入60s倒计时");
-    $("#counter_id").append("<span class=\"in\">60</span>");
+    $("#counter_nums").append("<span class=\"in\">60</span>");
     for (var i = 59; i >= 0; i--) {
-        $("#counter_id").append("<span>" + i + "</span>");
+        $("#counter_nums").append("<span>" + i + "</span>");
     }
-    runAnimation(json);
+    var nums = document.querySelectorAll('.nums span');
+    var counter = document.querySelector('.counter');
+    runAnimation(json,nums,counter);
 
     for (var i = 0; i < playerList.length; i++) {
         if (playerList[i].inPenaltyBox) {
@@ -462,21 +469,17 @@ function movePerson(id, index) {
 
 function moveCircle(index) {
     $("#demo-stacked-buttons").css("left", japanMap_left[index] + 10);
-    $("#demo-stacked-buttons").css("top", japanMap_top[index] - 50);
+    $("#demo-stacked-buttons").css("top", japanMap_top[index] - 35);
 }
 
 function clearCounter() {
-    $("#counter_id").empty();
+    $("#counter_nums").empty();
 }
 
-/*倒计时*/
-const nums = document.querySelectorAll('.nums span');
-const counter = document.querySelector('.counter');
-const finalMessage = document.querySelector('.final');
-
-function runAnimation(json) {
-
+function runAnimation(json,nums,counter) {
+    console.log("进入倒计时runAnimation"+nums.length+"++++");
     nums.forEach(function (num, idx) {
+        console.log("进入forEach");
         var penultimate = nums.length - 1;
         num.addEventListener('animationend', function (e) {
             if (e.animationName === 'goIn' && idx !== penultimate) {
@@ -486,10 +489,12 @@ function runAnimation(json) {
                 num.nextElementSibling.classList.add('in');
             } else {
                 counter.classList.add('hide');
-                if (userID == json.players[currentPlayerId].user.userId) {
+                if (userID == json.players[json.currentPlayerId].user.userId) {
                     timeOver(json);
                 }
             }
         });
     });
 }
+
+/*倒计时*/

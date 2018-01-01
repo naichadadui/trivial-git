@@ -265,8 +265,8 @@
             </div>
         </div>
     </div>
-    <div id="counter" class="counter">
-        <div id="counter_id" class="nums">
+    <div id="counter_class" class="counter">
+        <div id="counter_nums" class="nums">
         </div>
     </div>
     <div class="final">
