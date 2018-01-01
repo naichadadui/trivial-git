@@ -104,6 +104,22 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
             }
     }
 
+    @Override
+    public void prepareToGame(int roomId){
+        Game room = WsHandler.getRoom(roomId);
+        if(room!=null) {
+            if (room.getPlayers().size() >= 2 && room.isAllPlayerReady()) {
+                List<Questions> totalQuestions = questionsMapper.selectFiftyQuestions();
+                room.initialQuestions(totalQuestions);
+                try {
+                    room.prepareToGame();
+                } catch (EncodeException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     /*
     * 如果该房间玩家人数大于等于2且全部准备
     * 则房主可以选择开始游戏
@@ -114,14 +130,10 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
     public void start(int roomId){
         Game room = WsHandler.getRoom(roomId);
         if(room!=null) {
-            if (room.getPlayers().size() >= 2 && room.isAllPlayerReady()) {
-                List<Questions> totalQuestions = questionsMapper.selectFiftyQuestions();
-                room.initialQuestions(totalQuestions);
-                try {
-                    room.startGame();
-                } catch (EncodeException e) {
-                    e.printStackTrace();
-                }
+            try {
+                room.startGame();
+            } catch (EncodeException e) {
+                e.printStackTrace();
             }
         }
     }

@@ -106,6 +106,8 @@ public class WsHandler extends TextWebSocketHandler {
         if(msg.equals("ready"))
             gameService.ready(userId,roomId);
         if(msg.equals("start"))
+            gameService.prepareToGame(roomId);
+        if(msg.equals("gameReady"))
             gameService.start(roomId);
         if(msg.equals("clickDice"))
             gameService.roll(roomId);

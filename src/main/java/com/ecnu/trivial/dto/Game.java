@@ -144,6 +144,21 @@ public class Game {
 
     }
 
+    public void prepareToGame() throws EncodeException {
+        this.actionType = "room to game";
+        this.status = 1;
+        this.currentPlayerId = 0;
+
+        /*修改gameProcess属性*/
+        gameProcess.setCurrentPlayerId(0);
+        gameProcess.setStatus(status);
+        gameProcess.setActionType(actionType);
+
+        System.out.println(JSONObject.fromObject(gameProcess));
+        sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
+        //gameProcess.setFirstRound(false);
+    }
+
     /*
     * 游戏开始
     * 设置游戏状态为1

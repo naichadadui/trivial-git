@@ -8,6 +8,7 @@ import javax.websocket.EncodeException;
 public interface GameService extends BaseService{
     boolean enterRoom(int userId, int roomId);
     void ready(int userId,int roomId);
+    void prepareToGame(int roomId);
     void start(int roomId);
     void roll(int roomId);
     int answerQuestions(int roomId, String answer) throws EncodeException;
