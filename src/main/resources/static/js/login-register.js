@@ -122,10 +122,10 @@ function registerAjax() {
 
             success: function (data) {
                 if (data) {
-                    if (data.userId === '0') {
+                    if (data.userId == '0') {
                         shakeModal();
                     }
-                    else if (data.userId === '-1') {
+                    else if (data.userId == '-1') {
                         shakeModal();
                     } else {
                         window.location.href = "work";
@@ -191,11 +191,17 @@ function adminLogin() {
 
                     success: function (data) {
                         if (data) {
-                            if (data.adminId === '0') {
-                                shakeModal();
+                            if (data.adminId == '0') {
+                                new $.flavr({
+                                    modal: false,
+                                    content: 'Invalid email/password combination'
+                                });
                             }
-                            else if (data.adminId === '-1') {
-                                shakeModal();
+                            else if (data.adminId == '-1') {
+                                new $.flavr({
+                                    modal: false,
+                                    content: 'Invalid email/password combination'
+                                });
                             } else {
                                 window.location.href = "adminUser";
                             }
