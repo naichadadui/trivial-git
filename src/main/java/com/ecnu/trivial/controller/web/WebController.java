@@ -39,6 +39,11 @@ public class WebController extends BaseController {
     private static final String MODULE_JAPANROOM = "JapanRoom";
     private static final String MODULE_JAPANGAME = "JapanGame";
     private static final String MODULE_ADMINUSER = "adminUser";
+    private static final String MODULE_ADMINLOG = "adminLog";
+    private static final String MODULE_ADMINGAMERECORD = "adminGameRecod";
+    private static final String MODULE_ADMINQUESTION = "adminQuestion";
+
+
 
     @Autowired
     private GameHistoryService gameHistoryService;
@@ -168,6 +173,24 @@ public class WebController extends BaseController {
     public String adminUser(Map<String, Object> model) {
         model.put("module", MODULE_ADMINUSER);
         return MODULE_ADMINUSER;
+    }
+
+    @RequestMapping(value = "/adminLog")
+    public String adminLog(Map<String, Object> model) {
+        model.put("module", MODULE_ADMINLOG);
+        return MODULE_ADMINLOG;
+    }
+
+    @RequestMapping(value = "/adminGameRecord")
+    public String adminGameRecord(Map<String, Object> model) {
+        model.put("module", MODULE_ADMINGAMERECORD);
+        return MODULE_ADMINGAMERECORD;
+    }
+
+    @RequestMapping(value = "/adminQuestion")
+    public String adminQuestion(Map<String, Object> model) {
+        model.put("module", MODULE_ADMINQUESTION);
+        return MODULE_ADMINQUESTION;
     }
 
     private UserVo parse(User user) {

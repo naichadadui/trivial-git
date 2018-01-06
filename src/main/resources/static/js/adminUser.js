@@ -155,16 +155,17 @@ $(function () {
             }
 
             this.selectAll.onclick = function () {
+                beSelectedUser=new Array();
                 for (var i = 0; i < self.tBody_rows.length; i++) {
                     if (this.checked) {
                         addClass(self.tBody_rows[i], 'selected-bgColor');
                         self.select_input[i].checked = true;
 
                         self.select_num = self.tBody_rows.length;
+                        beSelectedUser.push(document.getElementById("id" + (i + 1)).innerHTML);
                     } else {
                         removeClass(self.tBody_rows[i], 'selected-bgColor');
                         self.select_input[i].checked = false;
-
                         self.select_num = 0;
                     }
                 }
@@ -279,4 +280,12 @@ function findOnArray(array, aim) {
             return i;
         }
     }
+}
+
+function searchByNickname(){
+    alert("serach");
+}
+
+function searchByEmail() {
+    alert("email");
 }

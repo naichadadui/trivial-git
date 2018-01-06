@@ -211,6 +211,7 @@
 
             this.$listContainer.find('.page').removeClass('active');
             this.$listContainer.find('.page').filter('[data-page="' + pages.currentPage + '"]').addClass('active');
+            clickPage(pages.currentPage);
 
             this.$listContainer.find('.first')
                 .toggleClass('disabled', pages.currentPage === 1);
@@ -299,3 +300,7 @@
     };
 
 })(jQuery, window, document);
+
+function clickPage(page) {
+    alert("you click" + page);
+}
