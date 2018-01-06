@@ -5,6 +5,7 @@ import com.ecnu.trivial.service.AdminService;
 import com.ecnu.trivial.vo.AdminLogVo;
 import com.ecnu.trivial.vo.UserVo;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -82,8 +83,8 @@ public class AdminController extends BaseController{
         List<AdminLogVo> adminLogVos = adminService.getAdminLogsBySearchKeyByPage(searchId,pageNumber,PAGE_SIZE);
         int maxPageNumber = adminService.getMaxPageNumberBySearchKey(searchId,PAGE_SIZE);
         result.put("maxPageNumber", maxPageNumber);
-        result.put("searchAdminLogs", JSONArray.fromObject(adminLogVos));
-        System.out.println(JSONArray.fromObject(adminLogVos).toString());
+        result.put("searchAdminLogs", adminLogListToJSONArray(adminLogVos));
+        System.out.println(adminLogListToJSONArray(adminLogVos).toString());
         return result;
     }
 
@@ -95,8 +96,33 @@ public class AdminController extends BaseController{
     public Map getAdminLogByPageNumber(@RequestParam("adminId")int adminId,@RequestParam("pageNumber")int pageNumber){
         Map<String,Object> result = new HashMap<>();
         List<AdminLogVo> searchAdminLogs = adminService.getAdminLogsBySearchKeyByPage(adminId,pageNumber,PAGE_SIZE);
-        result.put("searchAdminLogs",searchAdminLogs);
+        result.put("searchAdminLogs",adminLogListToJSONArray(searchAdminLogs));
+        System.out.println(adminLogListToJSONArray(searchAdminLogs).toString());
         return result;
+    }
+
+    private JSONArray adminLogListToJSONArray(List<AdminLogVo> adminLogVos){
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        int i = 1;
+        for(AdminLogVo adminLogVo:adminLogVos){
+            jsonObject.put("id",i);
+            jsonObject.put("name",adminLogVo.getAdminName());
+            switch (adminLogVo.getActionType()){
+                case 0:
+                    jsonObject.put("actionType","删除");
+                    break;
+                case 1:
+                    jsonObject.put("actionType","添加");
+                    break;
+                default:
+                    break;
+            }
+            jsonObject.put("submitTime",adminLogVo.getSubmitTime());
+            jsonArray.add(jsonObject);
+            i++;
+        }
+        return jsonArray;
     }
 
 }

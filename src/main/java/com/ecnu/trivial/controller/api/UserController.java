@@ -3,6 +3,7 @@ package com.ecnu.trivial.controller.api;
 import com.ecnu.trivial.service.UserService;
 import com.ecnu.trivial.vo.UserVo;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,13 +76,13 @@ public class UserController extends APIBaseController{
     * 并且返回总共的页码数maxPageNumber
     * */
     @RequestMapping(value="/searchUserBySearchKey", method = RequestMethod.POST)
-    public Map searchUserBySearchKey(@RequestParam("searchName")String searchName,@RequestParam("searchEmail")String searchEmail,@RequestParam("pageNumber")int pageNumber){
+    public Map searchUserBySearchKey(@RequestParam("searchName")String searchName,@RequestParam("searchEmail")String searchEmail){
         Map<String,Object> result = new HashMap<>();
-        List<UserVo> searchUsers = userService.searchUserBySearchKeyByPage(searchName,searchEmail,pageNumber,PAGE_SIZE);
+        List<UserVo> searchUsers = userService.searchUserBySearchKeyByPage(searchName,searchEmail,1,PAGE_SIZE);
         int maxPageNumber = userService.getMaxPageNumberBySearchKey(searchName,searchEmail,PAGE_SIZE);
-        result.put("searchPageNumber", maxPageNumber);
-        result.put("searchUsers",JSONArray.fromObject(searchUsers));
-        System.out.println(JSONArray.fromObject(searchUsers).toString());
+        result.put("maxPageNumber", maxPageNumber);
+        result.put("searchUsers",userListToJsonArray(searchUsers));
+        System.out.println(userListToJsonArray(searchUsers).toString());
         return result;
     }
 
@@ -93,8 +94,23 @@ public class UserController extends APIBaseController{
     public Map getUsersByPageNumber(@RequestParam("searchName")String searchName,@RequestParam("searchEmail")String searchEmail,@RequestParam("pageNumber")int pageNumber){
         Map<String,Object> result = new HashMap<>();
         List<UserVo> searchUsers = userService.searchUserBySearchKeyByPage(searchName,searchEmail,pageNumber,PAGE_SIZE);
-        result.put("searchUsers", JSONArray.fromObject(searchUsers));
-        System.out.println(JSONArray.fromObject(searchUsers).toString());
+        result.put("searchUsers", userListToJsonArray(searchUsers).toString());
+        System.out.println(userListToJsonArray(searchUsers).toString());
         return result;
+    }
+
+    private JSONArray userListToJsonArray(List<UserVo> userVos){
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        int i = 1;
+        for(UserVo user:userVos){
+            jsonObject.put("id",i);
+            jsonObject.put("name",user.getName());
+            jsonObject.put("email",user.getEmail());
+            jsonObject.put("score",user.getWinRate());
+            jsonArray.add(jsonObject);
+            i++;
+        }
+        return jsonArray;
     }
 }
