@@ -3,6 +3,7 @@ package com.ecnu.trivial.service.impl;
 import com.ecnu.trivial.mapper.GameHistoryMapper;
 import com.ecnu.trivial.model.GameHistory;
 import com.ecnu.trivial.service.GameHistoryService;
+import com.ecnu.trivial.vo.GameHistoryVo;
 import com.ecnu.trivial.vo.UserGameHistoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,16 @@ public class GameHistoryServiceImpl extends BaseServiceImpl implements GameHisto
     @Override
     public GameHistory selectByPrimaryKey(int gameId){
         return gameHistoryMapper.selectByPrimaryKey(gameId);
+    }
+
+    @Override
+    public List<GameHistoryVo> getGameHistoryBySearchKeyByPage(String winnerName, int pageNumber, int pageSize) {
+        return null;
+    }
+
+    @Override
+    public int getMaxPageNumberBySearchKey(String winnerName, int pageSize) {
+        return 0;
     }
 
 }

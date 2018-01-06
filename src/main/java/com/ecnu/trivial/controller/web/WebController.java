@@ -174,7 +174,18 @@ public class WebController extends BaseController {
     public String adminUser(Map<String, Object> model) {
         List<UserVo> getUserListByPage = userService.searchUserBySearchKeyByPage("","",1,PAGE_SIZE);
         int maxPageNumber = userService.getMaxPageNumberBySearchKey("","",PAGE_SIZE);
-        model.put("userList",getUserListByPage);
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        int i = 1;
+        for(UserVo user:getUserListByPage){
+            jsonObject.put("id",i);
+            jsonObject.put("name",user.getName());
+            jsonObject.put("email",user.getEmail());
+            jsonObject.put("score",user.getWinRate());
+            jsonArray.add(jsonObject);
+            i++;
+        }
+        model.put("userList",jsonArray.toString());
         model.put("maxPageNumber",maxPageNumber);
         model.put("module", MODULE_ADMINUSER);
         return MODULE_ADMINUSER;
@@ -182,23 +193,68 @@ public class WebController extends BaseController {
 
     @RequestMapping(value = "/adminLog")
     public String adminLog(Map<String, Object> model) {
-        List<AdminLogVo> adminLogs = adminService.getAdminLogsBySearchKeyByPage(Integer.parseInt(""),Integer.parseInt(""),1,PAGE_SIZE);
-        model.put("adminLogs",adminLogs);
+        List<AdminLogVo> adminLogs = adminService.getAdminLogsBySearchKeyByPage(0,0,1,PAGE_SIZE);
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        int i = 1;
+        for(AdminLogVo adminLogVo:adminLogs){
+            jsonObject.put("id",i);
+            jsonObject.put("name",adminLogVo.getAdminName());
+            switch (adminLogVo.getActionType()){
+                case 0:
+                    jsonObject.put("actionType","删除");
+                    break;
+                case 1:
+                    jsonObject.put("actionType","添加");
+                    break;
+                default:
+                    break;
+            }
+            jsonObject.put("submitTime",adminLogVo.getSubmitTime());
+            jsonArray.add(jsonObject);
+            i++;
+        }
+        model.put("adminLogs",jsonArray.toString());
         model.put("module", MODULE_ADMINLOG);
         return MODULE_ADMINLOG;
     }
 
     @RequestMapping(value = "/adminGameRecord")
     public String adminGameRecord(Map<String, Object> model) {
+        List<GameHistoryVo> gameHistoryVos = gameHistoryService.getGameHistoryBySearchKeyByPage("",1,PAGE_SIZE);
+        int maxPageNumber = gameHistoryService.getMaxPageNumberBySearchKey("",PAGE_SIZE);
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        int i = 1;
+        for(GameHistoryVo gameHistoryVo:gameHistoryVos){
+            jsonObject.put("id",gameHistoryVo.getGameId());
+            jsonObject.put("startTime",gameHistoryVo.getStartTimeStr());
+            jsonObject.put("endTime",gameHistoryVo.getEndTimeStr());
+            jsonObject.put("winner",gameHistoryVo.getWinnerName());
+            jsonArray.add(jsonObject);
+            i++;
+        }
+        model.put("gameHistory",jsonArray.toString());
+        model.put("maxPageNumber",maxPageNumber);
         model.put("module", MODULE_ADMINGAMERECORD);
         return MODULE_ADMINGAMERECORD;
     }
 
     @RequestMapping(value = "/adminQuestion")
     public String adminQuestion(Map<String, Object> model) {
-        List<Questions> questions = questionService.getQuestionsBySearchKeyByPage("","",1,PAGE_SIZE);
-        int maxPageNumber = questionService.getMaxPageNumberBySearchKey("","",PAGE_SIZE);
-        model.put("question",questions);
+        List<Questions> questions = questionService.getQuestionsBySearchKeyByPage("","1",1,PAGE_SIZE);
+        int maxPageNumber = questionService.getMaxPageNumberBySearchKey("","1",PAGE_SIZE);
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        int i = 1;
+        for(Questions question:questions){
+            jsonObject.put("id",question.getQuestionId());
+            jsonObject.put("content",question.getContent());
+            jsonObject.put("trueAns",question.getTrueAns());
+            jsonArray.add(jsonObject);
+            i++;
+        }
+        model.put("question",jsonArray.toString());
         model.put("maxPageNumber",maxPageNumber);
         model.put("module", MODULE_ADMINQUESTION);
         return MODULE_ADMINQUESTION;

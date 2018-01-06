@@ -1,10 +1,13 @@
 package com.ecnu.trivial.service;
 
 import com.ecnu.trivial.model.GameHistory;
+import com.ecnu.trivial.vo.GameHistoryVo;
 
 import java.util.List;
 
 public interface GameHistoryService extends BaseService{
-    public List<GameHistory> getLatestTwoGames();
-    public GameHistory selectByPrimaryKey(int gameId);
+    List<GameHistory> getLatestTwoGames();
+    GameHistory selectByPrimaryKey(int gameId);
+    List<GameHistoryVo> getGameHistoryBySearchKeyByPage(String winnerName, int pageNumber, int pageSize);
+    int getMaxPageNumberBySearchKey(String winnerName,int pageSize);
 }

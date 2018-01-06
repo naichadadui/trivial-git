@@ -89,8 +89,8 @@ public interface QuestionsMapper {
     List<Questions> selectQuestionsBySearchKeyByPage(@Param("searchContent") String content,@Param("searchType") int type, RowBounds rowBounds);
 
     @Select({
-            "select count(distinct user_id) ",
-            "from `user`",
+            "select count(distinct question_id) ",
+            "from questions",
             "where content like CONCAT('%',#{searchContent},'%') and type like CONCAT('%',#{searchType},'%') ",
     })
     int countQuestions(@Param("searchContent") String content,@Param("searchType") int type);
