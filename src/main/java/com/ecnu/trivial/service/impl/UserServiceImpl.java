@@ -64,8 +64,22 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserVo> searchUserBySearchKey(String searchKey){
-        List<User> userList = userMapper.searchUsersBySearchKey(searchKey);
+    public List<UserVo> searchUserByEmail(String email){
+        List<User> userList = userMapper.searchUsersByEmail(email);
+        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
+        return userVos;
+    }
+
+    @Override
+    public List<UserVo> searchUserByName(String name){
+        List<User> userList = userMapper.searchUsersByName(name);
+        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
+        return userVos;
+    }
+
+    @Override
+    public List<UserVo> searchUserByScore(String score){
+        List<User> userList = userMapper.searchUsersByScore(score);
         List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
         return userVos;
     }

@@ -60,7 +60,7 @@ public class AdminController extends BaseController{
                 message = "注册成功";
                 break;
         }
-        result.put("userId", registerResult);
+        result.put("adminId", registerResult);
         result.put("returnMessage", message);
         return result;
     }

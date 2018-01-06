@@ -81,11 +81,29 @@ public interface UserMapper {
     @Select({"<script>",
             "select *",
             "from user",
-            "<if test = \"searchKey != null and searchKey != ''\">where name like CONCAT('%',#{searchKey},'%') or email like CONCAT('%',#{searchKey},'%') or score like CONCAT('%',#{searchKey},'%')</if>",
+            "<if test = \"searchKey != null and searchKey != ''\">where email like CONCAT('%',#{searchKey},'%')</if>",
             "</script>"
     })
     @ResultMap("BaseResultMap")
-    List<User> searchUsersBySearchKey(@Param("searchKey") String searchKey);
+    List<User> searchUsersByEmail(@Param("searchKey") String searchKey);
+
+    @Select({"<script>",
+            "select *",
+            "from user",
+            "<if test = \"searchKey != null and searchKey != ''\">where name like CONCAT('%',#{searchKey},'%')</if>",
+            "</script>"
+    })
+    @ResultMap("BaseResultMap")
+    List<User> searchUsersByName(@Param("searchKey") String searchKey);
+
+    @Select({"<script>",
+            "select *",
+            "from user",
+            "<if test = \"searchKey != null and searchKey != ''\">where score like CONCAT('%',#{searchKey},'%')</if>",
+            "</script>"
+    })
+    @ResultMap("BaseResultMap")
+    List<User> searchUsersByScore(@Param("searchKey") String searchKey);
 
     @Select(value = {
             "select *",
