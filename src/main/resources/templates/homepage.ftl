@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <link href="/css/login-register.css" rel="stylesheet"/>
     <link href="/bootstrap3/css/bootstrap.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 
     <link rel="stylesheet" type="text/css" href="/css/flavr.css"/>
     <link rel="stylesheet" type="text/css" href="/css/questionStyle.css"/>
@@ -168,7 +167,7 @@
 
 </div>
 </div>
-<script src="/jquery/jquery-1.10.2.js" type="text/javascript"></script>
+
 <script src="/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
 <script src="/js/login-register.js" type="text/javascript"></script>
 </body>

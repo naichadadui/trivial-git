@@ -164,17 +164,18 @@ function adminLogin() {
         '   </div>';
 
     new $.flavr({
-        title: 'Administrator Login',
+         title: 'Administrator Login',
         dialog: 'form',
         form: {content: admins, method: 'post'},
         onSubmit: function () {
             var adminEmail = $("#adminEmail").val();
             var adminPsd = $("#adminPassword").val();
             if (adminEmail.length == 0 || adminPsd.length == 0) {
-                var modeless = new $.flavr({
-                    modal: false,
-                    content: 'Invalid email/password combination'
-                });
+                 //var modeless =
+                     new $.flavr({
+                     modal: false,
+                     content: 'Invalid email/password combination'
+                 });
                 /* Closing the dialog */
             }
            else {

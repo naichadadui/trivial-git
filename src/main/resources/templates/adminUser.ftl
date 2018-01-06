@@ -14,7 +14,6 @@
     <link href="/css/allInfoTable.css" rel="stylesheet" type="text/css">
     <link href="/css/table.css" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
     <link href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="/js/adminUser.js" type="text/javascript"></script>
     <link rel="stylesheet" href="/css/adminUser.css" />
@@ -64,20 +63,20 @@
 
 <div id="header">
     <div>
-        <a href="adminUser.html" id="logo"><img src="images/logo.png" alt="LOGO"></a>
+        <a href="adminUser.html" id="logo"><img src="/images/logo.png" alt="LOGO"></a>
         <div id="navigation">
             <ul>
                 <li>
-                    <a href="adminGameRecord.html">gameRecord</a>
+                    <a href="adminGameRecord">gameRecord</a>
                 </li>
                 <li class="selected">
-                    <a href="adminUser.html">User</a>
+                    <a href="adminUser">User</a>
                 </li>
                 <li>
-                    <a href="adminLog.html">Log</a>
+                    <a href="adminLog">Log</a>
                 </li>
                 <li>
-                    <a href="adminQuestion.html">Question</a>
+                    <a href="adminQuestion">Question</a>
                 </li>
             </ul>
         </div>
@@ -127,8 +126,8 @@
 <div class="pageGo">
     <ul id="visible-pages-example"></ul>
 </div>
-<script type="text/javascript" src="js/tether.js"></script>
-<script src="dist/js/select.js"></script>
+<script type="text/javascript" src="/js/tether.js"></script>
+<script src="/dist/js/select.js"></script>
 <script>
     $('select.drop-select').each(function(){
         new Select({
