@@ -83,7 +83,7 @@ public class AdminController extends BaseController{
         List<AdminLogVo> adminLogVos = adminService.getAdminLogsBySearchKeyByPage(searchId,pageNumber,PAGE_SIZE);
         int maxPageNumber = adminService.getMaxPageNumberBySearchKey(searchId,PAGE_SIZE);
         result.put("maxPageNumber", maxPageNumber);
-        result.put("searchAdminLogs", adminLogListToJSONArray(adminLogVos));
+        result.put("searchAdminLogs", adminLogListToJSONArray(adminLogVos).toString());
         System.out.println(adminLogListToJSONArray(adminLogVos).toString());
         return result;
     }
@@ -96,7 +96,7 @@ public class AdminController extends BaseController{
     public Map getAdminLogByPageNumber(@RequestParam("adminId")int adminId,@RequestParam("pageNumber")int pageNumber){
         Map<String,Object> result = new HashMap<>();
         List<AdminLogVo> searchAdminLogs = adminService.getAdminLogsBySearchKeyByPage(adminId,pageNumber,PAGE_SIZE);
-        result.put("searchAdminLogs",adminLogListToJSONArray(searchAdminLogs));
+        result.put("searchAdminLogs",adminLogListToJSONArray(searchAdminLogs).toString());
         System.out.println(adminLogListToJSONArray(searchAdminLogs).toString());
         return result;
     }

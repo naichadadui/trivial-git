@@ -4,6 +4,7 @@ import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.service.QuestionService;
 import com.ecnu.trivial.vo.QuestionsVo;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,8 +34,8 @@ public class QuestionController {
         List<QuestionsVo> searchQuestions = questionService.getQuestionsBySearchKeyByPage(searchContent,searchType,1,PAGE_SIZE);
         int maxPageNumber = questionService.getMaxPageNumberBySearchKey(searchContent,searchType,PAGE_SIZE);
         result.put("maxPageNumber", maxPageNumber);
-        result.put("searchQuestions",JSONArray.fromObject(searchQuestions));
-        System.out.println(JSONArray.fromObject(searchQuestions).toString());
+        result.put("searchQuestions",questionsToJSONArray(searchQuestions).toString());
+        System.out.println(questionsToJSONArray(searchQuestions).toString());
         return result;
     }
 
@@ -46,8 +47,8 @@ public class QuestionController {
     public Map searchUserBySearchKey(@RequestParam("searchContent")String searchContent, @RequestParam("searchType")int searchType, @RequestParam("pageNumber")int pageNumber){
         Map<String,Object> result = new HashMap<>();
         List<QuestionsVo> searchQuestions = questionService.getQuestionsBySearchKeyByPage(searchContent,searchType,pageNumber,PAGE_SIZE);
-        result.put("searchQuestions",JSONArray.fromObject(searchQuestions));
-        System.out.println(JSONArray.fromObject(searchQuestions).toString());
+        result.put("searchQuestions",questionsToJSONArray(searchQuestions).toString());
+        System.out.println(questionsToJSONArray(searchQuestions).toString());
         return result;
     }
 
@@ -67,6 +68,20 @@ public class QuestionController {
         int addResult = questionService.addNewQuestion(question);
         result.put("addResult",addResult);
         return result;
+    }
+
+    private JSONArray questionsToJSONArray(List<QuestionsVo> questions){
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        int i = 1;
+        for(QuestionsVo question:questions){
+            jsonObject.put("id",question.getQuestionId());
+            jsonObject.put("content",question.getContent());
+            jsonObject.put("trueAns",question.getTrueAns());
+            jsonArray.add(jsonObject);
+            i++;
+        }
+        return jsonArray;
     }
 
 }
