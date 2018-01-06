@@ -67,12 +67,34 @@ public class UserController extends APIBaseController{
         return result;
     }
 
-    @RequestMapping(value="/searchUser", method = RequestMethod.POST)
-    public Map searchUser(@RequestParam("searchKey")String searchKey){
+    @RequestMapping(value="/searchUserByName", method = RequestMethod.POST)
+    public Map searchUserByName(@RequestParam("searchName")String searchKey){
         Map<String,Object> result = new HashMap<>();
         int searchResult = 0;
         String message;
-        List<UserVo> searchUsers = userService.searchUserBySearchKey(searchKey);
+        List<UserVo> searchUsers = userService.searchUserByName(searchKey);
+        searchResult = searchUsers.size();
+        switch (searchResult){
+            case 0:
+                message = "未找到符合条件的用户";
+                break;
+            default:
+                /*如果符合条件用户存*/
+                message = "找到了以下用户";
+                break;
+        }
+        result.put("searchResult", searchResult);
+        result.put("searchUsers",searchUsers);
+        result.put("returnMessage", message);
+        return result;
+    }
+
+    @RequestMapping(value="/searchUserByEmail", method = RequestMethod.POST)
+    public Map searchUserByEmail(@RequestParam("searchEmail")String searchKey){
+        Map<String,Object> result = new HashMap<>();
+        int searchResult = 0;
+        String message;
+        List<UserVo> searchUsers = userService.searchUserByEmail(searchKey);
         searchResult = searchUsers.size();
         switch (searchResult){
             case 0:
