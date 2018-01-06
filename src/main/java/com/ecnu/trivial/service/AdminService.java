@@ -8,5 +8,6 @@ import java.util.List;
 public interface AdminService extends BaseService {
     int login(String email,String password);
     int register(String nickname,String email,String password);
-    List<AdminLogVo> getAdminLogsBySearchKeyByPage(int adminId,int actionType,int pageNumber, int pageSize);
+    List<AdminLogVo> getAdminLogsBySearchKeyByPage(int adminId,int pageNumber, int pageSize);
+    int getMaxPageNumberBySearchKey(int adminId,int pageSize);
 }

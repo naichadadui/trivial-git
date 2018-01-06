@@ -3,6 +3,8 @@ package com.ecnu.trivial.controller.api;
 import com.ecnu.trivial.controller.web.BaseController;
 import com.ecnu.trivial.service.AdminService;
 import com.ecnu.trivial.vo.AdminLogVo;
+import com.ecnu.trivial.vo.UserVo;
+import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -69,10 +71,30 @@ public class AdminController extends BaseController{
         return result;
     }
 
-    @RequestMapping(value="/admin/getAdminLogBySearchKeyByPageNumber", method = RequestMethod.POST)
-    public Map getAdminLogByPageNumber(@RequestParam("adminId")int adminId,@RequestParam("actionType")int actionType,@RequestParam("pageNumber")int pageNumber){
+    /*
+    * 当用户输入搜索关键词并搜索时，
+    * 返回第一页的搜索结果searchUsers
+    * 并且返回总共的页码数maxPageNumber
+    * */
+    @RequestMapping(value="/searchAdminLogBySearchKey", method = RequestMethod.POST)
+    public Map searchAdminLogBySearchKey(@RequestParam("searchId")int searchId,@RequestParam("pageNumber")int pageNumber){
         Map<String,Object> result = new HashMap<>();
-        List<AdminLogVo> searchAdminLogs = adminService.getAdminLogsBySearchKeyByPage(adminId,actionType,pageNumber,PAGE_SIZE);
+        List<AdminLogVo> adminLogVos = adminService.getAdminLogsBySearchKeyByPage(searchId,pageNumber,PAGE_SIZE);
+        int maxPageNumber = adminService.getMaxPageNumberBySearchKey(searchId,PAGE_SIZE);
+        result.put("maxPageNumber", maxPageNumber);
+        result.put("searchAdminLogs", JSONArray.fromObject(adminLogVos));
+        System.out.println(JSONArray.fromObject(adminLogVos).toString());
+        return result;
+    }
+
+    /*
+    * 当用户跳转页面时
+    * 返回该页的搜索结果searchAdminLogs
+    * */
+    @RequestMapping(value="/admin/getAdminLogBySearchKeyByPageNumber", method = RequestMethod.POST)
+    public Map getAdminLogByPageNumber(@RequestParam("adminId")int adminId,@RequestParam("pageNumber")int pageNumber){
+        Map<String,Object> result = new HashMap<>();
+        List<AdminLogVo> searchAdminLogs = adminService.getAdminLogsBySearchKeyByPage(adminId,pageNumber,PAGE_SIZE);
         result.put("searchAdminLogs",searchAdminLogs);
         return result;
     }

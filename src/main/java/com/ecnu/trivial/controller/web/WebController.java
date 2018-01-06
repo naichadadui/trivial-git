@@ -5,10 +5,7 @@ import com.ecnu.trivial.dto.GameProcess;
 import com.ecnu.trivial.dto.Player;
 import com.ecnu.trivial.model.*;
 import com.ecnu.trivial.service.*;
-import com.ecnu.trivial.vo.AdminLogVo;
-import com.ecnu.trivial.vo.GameHistoryVo;
-import com.ecnu.trivial.vo.UserGameHistoryVo;
-import com.ecnu.trivial.vo.UserVo;
+import com.ecnu.trivial.vo.*;
 import com.ecnu.trivial.webSocket.WsHandler;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -186,6 +183,7 @@ public class WebController extends BaseController {
             i++;
         }
         model.put("userList",jsonArray.toString());
+        System.out.println(jsonArray.toString());
         model.put("maxPageNumber",maxPageNumber);
         model.put("module", MODULE_ADMINUSER);
         return MODULE_ADMINUSER;
@@ -193,7 +191,7 @@ public class WebController extends BaseController {
 
     @RequestMapping(value = "/adminLog")
     public String adminLog(Map<String, Object> model) {
-        List<AdminLogVo> adminLogs = adminService.getAdminLogsBySearchKeyByPage(0,0,1,PAGE_SIZE);
+        List<AdminLogVo> adminLogs = adminService.getAdminLogsBySearchKeyByPage(0,1,PAGE_SIZE);
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         int i = 1;
@@ -215,6 +213,7 @@ public class WebController extends BaseController {
             i++;
         }
         model.put("adminLogs",jsonArray.toString());
+        System.out.println(jsonArray.toString());
         model.put("module", MODULE_ADMINLOG);
         return MODULE_ADMINLOG;
     }
@@ -235,6 +234,7 @@ public class WebController extends BaseController {
             i++;
         }
         model.put("gameHistory",jsonArray.toString());
+        System.out.println(jsonArray.toString());
         model.put("maxPageNumber",maxPageNumber);
         model.put("module", MODULE_ADMINGAMERECORD);
         return MODULE_ADMINGAMERECORD;
@@ -242,12 +242,12 @@ public class WebController extends BaseController {
 
     @RequestMapping(value = "/adminQuestion")
     public String adminQuestion(Map<String, Object> model) {
-        List<Questions> questions = questionService.getQuestionsBySearchKeyByPage("","1",1,PAGE_SIZE);
-        int maxPageNumber = questionService.getMaxPageNumberBySearchKey("","1",PAGE_SIZE);
+        List<QuestionsVo> questions = questionService.getQuestionsBySearchKeyByPage("",0,1,PAGE_SIZE);
+        int maxPageNumber = questionService.getMaxPageNumberBySearchKey("",0,PAGE_SIZE);
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         int i = 1;
-        for(Questions question:questions){
+        for(QuestionsVo question:questions){
             jsonObject.put("id",question.getQuestionId());
             jsonObject.put("content",question.getContent());
             jsonObject.put("trueAns",question.getTrueAns());
@@ -255,6 +255,7 @@ public class WebController extends BaseController {
             i++;
         }
         model.put("question",jsonArray.toString());
+        System.out.println(jsonArray.toString());
         model.put("maxPageNumber",maxPageNumber);
         model.put("module", MODULE_ADMINQUESTION);
         return MODULE_ADMINQUESTION;

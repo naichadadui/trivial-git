@@ -81,17 +81,21 @@ public interface QuestionsMapper {
     })
     String selectTrueAnswerByQuestionId(int questionId);
 
-    @Select({
+    @Select({"<script>",
             "select * ",
             "from questions ",
-            "where content like CONCAT('%',#{searchContent},'%') and type like CONCAT('%',#{searchType},'%') ",
+            "where content like CONCAT('%',#{searchContent},'%') ",
+            "<if test = \"searchType == 0\">and type=#{searchType}</if>",
+            "</script>"
     })
     List<Questions> selectQuestionsBySearchKeyByPage(@Param("searchContent") String content,@Param("searchType") int type, RowBounds rowBounds);
 
-    @Select({
+    @Select({"<script>",
             "select count(distinct question_id) ",
             "from questions",
-            "where content like CONCAT('%',#{searchContent},'%') and type like CONCAT('%',#{searchType},'%') ",
+            "where content like CONCAT('%',#{searchContent},'%') ",
+            "<if test = \"searchType == 0\">and type=#{searchType}</if>",
+            "</script>"
     })
     int countQuestions(@Param("searchContent") String content,@Param("searchType") int type);
 }

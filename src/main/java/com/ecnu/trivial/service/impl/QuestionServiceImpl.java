@@ -1,13 +1,17 @@
 package com.ecnu.trivial.service.impl;
 
 import com.ecnu.trivial.mapper.QuestionsMapper;
+import com.ecnu.trivial.model.QuestionType;
 import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.service.QuestionService;
+import com.ecnu.trivial.vo.QuestionsVo;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionServiceImpl extends BaseServiceImpl implements QuestionService{
@@ -15,17 +19,16 @@ public class QuestionServiceImpl extends BaseServiceImpl implements QuestionServ
     private QuestionsMapper questionsMapper;
 
     @Override
-    public List<Questions> getQuestionsBySearchKeyByPage(String content, String type, int pageNumber, int pageSize) {
-        int typeInt = Integer.parseInt(type);
-        List<Questions> questions = questionsMapper.selectQuestionsBySearchKeyByPage(content,typeInt,new RowBounds((pageNumber-1)*pageSize,pageSize));
-        return questions;
+    public List<QuestionsVo> getQuestionsBySearchKeyByPage(String content, int type, int pageNumber, int pageSize) {
+        List<Questions> questions = questionsMapper.selectQuestionsBySearchKeyByPage(content,type,new RowBounds((pageNumber-1)*pageSize,pageSize));
+        List<QuestionsVo> questionsVos = questions.stream().map(this::parse).collect(Collectors.toList());
+        return questionsVos;
     }
 
     @Override
-    public int getMaxPageNumberBySearchKey(String content,String type,int pageSize){
+    public int getMaxPageNumberBySearchKey(String content,int type,int pageSize){
         int pageNum = 0;
-        int typeInt = Integer.parseInt(type);
-        int questionCount = questionsMapper.countQuestions(content,typeInt);
+        int questionCount = questionsMapper.countQuestions(content,type);
         pageNum = questionCount/pageSize;
         if(questionCount%pageSize!=0)
             pageNum+=1;
@@ -46,5 +49,12 @@ public class QuestionServiceImpl extends BaseServiceImpl implements QuestionServ
     public int addNewQuestion(Questions questions)
     {
         return questionsMapper.insertSelective(questions);
+    }
+
+    private QuestionsVo parse(Questions questions) {
+        QuestionsVo result = new QuestionsVo();
+        BeanUtils.copyProperties(questions, result);
+        result.setTypeStr(QuestionType.valueOf(questions.getType()).getTypeStr());
+        return result;
     }
 }

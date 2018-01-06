@@ -81,6 +81,7 @@ public class UserController extends APIBaseController{
         int maxPageNumber = userService.getMaxPageNumberBySearchKey(searchName,searchEmail,PAGE_SIZE);
         result.put("searchPageNumber", maxPageNumber);
         result.put("searchUsers",JSONArray.fromObject(searchUsers));
+        System.out.println(JSONArray.fromObject(searchUsers).toString());
         return result;
     }
 
@@ -93,6 +94,7 @@ public class UserController extends APIBaseController{
         Map<String,Object> result = new HashMap<>();
         List<UserVo> searchUsers = userService.searchUserBySearchKeyByPage(searchName,searchEmail,pageNumber,PAGE_SIZE);
         result.put("searchUsers", JSONArray.fromObject(searchUsers));
+        System.out.println(JSONArray.fromObject(searchUsers).toString());
         return result;
     }
 }

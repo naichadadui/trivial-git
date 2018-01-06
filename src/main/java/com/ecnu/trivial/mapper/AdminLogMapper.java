@@ -46,8 +46,8 @@ public interface AdminLogMapper {
     @Select({
             "select * ",
             "from admin_log",
-            "where admin_id like CONCAT('%',#{adminId},'%') and action_type like CONCAT('%',#{actionType},'%') "
+            "where admin_id like CONCAT('%',#{adminId},'%') "
     })
     @ResultMap("BaseResultMap")
-    List<AdminLog> selectAdminLogsByPage(@Param("adminId")int adminId,@Param("actionType")int actionType, RowBounds rowBounds);
+    List<AdminLog> selectAdminLogsByPage(@Param("adminId")int adminId, RowBounds rowBounds);
 }

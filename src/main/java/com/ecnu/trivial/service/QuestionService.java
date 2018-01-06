@@ -1,12 +1,13 @@
 package com.ecnu.trivial.service;
 
 import com.ecnu.trivial.model.Questions;
+import com.ecnu.trivial.vo.QuestionsVo;
 
 import java.util.List;
 
 public interface QuestionService extends BaseService{
-    List<Questions> getQuestionsBySearchKeyByPage(String content, String type, int pageNumber, int pageSize);
-    int getMaxPageNumberBySearchKey(String content,String type,int pageSize);
+    List<QuestionsVo> getQuestionsBySearchKeyByPage(String content, int type, int pageNumber, int pageSize);
+    int getMaxPageNumberBySearchKey(String content,int type,int pageSize);
     int deleteQuestions(int[] questionIdArray);
     int addNewQuestion(Questions questions);
 }

@@ -2,6 +2,8 @@ package com.ecnu.trivial.controller.api;
 
 import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.service.QuestionService;
+import com.ecnu.trivial.vo.QuestionsVo;
+import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,11 +22,32 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
-    @RequestMapping(value="/searchQuestionsBySearchKeyByPage", method = RequestMethod.POST)
-    public Map searchUserBySearchKey(@RequestParam("searchContent")String searchContent, @RequestParam("searchType")String searchType, @RequestParam("pageNumber")int pageNumber){
+    /*
+    * 当用户输入搜索关键词并搜索时，
+    * 返回第一页的搜索结果searchQuestions
+    * 并且返回总共的页码数maxPageNumber
+    * */
+    @RequestMapping(value="/searchQuestionsBySearchKey", method = RequestMethod.POST)
+    public Map searchQuestionsBySearchKey(@RequestParam("searchContent")String searchContent, @RequestParam("searchType")int searchType){
         Map<String,Object> result = new HashMap<>();
-        List<Questions> searchQuestions = questionService.getQuestionsBySearchKeyByPage(searchContent,searchType,pageNumber,PAGE_SIZE);
-        result.put("searchUsers",searchQuestions);
+        List<QuestionsVo> searchQuestions = questionService.getQuestionsBySearchKeyByPage(searchContent,searchType,1,PAGE_SIZE);
+        int maxPageNumber = questionService.getMaxPageNumberBySearchKey(searchContent,searchType,PAGE_SIZE);
+        result.put("maxPageNumber", maxPageNumber);
+        result.put("searchQuestions",JSONArray.fromObject(searchQuestions));
+        System.out.println(JSONArray.fromObject(searchQuestions).toString());
+        return result;
+    }
+
+    /*
+    * 当用户跳转页面时
+    * 返回该页的搜索结果searchQuestions
+    * */
+    @RequestMapping(value="/searchQuestionsBySearchKeyByPage", method = RequestMethod.POST)
+    public Map searchUserBySearchKey(@RequestParam("searchContent")String searchContent, @RequestParam("searchType")int searchType, @RequestParam("pageNumber")int pageNumber){
+        Map<String,Object> result = new HashMap<>();
+        List<QuestionsVo> searchQuestions = questionService.getQuestionsBySearchKeyByPage(searchContent,searchType,pageNumber,PAGE_SIZE);
+        result.put("searchQuestions",JSONArray.fromObject(searchQuestions));
+        System.out.println(JSONArray.fromObject(searchQuestions).toString());
         return result;
     }
 

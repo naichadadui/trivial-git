@@ -68,8 +68,8 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
     }
 
     @Override
-    public List<AdminLogVo> getAdminLogsBySearchKeyByPage(int adminId,int actionType,int pageNumber, int pageSize) {
-        List<AdminLog> adminLogs = adminLogMapper.selectAdminLogsByPage(adminId,actionType,new RowBounds((pageNumber-1)*pageSize,pageSize));
+    public List<AdminLogVo> getAdminLogsBySearchKeyByPage(int adminId,int pageNumber, int pageSize) {
+        List<AdminLog> adminLogs = adminLogMapper.selectAdminLogsByPage(adminId,new RowBounds((pageNumber-1)*pageSize,pageSize));
         List<AdminLogVo> adminLogVos  = adminLogs.stream().map(this::parse).collect(Collectors.toList());
         return adminLogVos;
     }
@@ -84,5 +84,10 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
 
         }
         return adminLogVo;
+    }
+
+    @Override
+    public int getMaxPageNumberBySearchKey(int adminId,int pageSize){
+        return 0;
     }
 }
