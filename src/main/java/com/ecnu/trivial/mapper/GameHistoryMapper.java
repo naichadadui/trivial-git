@@ -1,11 +1,8 @@
 package com.ecnu.trivial.mapper;
 
 import com.ecnu.trivial.model.GameHistory;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -54,4 +51,18 @@ public interface GameHistoryMapper {
     })
     @ResultMap("BaseResultMap")
     List<GameHistory> getLatestTwoGames();
+
+    @Select({
+            "select game_history.* ",
+            "from game_history natural join `user`",
+            "where `user`.`name` like CONCAT('%',#{winnerName},'%') ",
+    })
+    List<GameHistory> selectGameHistoryBySearchKeyByPage(@Param("winnerName") String winnerName, RowBounds rowBounds);
+
+    @Select({
+            "select count(distinct game_id) ",
+            "from game_history natural join `user`",
+            "where `user`.`name` like CONCAT('%',#{winnerName},'%') ",
+    })
+    int countGameHistory(@Param("winnerName") String winnerName);
 }

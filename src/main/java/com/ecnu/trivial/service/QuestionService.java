@@ -8,5 +8,5 @@ public interface QuestionService extends BaseService{
     List<Questions> getQuestionsBySearchKeyByPage(String content, String type, int pageNumber, int pageSize);
     int getMaxPageNumberBySearchKey(String content,String type,int pageSize);
     int deleteQuestions(int[] questionIdArray);
-    int addNewQuestion();
+    int addNewQuestion(Questions questions);
 }

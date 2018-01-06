@@ -2,6 +2,7 @@ package com.ecnu.trivial.controller.api;
 
 import com.ecnu.trivial.service.UserService;
 import com.ecnu.trivial.vo.UserVo;
+import net.sf.json.JSONArray;
 import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,7 +80,7 @@ public class UserController extends APIBaseController{
         List<UserVo> searchUsers = userService.searchUserBySearchKeyByPage(searchName,searchEmail,pageNumber,PAGE_SIZE);
         int maxPageNumber = userService.getMaxPageNumberBySearchKey(searchName,searchEmail,PAGE_SIZE);
         result.put("searchPageNumber", maxPageNumber);
-        result.put("searchUsers",searchUsers);
+        result.put("searchUsers",JSONArray.fromObject(searchUsers));
         return result;
     }
 
@@ -91,7 +92,7 @@ public class UserController extends APIBaseController{
     public Map getUsersByPageNumber(@RequestParam("searchName")String searchName,@RequestParam("searchEmail")String searchEmail,@RequestParam("pageNumber")int pageNumber){
         Map<String,Object> result = new HashMap<>();
         List<UserVo> searchUsers = userService.searchUserBySearchKeyByPage(searchName,searchEmail,pageNumber,PAGE_SIZE);
-        result.put("searchUsers",searchUsers);
+        result.put("searchUsers", JSONArray.fromObject(searchUsers));
         return result;
     }
 }

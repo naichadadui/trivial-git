@@ -43,7 +43,8 @@ public class QuestionServiceImpl extends BaseServiceImpl implements QuestionServ
     }
 
     @Override
-    public int addNewQuestion() {
-        return 0;
+    public int addNewQuestion(Questions questions)
+    {
+        return questionsMapper.insertSelective(questions);
     }
 }

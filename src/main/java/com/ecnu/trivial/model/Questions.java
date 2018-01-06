@@ -18,6 +18,15 @@ public class Questions {
 
     private String falseAns3;
 
+    public Questions(Integer type, String content, String trueAns, String falseAns1, String falseAns2, String falseAns3) {
+        this.type = type;
+        this.content = content;
+        this.trueAns = trueAns;
+        this.falseAns1 = falseAns1;
+        this.falseAns2 = falseAns2;
+        this.falseAns3 = falseAns3;
+    }
+
     public Integer getQuestionId() {
         return questionId;
     }
