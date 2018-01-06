@@ -2,6 +2,7 @@ package com.ecnu.trivial.controller.api;
 
 import com.ecnu.trivial.controller.web.BaseController;
 import com.ecnu.trivial.service.AdminService;
+import com.ecnu.trivial.vo.AdminLogVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,7 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static com.ecnu.trivial.controller.api.APIBaseController.PAGE_SIZE;
 
 @RestController
 @RequestMapping("/api/homepage")
@@ -62,6 +66,14 @@ public class AdminController extends BaseController{
         }
         result.put("adminId", registerResult);
         result.put("returnMessage", message);
+        return result;
+    }
+
+    @RequestMapping(value="/admin/getAdminLogBySearchKeyByPageNumber", method = RequestMethod.POST)
+    public Map getAdminLogByPageNumber(@RequestParam("adminId")int adminId,@RequestParam("actionType")int actionType,@RequestParam("pageNumber")int pageNumber){
+        Map<String,Object> result = new HashMap<>();
+        List<AdminLogVo> searchAdminLogs = adminService.getAdminLogsBySearchKeyByPage(adminId,actionType,pageNumber,PAGE_SIZE);
+        result.put("searchAdminLogs",searchAdminLogs);
         return result;
     }
 

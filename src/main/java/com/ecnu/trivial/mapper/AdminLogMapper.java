@@ -3,6 +3,7 @@ package com.ecnu.trivial.mapper;
 import com.ecnu.trivial.model.Admin;
 import com.ecnu.trivial.model.AdminLog;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -41,4 +42,12 @@ public interface AdminLogMapper {
         "where log_id = #{logId,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(AdminLog record);
+
+    @Select({
+            "select * ",
+            "from admin_log",
+            "where admin_id like CONCAT('%',#{adminId},'%') and action_type like CONCAT('%',#{actionType},'%') "
+    })
+    @ResultMap("BaseResultMap")
+    List<AdminLog> selectAdminLogsByPage(@Param("adminId")int adminId,@Param("actionType")int actionType, RowBounds rowBounds);
 }

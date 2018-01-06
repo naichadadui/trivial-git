@@ -3,13 +3,9 @@ package com.ecnu.trivial.controller.web;
 import com.ecnu.trivial.dto.Game;
 import com.ecnu.trivial.dto.GameProcess;
 import com.ecnu.trivial.dto.Player;
-import com.ecnu.trivial.model.GameHistory;
-import com.ecnu.trivial.model.User;
-import com.ecnu.trivial.model.UserGameHistory;
-import com.ecnu.trivial.service.GameHistoryService;
-import com.ecnu.trivial.service.GameService;
-import com.ecnu.trivial.service.UserGameHistoryService;
-import com.ecnu.trivial.service.UserService;
+import com.ecnu.trivial.model.*;
+import com.ecnu.trivial.service.*;
+import com.ecnu.trivial.vo.AdminLogVo;
 import com.ecnu.trivial.vo.GameHistoryVo;
 import com.ecnu.trivial.vo.UserGameHistoryVo;
 import com.ecnu.trivial.vo.UserVo;
@@ -52,6 +48,12 @@ public class WebController extends BaseController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private QuestionService questionService;
+
+    @Autowired
+    private AdminService adminService;
 
 
     @RequestMapping(value = "/homepage")
@@ -180,6 +182,8 @@ public class WebController extends BaseController {
 
     @RequestMapping(value = "/adminLog")
     public String adminLog(Map<String, Object> model) {
+        List<AdminLogVo> adminLogs = adminService.getAdminLogsBySearchKeyByPage(Integer.parseInt(""),Integer.parseInt(""),1,PAGE_SIZE);
+        model.put("adminLogs",adminLogs);
         model.put("module", MODULE_ADMINLOG);
         return MODULE_ADMINLOG;
     }
@@ -192,6 +196,10 @@ public class WebController extends BaseController {
 
     @RequestMapping(value = "/adminQuestion")
     public String adminQuestion(Map<String, Object> model) {
+        List<Questions> questions = questionService.getQuestionsBySearchKeyByPage("","",1,PAGE_SIZE);
+        int maxPageNumber = questionService.getMaxPageNumberBySearchKey("","",PAGE_SIZE);
+        model.put("question",questions);
+        model.put("maxPageNumber",maxPageNumber);
         model.put("module", MODULE_ADMINQUESTION);
         return MODULE_ADMINQUESTION;
     }

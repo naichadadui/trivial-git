@@ -1,11 +1,8 @@
 package com.ecnu.trivial.mapper;
 
 import com.ecnu.trivial.model.Questions;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -83,4 +80,18 @@ public interface QuestionsMapper {
             "where question_id = #{questionId}"
     })
     String selectTrueAnswerByQuestionId(int questionId);
+
+    @Select({
+            "select * ",
+            "from questions ",
+            "where content like CONCAT('%',#{searchContent},'%') and type like CONCAT('%',#{searchType},'%') ",
+    })
+    List<Questions> selectQuestionsBySearchKeyByPage(@Param("searchContent") String content,@Param("searchType") int type, RowBounds rowBounds);
+
+    @Select({
+            "select count(distinct user_id) ",
+            "from `user`",
+            "where content like CONCAT('%',#{searchContent},'%') and type like CONCAT('%',#{searchType},'%') ",
+    })
+    int countQuestions(@Param("searchContent") String content,@Param("searchType") int type);
 }

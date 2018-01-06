@@ -1,17 +1,27 @@
 package com.ecnu.trivial.service.impl;
 
+import com.ecnu.trivial.mapper.AdminLogMapper;
 import com.ecnu.trivial.mapper.AdminMapper;
 import com.ecnu.trivial.model.Admin;
+import com.ecnu.trivial.model.AdminLog;
 import com.ecnu.trivial.service.AdminService;
+import com.ecnu.trivial.util.ObjectParse;
+import com.ecnu.trivial.vo.AdminLogVo;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
     @Autowired
     private AdminMapper adminMapper;
+
+    @Autowired
+    private AdminLogMapper adminLogMapper;
 
     public int login(String email,String password){
         int loginResult = 0;
@@ -55,5 +65,24 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
                 registerResult = admin.getAdminId();
         }
         return registerResult;
+    }
+
+    @Override
+    public List<AdminLogVo> getAdminLogsBySearchKeyByPage(int adminId,int actionType,int pageNumber, int pageSize) {
+        List<AdminLog> adminLogs = adminLogMapper.selectAdminLogsByPage(adminId,actionType,new RowBounds((pageNumber-1)*pageSize,pageSize));
+        List<AdminLogVo> adminLogVos  = adminLogs.stream().map(this::parse).collect(Collectors.toList());
+        return adminLogVos;
+    }
+
+    private AdminLogVo parse(AdminLog adminLog){
+        AdminLogVo adminLogVo = new AdminLogVo();
+        Admin admin = adminMapper.selectByPrimaryKey(adminLog.getAdminId());
+        try {
+            BeanUtils.copyProperties(adminLogVo, adminLog);
+            adminLogVo.setAdminName(admin.getName());
+        } catch (Exception e) {
+
+        }
+        return adminLogVo;
     }
 }
