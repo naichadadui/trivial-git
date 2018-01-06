@@ -120,7 +120,7 @@ public interface UserMapper {
             "order by score desc"
     })
     @ResultMap("BaseResultMap")
-    List<User> selectUsersBySearchKeyByPage(String name,String email,RowBounds rowBounds);
+    List<User> selectUsersBySearchKeyByPage(@Param("searchName") String name,@Param("searchEmail")String email,RowBounds rowBounds);
 
     @Select({
             "select count(distinct user_id) ",
