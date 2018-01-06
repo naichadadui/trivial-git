@@ -1,6 +1,7 @@
 package com.ecnu.trivial.controller.api;
 
 import com.ecnu.trivial.service.UserService;
+import com.ecnu.trivial.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -8,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -60,6 +63,50 @@ public class UserController extends APIBaseController{
                 break;
         }
         result.put("userId", registerResult);
+        result.put("returnMessage", message);
+        return result;
+    }
+
+    @RequestMapping(value="/searchUser", method = RequestMethod.POST)
+    public Map searchUser(@RequestParam("searchKey")String searchKey){
+        Map<String,Object> result = new HashMap<>();
+        int searchResult = 0;
+        String message;
+        List<UserVo> searchUsers = userService.searchUserBySearchKey(searchKey);
+        searchResult = searchUsers.size();
+        switch (searchResult){
+            case 0:
+                message = "未找到符合条件的用户";
+                break;
+            default:
+                /*如果符合条件用户存*/
+                message = "找到了以下用户";
+                break;
+        }
+        result.put("searchResult", searchResult);
+        result.put("searchUsers",searchUsers);
+        result.put("returnMessage", message);
+        return result;
+    }
+
+    @RequestMapping(value="/selectUserOrderByScore", method = RequestMethod.POST)
+    public Map sortUserByScore(@RequestParam("pageNumber")int pageNumber,@RequestParam("pageSize")int pageSize){
+        Map<String,Object> result = new HashMap<>();
+        int sortResult = 0;
+        String message;
+        List<UserVo> usersVos = userService.getAllUsersOrderByScoreByPage(pageNumber,pageSize);
+        sortResult = usersVos.size();
+        switch (sortResult){
+            case 0:
+                message = "用户不存在";
+                break;
+            default:
+                /*如果符合条件用户存*/
+                message = "按分数排序成功";
+                break;
+        }
+        result.put("sortResult", sortResult);
+        result.put("sortUsers",usersVos);
         result.put("returnMessage", message);
         return result;
     }

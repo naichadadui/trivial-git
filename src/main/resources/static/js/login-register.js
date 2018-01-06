@@ -180,7 +180,7 @@ function adminLogin() {
            else {
                 $.ajax({
                     type: "post",
-                    url: "/api/homepage/register",
+                    url: "/api/homepage/admin/login",
                     timeout: 8000,
                     dataType: "json",
                     data: {

@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public abstract class BaseController {
     private static final String USER_ID="userId";
+    private static final String ADMIN_ID="adminId";
+
     @Autowired
     protected HttpServletRequest request;
 
@@ -18,6 +20,14 @@ public abstract class BaseController {
 
     public int getCurrentUserID(){
         Object o=request.getSession().getAttribute(USER_ID);
+        if(o==null){
+            throw new ResourceNotFoundException();
+        }
+        return Integer.parseInt(o.toString());
+    }
+
+    public int getCurrentAdminID(){
+        Object o=request.getSession().getAttribute(ADMIN_ID);
         if(o==null){
             throw new ResourceNotFoundException();
         }

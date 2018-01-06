@@ -10,7 +10,7 @@
   <sql id="Base_Column_List" >
     game_id, start_time, end_time, winner_id
   </sql>
-  <insert id="insertSelective" parameterType="com.ecnu.trivial.model.GameHistory" >
+  <insert id="insertSelective" parameterType="com.ecnu.trivial.model.GameHistory" useGeneratedKeys="true" keyProperty="gameId">
     insert into game_history
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="gameId != null" >

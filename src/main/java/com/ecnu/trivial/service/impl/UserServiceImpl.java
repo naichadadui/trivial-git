@@ -3,11 +3,15 @@ package com.ecnu.trivial.service.impl;
 import com.ecnu.trivial.mapper.UserMapper;
 import com.ecnu.trivial.model.User;
 import com.ecnu.trivial.service.UserService;
+import com.ecnu.trivial.util.ObjectParse;
+import com.ecnu.trivial.vo.UserVo;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl extends BaseServiceImpl implements UserService {
@@ -60,7 +64,29 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsersOrderByScore() {
-        return userMapper.selectAllUsersOrderByScore();
+    public List<UserVo> searchUserBySearchKey(String searchKey){
+        List<User> userList = userMapper.searchUsersBySearchKey(searchKey);
+        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
+        return userVos;
+    }
+
+    @Override
+    public List<UserVo> allUserInfoList(int adminId,int pageNumber,int pageSize){
+        List<User> userList = userMapper.selectAllUsersByPage(new RowBounds(pageNumber*pageSize,pageSize));
+        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
+        return userVos;
+    }
+
+    @Override
+    public List<UserVo> getAllUsersOrderByScoreByPage(int pageNumber,int pageSize){
+        List<User> userList = userMapper.selectAllUsersOrderByScoreByPage(new RowBounds(pageNumber*pageSize,pageSize));
+        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
+        return userVos;
+    }
+
+    @Override
+    public List<User> getAllUsersOrderByScore(){
+        List<User> userList = userMapper.selectAllUsersOrderByScore();
+        return userList;
     }
 }

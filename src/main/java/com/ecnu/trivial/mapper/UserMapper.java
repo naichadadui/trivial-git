@@ -2,6 +2,7 @@ package com.ecnu.trivial.mapper;
 
 import com.ecnu.trivial.model.User;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -60,6 +61,14 @@ public interface UserMapper {
             "order by score desc"
     })
     @ResultMap("BaseResultMap")
+    List<User> selectAllUsersOrderByScoreByPage(RowBounds rowBounds);
+
+    @Select(value = {
+            "select *",
+            "from user",
+            "order by score desc"
+    })
+    @ResultMap("BaseResultMap")
     List<User> selectAllUsersOrderByScore();
 
     @Update({
@@ -68,4 +77,21 @@ public interface UserMapper {
             "where user_id = #{userId}"
     })
     int updateScoreByUserId(int score,int userId);
+
+    @Select({"<script>",
+            "select *",
+            "from user",
+            "<if test = \"searchKey != null and searchKey != ''\">where name like CONCAT('%',#{searchKey},'%') or email like CONCAT('%',#{searchKey},'%') or score like CONCAT('%',#{searchKey},'%')</if>",
+            "</script>"
+    })
+    @ResultMap("BaseResultMap")
+    List<User> searchUsersBySearchKey(@Param("searchKey") String searchKey);
+
+    @Select(value = {
+            "select *",
+            "from user",
+            "order by score desc"
+    })
+    @ResultMap("BaseResultMap")
+    List<User> selectAllUsersByPage(RowBounds rowBounds);
 }

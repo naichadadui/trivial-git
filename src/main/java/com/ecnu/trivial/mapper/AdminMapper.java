@@ -1,11 +1,9 @@
 package com.ecnu.trivial.mapper;
 
 import com.ecnu.trivial.model.Admin;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 public interface AdminMapper {
     @Delete({
@@ -43,4 +41,12 @@ public interface AdminMapper {
         "where admin_id = #{adminId,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Admin record);
+
+    @Select(value = {
+            "select *",
+            "from admin",
+            "where email = #{email,jdbcType=VARCHAR}"
+    })
+    @ResultMap("BaseResultMap")
+    List<Admin> selectAdminByEmail(@Param("email")String email);
 }

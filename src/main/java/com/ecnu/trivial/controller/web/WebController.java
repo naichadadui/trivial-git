@@ -38,6 +38,7 @@ public class WebController extends BaseController {
     private static final String MODULE_RANKING = "ranking";
     private static final String MODULE_JAPANROOM = "JapanRoom";
     private static final String MODULE_JAPANGAME = "JapanGame";
+    private static final String MODULE_ADMINUSER = "adminUser";
 
     @Autowired
     private GameHistoryService gameHistoryService;
@@ -161,6 +162,12 @@ public class WebController extends BaseController {
         model.put("initialProcess", initialProcess);
         model.put("module", MODULE_JAPANGAME);
         return MODULE_JAPANGAME;
+    }
+
+    @RequestMapping(value = "/adminUser")
+    public String adminUser(Map<String, Object> model) {
+        model.put("module", MODULE_ADMINUSER);
+        return MODULE_ADMINUSER;
     }
 
     private UserVo parse(User user) {
