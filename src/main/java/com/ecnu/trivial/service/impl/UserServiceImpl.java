@@ -66,6 +66,24 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserVo> searchUserBySearchKeyByPage(String name, String email, int pageNumber, int pageSize) {
+        List<User> userList = userMapper.selectUsersBySearchKeyByPage(name,email,new RowBounds((pageNumber-1)*pageSize,pageSize));
+        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
+        return userVos;
+    }
+
+    @Override
+    public int getMaxPageNumberBySearchKey(String name,String email,int pageSize){
+        int pageNum = 0;
+        int userCount = userMapper.countUsers(name,email);
+        pageNum = userCount/pageSize;
+        if(userCount%pageSize!=0)
+            pageNum+=1;
+        return pageNum;
+    }
+
+
+    @Override
     public List<UserVo> searchUserByEmail(String email){
         List<User> userList = userMapper.searchUsersByEmail(email);
         List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
@@ -87,27 +105,10 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserVo> searchUserBySearchKeyByPage(String name, String email, int pageNumber, int pageSize) {
-        List<User> userList = userMapper.selectUsersBySearchKeyByPage(name,email,new RowBounds((pageNumber-1)*pageSize,pageSize));
-        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
-        return userVos;
-    }
-
-    @Override
     public List<UserVo> getUserListByPage(int adminId,int pageNumber,int pageSize){
         List<User> userList = userMapper.selectAllUsersByPage(new RowBounds((pageNumber-1)*pageSize,pageSize));
         List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
         return userVos;
-    }
-
-    @Override
-    public int getMaxPageNumberBySearchKey(String name,String email,int pageSize){
-        int pageNum = 0;
-        int userCount = userMapper.countUsers(name,email);
-        pageNum = userCount/PAGE_SIZE;
-        if(userCount%pageSize!=0)
-            pageNum+=1;
-        return pageNum;
     }
 
     @Override

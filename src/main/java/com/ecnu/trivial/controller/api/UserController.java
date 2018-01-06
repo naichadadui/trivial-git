@@ -82,4 +82,16 @@ public class UserController extends APIBaseController{
         result.put("searchUsers",searchUsers);
         return result;
     }
+
+    /*
+    * 当用户跳转页面时
+    * 返回该页的搜索结果searchUsers
+    * */
+    @RequestMapping(value="/getUsersBySearchKeyByPageNumber", method = RequestMethod.POST)
+    public Map getUsersByPageNumber(@RequestParam("searchName")String searchName,@RequestParam("searchEmail")String searchEmail,@RequestParam("pageNumber")int pageNumber){
+        Map<String,Object> result = new HashMap<>();
+        List<UserVo> searchUsers = userService.searchUserBySearchKeyByPage(searchName,searchEmail,pageNumber,PAGE_SIZE);
+        result.put("searchUsers",searchUsers);
+        return result;
+    }
 }
