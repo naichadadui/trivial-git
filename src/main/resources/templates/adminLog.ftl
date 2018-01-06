@@ -80,23 +80,18 @@
     </div>
 </div>
 
-<div class="selectDown">
-<select data-select-like-alignement="never" class="drop-select" id="selection">
-    <option value="">Default</option>
-    <option value="United States">Score</option>
-</select>
-</div>
+
 <div id="searchContainer">
     <div class="search bar7">
         <form>
-            <input type="text" placeholder="按邮箱搜索">
-            <button type="button" onclick="searchByEmail()"></button>
+            <input type="text" placeholder="按AdminId搜索">
+            <button type="button" onclick="searchByAdminId()"></button>
         </form>
     </div>
     <div class="search bar71">
         <form>
-            <input type="text" placeholder="按昵称搜索">
-            <button type="button" onclick="searchByNickname()"></button>
+            <input type="text" placeholder="按操作类型搜索">
+            <button type="button" onclick="searchByActionType()"></button>
         </form>
     </div>
 </div>
@@ -118,7 +113,7 @@
     <ul id="visible-pages-example"></ul>
 </div>
 <script type="text/javascript" src="/js/tether.js"></script>
-<script src="/dist/js/select.js"></script>
+<script src="/dist/js/selectAdminLog.js"></script>
 <script>
     $('select.drop-select').each(function(){
         new Select({

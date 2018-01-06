@@ -92,16 +92,11 @@
 <div id="searchContainer">
     <div class="search bar7">
         <form>
-            <input type="text" placeholder="按邮箱搜索">
-            <button type="button" onclick="searchByEmail()"></button>
+            <input type="text" placeholder="按问题搜索">
+            <button type="button" onclick="searchByContent()"></button>
         </form>
     </div>
-    <div class="search bar71">
-        <form>
-            <input type="text" placeholder="按昵称搜索">
-            <button type="button" onclick="searchByNickname()"></button>
-        </form>
-    </div>
+
 </div>
 <div id="deleteButton">
     <a class="btn btn-medium btn-red btn-radius" onclick="clickDelete()">Delete</a>
@@ -114,6 +109,7 @@
             <label for="selectAll">全选</label>
         </th>
         <th>ID</th>
+        <th>问题类型</th>
         <th>问题文本</th>
         <th>正确答案</th>
     </tr>

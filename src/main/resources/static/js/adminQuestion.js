@@ -2,6 +2,7 @@ var beSelectedQuestion = new Array();
 var table_data = [
     {
         id: '5',
+        questionType:'科学技术',
         content: '世界上最大的哺乳动物',
         rightAnswer: '蓝鲸'
     }
@@ -263,6 +264,6 @@ function findOnArray(array, aim) {
     }
 }
 
-function searchByNickname(){
+function searchByContent(){
     alert("serach");
 }

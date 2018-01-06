@@ -8,13 +8,14 @@
     <link href="/css/pagination.css" rel="stylesheet" type="text/css">
     <script src="/js/jquery-2.0.3.min.js" type="text/javascript"></script>
     <script src="/js/bootstrap.js" type="text/javascript"></script>
+    <script src="/js/adminUser.js" type="text/javascript"></script>
     <script src="/js/jquery.twbsPagination.user.js" type="text/javascript"></script>
 
     <link href="/css/allInfoTable.css" rel="stylesheet" type="text/css">
     <link href="/css/table.css" rel="stylesheet" type="text/css">
 
     <link href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script src="/js/adminUser.js" type="text/javascript"></script>
+
     <link rel="stylesheet" href="/css/adminUser.css" />
     <link rel="stylesheet" href="/dist/css/select-theme-dark.css" />
     <link rel="stylesheet" href="/css/searchUserBar.css" />
@@ -30,9 +31,22 @@
     </style>
 
     <script>
+        table_data=${userList};
+        loadAdminUser();
+
+        var totalPage=0;
+        var maxTotalPageNumber=0;
+        maxTotalPageNumber=${maxPageNumber};
+        if(maxTotalPageNumber<=10){
+            totalPage=maxTotalPageNumber;
+        }else{
+            totalPage=10;
+        }
+
         $(document).ready(function () {
+
             $('#pagination-demo').twbsPagination({
-                totalPages: 35,
+                totalPages: ${maxPageNumber},
                 visiblePages: 7,
                 version: '1.1',
                 onPageClick: function (event, page) {
@@ -47,11 +61,10 @@
             });
 
             $('#visible-pages-example').twbsPagination({
-                totalPages: 35,
-                visiblePages: 10,
+                totalPages: maxTotalPageNumber,
+                visiblePages: totalPage,
                 version: '1.1'
             });
-
 
         });
 
@@ -91,13 +104,13 @@
 <div id="searchContainer">
     <div class="search bar7">
         <form>
-            <input type="text" placeholder="按邮箱搜索">
+            <input type="text" placeholder="按邮箱搜索" id="searchEmail">
             <button type="button" onclick="searchByEmail()"></button>
         </form>
     </div>
     <div class="search bar71">
         <form>
-            <input type="text" placeholder="按昵称搜索">
+            <input type="text" placeholder="按昵称搜索" id="nickName">
             <button type="button" onclick="searchByNickname()"></button>
         </form>
     </div>
@@ -111,7 +124,7 @@
         <th>金币数</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="adminUserTbody">
     </tbody>
 </table>
 <br/>
@@ -119,7 +132,7 @@
     <ul id="visible-pages-example"></ul>
 </div>
 <script type="text/javascript" src="/js/tether.js"></script>
-<script src="/dist/js/select.js"></script>
+<script src="/dist/js/selectAdminUser.js"></script>
 <script>
     $('select.drop-select').each(function(){
         new Select({

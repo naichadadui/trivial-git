@@ -16,7 +16,7 @@ form {
 .bar7 form {
     height: 42px;
     top:630px;
-    left:670px;
+    left:1100px;
 }
 .bar7 input {
     font-weight: 500;
@@ -52,7 +52,7 @@ form {
 .bar71 form {
     height: 42px;
     top:630px;
-    left:330px;
+    left:770px;
 }
 .bar71 input {
     font-weight: 500;
@@ -85,6 +85,44 @@ form {
     font-family: FontAwesome;
     color: #324b4e;
 }
+
+.bar711 form {
+    height: 42px;
+    top:630px;
+    left:330px;
+}
+.bar711 input {
+    font-weight: 500;
+    font-size: large;
+    outline: none;
+    height: 42px; padding-left: 13px;
+    width: 170px;
+    border-radius: 42px;
+    border: 2px solid #324B4E;
+    background: #F9F0DA;
+    transition: .3s linear;
+    float: right;
+}
+.bar711 input:focus {
+    width: 200px;
+}
+.bar711 button {
+    border: none;
+    outline: none;
+    height: 42px;
+    width: 42px;
+    cursor: pointer;
+    position: absolute;
+    background: none;
+    top: -2px;
+    right: 0;
+}
+.bar711 button:before{
+    content: "\f002";
+    font-family: FontAwesome;
+    color: #324b4e;
+}
+
 
 #deleteButton{
     position: absolute;

@@ -261,10 +261,10 @@ function findOnArray(array, aim) {
     }
 }
 
-function searchByNickname(){
+function searchByAdminId(){
     alert("serach");
 }
 
-function searchByEmail() {
+function searchByActionType() {
     alert("email");
 }

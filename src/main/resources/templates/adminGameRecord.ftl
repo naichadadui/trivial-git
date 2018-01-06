@@ -8,14 +8,15 @@
     <link href="/css/pagination.css" rel="stylesheet" type="text/css">
     <script src="/js/jquery-2.0.3.min.js" type="text/javascript"></script>
     <script src="/js/bootstrap.js" type="text/javascript"></script>
+    <script src="/js/adminGameRecord.js" type="text/javascript"></script>
     <script src="/js/jquery.twbsPagination.gameRecord.js" type="text/javascript"></script>
 
     <link href="/css/allInfoTable.css" rel="stylesheet" type="text/css">
     <link href="/css/table.css" rel="stylesheet" type="text/css">
 
     <link href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script src="/js/adminGameRecord.js" type="text/javascript"></script>
     <link rel="stylesheet" href="/css/adminUser.css" />
+    <link rel="stylesheet" href="/dist/css/select-theme-dark.css" />
 
     <link rel="stylesheet" href="/css/searchGameRecordBar.css" />
 
@@ -82,22 +83,22 @@
     </div>
 </div>
 
-<div class="selectDown">
-<select data-select-like-alignement="never" class="drop-select" id="selection">
-    <option value="">Default</option>
-    <option value="United States">Score</option>
-</select>
-</div>
 <div id="searchContainer">
     <div class="search bar7">
         <form>
-            <input type="text" placeholder="按邮箱搜索">
+            <input type="text" placeholder="按赢家搜索">
             <button type="button" onclick="searchByEmail()"></button>
         </form>
     </div>
     <div class="search bar71">
         <form>
-            <input type="text" placeholder="按昵称搜索">
+            <input type="text" placeholder="按结束时间搜索">
+            <button type="button" onclick="searchByNickname()"></button>
+        </form>
+    </div>
+    <div class="search bar711">
+        <form>
+            <input type="text" placeholder="按开始时间搜索">
             <button type="button" onclick="searchByNickname()"></button>
         </form>
     </div>
