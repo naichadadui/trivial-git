@@ -1,0 +1,145 @@
+/*搜索框1*/
+#searchContainer {
+    font-family: "Microsoft YaHei","宋体","Segoe UI", "Lucida Grande", Helvetica, Arial,sans-serif, FreeSans, Arimo;
+    font-weight: 500;
+    margin: 0 auto;
+}
+
+form {
+    position: absolute;
+    width: 250px;
+    height: 50px;
+    margin: 0 auto;
+}
+/*搜索框6*/
+
+.bar7 form {
+    height: 42px;
+    top:630px;
+    left:670px;
+}
+.bar7 input {
+    font-weight: 500;
+    font-size: large;
+    outline: none;
+     height: 42px; padding-left: 13px;
+    width: 200px;
+    border-radius: 42px;
+    border: 2px solid #324B4E;
+    background: #F9F0DA;
+    transition: .3s linear;
+    float: right;
+}
+.bar7 input:focus {
+    width: 230px;
+}
+.bar7 button {
+    border: none;
+    outline: none;
+    height: 42px;
+    width: 42px;
+    cursor: pointer;
+    position: absolute;
+    background: none;
+    top: -2px;
+    right: 0;
+}
+.bar7 button:before{
+    content: "\f002";
+    font-family: FontAwesome;
+    color: #324b4e;
+}
+.bar71 form {
+    height: 42px;
+    top:630px;
+    left:330px;
+}
+.bar71 input {
+    font-weight: 500;
+    font-size: large;
+    outline: none;
+    height: 42px; padding-left: 13px;
+    width: 170px;
+    border-radius: 42px;
+    border: 2px solid #324B4E;
+    background: #F9F0DA;
+    transition: .3s linear;
+    float: right;
+}
+.bar71 input:focus {
+    width: 200px;
+}
+.bar71 button {
+    border: none;
+    outline: none;
+    height: 42px;
+    width: 42px;
+    cursor: pointer;
+    position: absolute;
+    background: none;
+    top: -2px;
+    right: 0;
+}
+.bar71 button:before{
+    content: "\f002";
+    font-family: FontAwesome;
+    color: #324b4e;
+}
+
+#deleteButton{
+    position: absolute;
+    top:635px;
+    left:150px;
+}
+input::-moz-focus-inner,
+button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+input[type="submit"].btn,
+button.btn {
+    cursor: pointer;
+}
+
+a.btn,.btn {
+    display: inline-block;
+    outline: none;
+    *zoom: 1;
+    text-align: center;
+    text-decoration: none;
+    font-family: inherit;
+    font-weight: 500;
+    letter-spacing: 1px;
+    vertical-align: middle;
+    border: 1px solid;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.01);
+}
+.btn-radius {
+    border-radius: 3px;
+}
+.btn-medium {
+    font-size: 0.9375em;
+    padding: 0.5375em 1.375em;
+}
+.btn-blue {
+    color: #4682B4;
+    border-color: #4682B4;
+}
+.btn-blue:hover {
+    background: #4682B4;
+    color: #fff;
+    border-color: #4682B4;
+}
+
+.btn-red {
+    color: #B22222;
+    border-color: #B22222;
+}
+.btn-red:hover {
+    background: #B22222;
+    color: #fff;
+    border-color: #B22222;
+}

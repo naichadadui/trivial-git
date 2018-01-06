@@ -12,7 +12,7 @@ body { font-family: 'Microsoft Yahei'; font-size: 18px; background-color: #f8f8f
 }
 #table thead {
     color: #fff;
-    background-color: #64AAA4;
+    background-color:  #af3535;
 }
 #table thead th {
     text-align: center;
