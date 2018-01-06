@@ -40,7 +40,7 @@ public class WebController extends BaseController {
     private static final String MODULE_JAPANGAME = "JapanGame";
     private static final String MODULE_ADMINUSER = "adminUser";
     private static final String MODULE_ADMINLOG = "adminLog";
-    private static final String MODULE_ADMINGAMERECORD = "adminGameRecod";
+    private static final String MODULE_ADMINGAMERECORD = "adminGameRecord";
     private static final String MODULE_ADMINQUESTION = "adminQuestion";
     private static final int PAGE_SIZE = 10;
 

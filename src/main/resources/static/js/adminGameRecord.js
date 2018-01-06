@@ -2,28 +2,11 @@ var beSelectedUser = new Array();
 var table_data = [
     {
         id: '5',
-        name: 'Gary Coleman',
-        email: 'gary.coleman21@example.com',
-        score: '(398)-332-5385'
-    },
-    {
-        id: '2',
-        name: 'Rose Parker',
-        email: 'rose.parker16@example.com',
-        score: '  (293)-873-2247'
-    },
-    {
-        id: '3',
-        name: 'Chloe Nelson',
-        email: 'chloe.nelson18@example.com',
-        score: '(957)-213-3499'
-    },
-    {
-        id: '4',
-        name: 'Eric Bell',
-        email: 'eric.bell16@example.com',
-        score: '(897)-762-9782'
+       start_time : '2017-01-03 10:05:25',
+        end_time: '2017-01-03 10:15:25',
+        winner:'hlz'
     }
+
 ];
 
 $(function () {
@@ -69,6 +52,7 @@ $(function () {
 
             var self = this;
             this.tBody_rows = this.tBody.rows;
+
             this.selectAll = document.getElementById('selectAll');
             this.select_input = this.tBody.getElementsByTagName('input');
 
@@ -103,6 +87,7 @@ $(function () {
                     self.select(index);
                 };
             }
+
 
         },
 
@@ -191,6 +176,7 @@ function getIndex(obj, nodes) {
 
     return result;
 };
+
 function searchByNickname(){
     alert("serach");
 }

@@ -1,28 +1,9 @@
-var beSelectedUser = new Array();
+var beSelectedQuestion = new Array();
 var table_data = [
     {
         id: '5',
-        name: 'Gary Coleman',
-        email: 'gary.coleman21@example.com',
-        score: '(398)-332-5385'
-    },
-    {
-        id: '2',
-        name: 'Rose Parker',
-        email: 'rose.parker16@example.com',
-        score: '  (293)-873-2247'
-    },
-    {
-        id: '3',
-        name: 'Chloe Nelson',
-        email: 'chloe.nelson18@example.com',
-        score: '(957)-213-3499'
-    },
-    {
-        id: '4',
-        name: 'Eric Bell',
-        email: 'eric.bell16@example.com',
-        score: '(897)-762-9782'
+        content: '世界上最大的哺乳动物',
+        rightAnswer: '蓝鲸'
     }
 ];
 
@@ -40,6 +21,46 @@ $(function () {
     };
 
     RenderTable.prototype = {
+        ifAllSelected: function () {
+            for (var i = 0; i < this.select_input.length; i++) {
+                if (this.select_num === this.select_input.length - 1) {
+                    this.selectAll.checked = true;
+                }
+            }
+        },
+
+        select: function (index) {
+            if (hasClass(this.tBody_rows[index], 'selected-bgColor')) {
+                removeClass(this.tBody_rows[index], 'selected-bgColor');
+
+                this.select_input[index].checked = false;
+
+                this.selectAll.checked = false;
+
+                if (this.select_num > 0) {
+                    this.select_num--;
+                } else {
+                    this.select_num = 0;
+                }
+
+                var removeIndex =findOnArray(beSelectedQuestion,document.getElementById("id"+(index+1)).innerHTML);
+                if (removeIndex !== -1) {
+                    beSelectedQuestion.splice(removeIndex,1);
+                }
+
+            } else {
+                addClass(this.tBody_rows[index], 'selected-bgColor');
+
+                this.select_input[index].checked = true;
+
+                this.ifAllSelected();
+
+                this.select_num++;
+                beSelectedQuestion.push(document.getElementById("id" + (index + 1)).innerHTML);
+
+                // alert(document.getElementById("id"+(index+1)).innerHTML);
+            }
+        },
 
         eventColor: function (index) {
             if (index % 2 === 0) {
@@ -52,10 +73,20 @@ $(function () {
         renderDOM: function () {
             for (var i = 0; i < table_data.length; i++) {
                 var create_tr = document.createElement('tr');
+                var select_td = document.createElement('td');
 
+                select_td.className = 'checkbox checkbox-primary';
+                select_td.innerHTML = '<input type="checkbox" class="styled" id="select_' + i + '">' +
+                    '<label for="select_' + i + '">+</label>';
+
+                create_tr.appendChild(select_td);
+                var j = 1;
                 for (var property in table_data[i]) {
-                    var create_td = document.createElement('td');
 
+                    var create_td = document.createElement('td');
+                    if (j == 1)
+                        create_td.id = "id" + (i + 1);
+                    j++;
                     create_td.innerHTML = table_data[i][property];
                     create_tr.appendChild(create_td);
                 }
@@ -104,6 +135,22 @@ $(function () {
                 };
             }
 
+            this.selectAll.onclick = function () {
+                beSelectedQuestion=new Array();
+                for (var i = 0; i < self.tBody_rows.length; i++) {
+                    if (this.checked) {
+                        addClass(self.tBody_rows[i], 'selected-bgColor');
+                        self.select_input[i].checked = true;
+
+                        self.select_num = self.tBody_rows.length;
+                        beSelectedQuestion.push(document.getElementById("id" + (i + 1)).innerHTML);
+                    } else {
+                        removeClass(self.tBody_rows[i], 'selected-bgColor');
+                        self.select_input[i].checked = false;
+                        self.select_num = 0;
+                    }
+                }
+            };
         },
 
         constructor: RenderTable
@@ -191,10 +238,31 @@ function getIndex(obj, nodes) {
 
     return result;
 };
-function searchByNickname(){
-    alert("serach");
+
+function clickDelete() {
+
+    new $.flavr({
+        content: 'Are you sure to delete?',
+        dialog: 'confirm',
+        onConfirm: function () {
+
+            alert(beSelectedQuestion.toString());
+        },
+        onCancel: function () {
+
+        }
+    });
+
 }
 
-function searchByEmail() {
-    alert("email");
+function findOnArray(array, aim) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] == aim) {
+            return i;
+        }
+    }
+}
+
+function searchByNickname(){
+    alert("serach");
 }
