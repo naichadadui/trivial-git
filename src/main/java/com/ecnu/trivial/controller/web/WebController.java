@@ -42,11 +42,9 @@ public class WebController extends BaseController {
     private static final String MODULE_ADMINLOG = "adminLog";
     private static final String MODULE_ADMINGAMERECORD = "adminGameRecod";
     private static final String MODULE_ADMINQUESTION = "adminQuestion";
-
-
-
     private static final int PAGE_SIZE = 10;
 
+    @Autowired
     private GameHistoryService gameHistoryService;
 
     @Autowired
@@ -172,8 +170,8 @@ public class WebController extends BaseController {
 
     @RequestMapping(value = "/adminUser")
     public String adminUser(Map<String, Object> model) {
-        List<UserVo> getUserListByPage = userService.getUserListByPage(getCurrentAdminID(),1,PAGE_SIZE);
-        int maxPageNumber = userService.getMaxPageNumber(PAGE_SIZE);
+        List<UserVo> getUserListByPage = userService.searchUserBySearchKeyByPage("","",1,PAGE_SIZE);
+        int maxPageNumber = userService.getMaxPageNumberBySearchKey("","",PAGE_SIZE);
         model.put("userList",getUserListByPage);
         model.put("maxPageNumber",maxPageNumber);
         model.put("module", MODULE_ADMINUSER);

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.ecnu.trivial.controller.api.APIBaseController.PAGE_SIZE;
+
 @Service
 public class UserServiceImpl extends BaseServiceImpl implements UserService {
     @Autowired
@@ -85,15 +87,27 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserVo> getUserListByPage(int adminId,int pageNumber,int pageSize){
-        List<User> userList = userMapper.selectAllUsersByPage(new RowBounds(pageNumber*pageSize,pageSize));
+    public List<UserVo> searchUserBySearchKeyByPage(String name, String email, int pageNumber, int pageSize) {
+        List<User> userList = userMapper.selectUsersBySearchKeyByPage(name,email,new RowBounds((pageNumber-1)*pageSize,pageSize));
         List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
         return userVos;
     }
 
     @Override
-    public int getMaxPageNumber(int pageSize){
-        return userMapper.countAllUsers()/pageSize;
+    public List<UserVo> getUserListByPage(int adminId,int pageNumber,int pageSize){
+        List<User> userList = userMapper.selectAllUsersByPage(new RowBounds((pageNumber-1)*pageSize,pageSize));
+        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
+        return userVos;
+    }
+
+    @Override
+    public int getMaxPageNumberBySearchKey(String name,String email,int pageSize){
+        int pageNum = 0;
+        int userCount = userMapper.countUsers(name,email);
+        pageNum = userCount/PAGE_SIZE;
+        if(userCount%pageSize!=0)
+            pageNum+=1;
+        return pageNum;
     }
 
     @Override

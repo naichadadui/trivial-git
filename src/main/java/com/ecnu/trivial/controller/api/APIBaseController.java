@@ -17,6 +17,8 @@ public class APIBaseController{
     private static final String USER_ID="userId";
     private static final String ROOM_ID="roomId";
 
+    public static final int PAGE_SIZE = 10;
+
     @Autowired
     protected HttpServletRequest request;
 

@@ -2,6 +2,7 @@ package com.ecnu.trivial.controller.api;
 
 import com.ecnu.trivial.service.UserService;
 import com.ecnu.trivial.vo.UserVo;
+import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,69 +68,18 @@ public class UserController extends APIBaseController{
         return result;
     }
 
-    @RequestMapping(value="/searchUserByName", method = RequestMethod.POST)
-    public Map searchUserByName(@RequestParam("searchName")String searchKey){
+    /*
+    * 当用户输入搜索关键词并搜索时，
+    * 返回第一页的搜索结果searchUsers
+    * 并且返回总共的页码数maxPageNumber
+    * */
+    @RequestMapping(value="/searchUserBySearchKey", method = RequestMethod.POST)
+    public Map searchUserBySearchKey(@RequestParam("searchName")String searchName,@RequestParam("searchEmail")String searchEmail,@RequestParam("pageNumber")int pageNumber){
         Map<String,Object> result = new HashMap<>();
-        int searchResult = 0;
-        String message;
-        List<UserVo> searchUsers = userService.searchUserByName(searchKey);
-        searchResult = searchUsers.size();
-        switch (searchResult){
-            case 0:
-                message = "未找到符合条件的用户";
-                break;
-            default:
-                /*如果符合条件用户存*/
-                message = "找到了以下用户";
-                break;
-        }
-        result.put("searchResult", searchResult);
+        List<UserVo> searchUsers = userService.searchUserBySearchKeyByPage(searchName,searchEmail,pageNumber,PAGE_SIZE);
+        int maxPageNumber = userService.getMaxPageNumberBySearchKey(searchName,searchEmail,PAGE_SIZE);
+        result.put("searchPageNumber", maxPageNumber);
         result.put("searchUsers",searchUsers);
-        result.put("returnMessage", message);
-        return result;
-    }
-
-    @RequestMapping(value="/searchUserByEmail", method = RequestMethod.POST)
-    public Map searchUserByEmail(@RequestParam("searchEmail")String searchKey){
-        Map<String,Object> result = new HashMap<>();
-        int searchResult = 0;
-        String message;
-        List<UserVo> searchUsers = userService.searchUserByEmail(searchKey);
-        searchResult = searchUsers.size();
-        switch (searchResult){
-            case 0:
-                message = "未找到符合条件的用户";
-                break;
-            default:
-                /*如果符合条件用户存*/
-                message = "找到了以下用户";
-                break;
-        }
-        result.put("searchResult", searchResult);
-        result.put("searchUsers",searchUsers);
-        result.put("returnMessage", message);
-        return result;
-    }
-
-    @RequestMapping(value="/selectUserOrderByScore", method = RequestMethod.POST)
-    public Map sortUserByScore(@RequestParam("pageNumber")int pageNumber,@RequestParam("pageSize")int pageSize){
-        Map<String,Object> result = new HashMap<>();
-        int sortResult = 0;
-        String message;
-        List<UserVo> usersVos = userService.getAllUsersOrderByScoreByPage(pageNumber,pageSize);
-        sortResult = usersVos.size();
-        switch (sortResult){
-            case 0:
-                message = "用户不存在";
-                break;
-            default:
-                /*如果符合条件用户存*/
-                message = "按分数排序成功";
-                break;
-        }
-        result.put("sortResult", sortResult);
-        result.put("sortUsers",usersVos);
-        result.put("returnMessage", message);
         return result;
     }
 }

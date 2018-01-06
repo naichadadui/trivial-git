@@ -7,6 +7,7 @@ import com.ecnu.trivial.vo.UserGameHistoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,7 +16,9 @@ public class GameHistoryServiceImpl extends BaseServiceImpl implements GameHisto
     private GameHistoryMapper gameHistoryMapper;
     @Override
     public List<GameHistory> getLatestTwoGames() {
-        return gameHistoryMapper.getLatestTwoGames();
+        List<GameHistory> latestGame = new ArrayList<>();
+        latestGame = gameHistoryMapper.getLatestTwoGames();
+        return latestGame;
     }
 
     @Override

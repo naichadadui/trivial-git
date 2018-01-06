@@ -114,9 +114,18 @@ public interface UserMapper {
     List<User> selectAllUsersByPage(RowBounds rowBounds);
 
     @Select(value = {
-            "select count(distinct user_id) ",
-            "from `user`"
+            "select * ",
+            "from user ",
+            "where name like CONCAT('%',#{searchName},'%') and email like CONCAT('%',#{searchEmail},'%') ",
+            "order by score desc"
     })
     @ResultMap("BaseResultMap")
-    int countAllUsers();
+    List<User> selectUsersBySearchKeyByPage(String name,String email,RowBounds rowBounds);
+
+    @Select({
+            "select count(distinct user_id) ",
+            "from `user`",
+            "where name like CONCAT('%',#{searchName},'%') and email like CONCAT('%',#{searchEmail},'%')"
+    })
+    int countUsers(@Param("searchName")String name,@Param("searchEmail")String email);
 }
