@@ -9,6 +9,12 @@
     <link href="/css/login-register.css" rel="stylesheet"/>
     <link href="/bootstrap3/css/bootstrap.css" rel="stylesheet"/>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/flavr.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/questionStyle.css"/>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/flavr.min.js"></script>
+
 </head>
 
 <body>
@@ -37,7 +43,9 @@
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
                 <a class="btn big-login" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">Log in</a>
-                <a class="btn big-register" data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">Register</a></div>
+                <a class="btn big-register" data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">Register</a>
+                <a class="btn big-login" data-toggle="modal" href="javascript:void(0)" onclick="adminLogin();">Admin</a>
+            </div>
             <div class="col-sm-4"></div>
         </div>
 
