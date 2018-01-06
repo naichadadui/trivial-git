@@ -8,10 +8,14 @@ import java.util.List;
 public interface UserService extends BaseService{
     int login(String email,String password);
     int register(String nickname,String email,String password);
+
     List<UserVo> searchUserByEmail(String searchKey);
     List<UserVo> searchUserByName(String searchKey);
     List<UserVo> searchUserByScore(String searchKey);
-    List<UserVo> allUserInfoList(int adminId,int pageNumber,int pageSize);
+
+    List<UserVo> getUserListByPage(int adminId,int pageNumber,int pageSize);
+    int getMaxPageNumber(int pageSize);
+
     List<UserVo> getAllUsersOrderByScoreByPage(int pageNumber,int pageSize);
     List<User> getAllUsersOrderByScore();
 

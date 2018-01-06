@@ -112,4 +112,11 @@ public interface UserMapper {
     })
     @ResultMap("BaseResultMap")
     List<User> selectAllUsersByPage(RowBounds rowBounds);
+
+    @Select(value = {
+            "select count(distinct user_id) ",
+            "from `user`"
+    })
+    @ResultMap("BaseResultMap")
+    int countAllUsers();
 }
