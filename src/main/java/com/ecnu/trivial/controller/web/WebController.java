@@ -39,6 +39,7 @@ public class WebController extends BaseController {
     private static final String MODULE_JAPANROOM = "JapanRoom";
     private static final String MODULE_JAPANGAME = "JapanGame";
     private static final String MODULE_ADMINUSER = "adminUser";
+    private static final int PAGE_SIZE = 10;
 
     @Autowired
     private GameHistoryService gameHistoryService;
@@ -166,6 +167,10 @@ public class WebController extends BaseController {
 
     @RequestMapping(value = "/adminUser")
     public String adminUser(Map<String, Object> model) {
+        List<UserVo> getUserListByPage = userService.getUserListByPage(getCurrentAdminID(),1,PAGE_SIZE);
+        int maxPageNumber = userService.getMaxPageNumber(PAGE_SIZE);
+        model.put("userList",getUserListByPage);
+        model.put("maxPageNumber",maxPageNumber);
         model.put("module", MODULE_ADMINUSER);
         return MODULE_ADMINUSER;
     }

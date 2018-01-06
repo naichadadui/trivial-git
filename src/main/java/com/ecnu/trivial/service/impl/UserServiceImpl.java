@@ -85,10 +85,15 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserVo> allUserInfoList(int adminId,int pageNumber,int pageSize){
+    public List<UserVo> getUserListByPage(int adminId,int pageNumber,int pageSize){
         List<User> userList = userMapper.selectAllUsersByPage(new RowBounds(pageNumber*pageSize,pageSize));
         List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
         return userVos;
+    }
+
+    @Override
+    public int getMaxPageNumber(int pageSize){
+        return userMapper.countAllUsers()/pageSize;
     }
 
     @Override

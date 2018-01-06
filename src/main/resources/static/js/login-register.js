@@ -191,10 +191,10 @@ function adminLogin() {
 
                     success: function (data) {
                         if (data) {
-                            if (data.userId === '0') {
+                            if (data.adminId === '0') {
                                 shakeModal();
                             }
-                            else if (data.userId === '-1') {
+                            else if (data.adminId === '-1') {
                                 shakeModal();
                             } else {
                                 window.location.href = "adminUser";
