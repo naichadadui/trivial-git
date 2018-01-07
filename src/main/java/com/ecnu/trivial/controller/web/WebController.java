@@ -222,8 +222,8 @@ public class WebController extends BaseController {
 
     @RequestMapping(value = "/adminGameRecord")
     public String adminGameRecord(Map<String, Object> model) {
-        List<GameHistoryVo> gameHistoryVos = gameHistoryService.getGameHistoryBySearchKeyByPage("",1,PAGE_SIZE);
-        int maxPageNumber = gameHistoryService.getMaxPageNumberBySearchKey("",PAGE_SIZE);
+        List<GameHistoryVo> gameHistoryVos = gameHistoryService.getGameHistoryBySearchKeyByPage("","","",1,PAGE_SIZE);
+        int maxPageNumber = gameHistoryService.getMaxPageNumberBySearchKey("","","",PAGE_SIZE);
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         int i = 1;

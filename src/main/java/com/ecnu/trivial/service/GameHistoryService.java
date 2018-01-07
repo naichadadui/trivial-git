@@ -8,6 +8,6 @@ import java.util.List;
 public interface GameHistoryService extends BaseService{
     List<GameHistory> getLatestTwoGames();
     GameHistory selectByPrimaryKey(int gameId);
-    List<GameHistoryVo> getGameHistoryBySearchKeyByPage(String winnerName, int pageNumber, int pageSize);
-    int getMaxPageNumberBySearchKey(String winnerName,int pageSize);
+    List<GameHistoryVo> getGameHistoryBySearchKeyByPage(String startTime,String endTime,String winnerName, int pageNumber, int pageSize);
+    int getMaxPageNumberBySearchKey(String winnerName,String startTime,String endTime,int pageSize);
 }
