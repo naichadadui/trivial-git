@@ -1,9 +1,13 @@
 package com.ecnu.trivial.model;
 
 public enum QuestionType {
-    OTHERS(0,"其他"),
-    SCIENCE(1, "科学"),
-    POP(2, "流行音乐");
+    ALL(0,"全部"),
+    SCIENCE(1, "科学知识"),
+    MUSIC(2, "流行音乐"),
+    SPORTS(3, "体育知识"),
+    COMPUTER(4, "计算机知识"),
+    OTHERS(5,"其他");
+
 
 
     QuestionType(int value, String typeStr) {
