@@ -8,7 +8,7 @@
     <link href="/css/pagination.css" rel="stylesheet" type="text/css">
     <script src="/js/jquery-2.0.3.min.js" type="text/javascript"></script>
     <script src="/js/bootstrap.js" type="text/javascript"></script>
-    <script src="/js/jquery.twbsPagination.question.js" type="text/javascript"></script>
+    <script src="/js/jquery.twbsPagination.log.js" type="text/javascript"></script>
 
     <link href="/css/table.css" rel="stylesheet" type="text/css">
 
@@ -28,6 +28,18 @@
     </style>
 
     <script>
+        table_data=${adminLogs};
+        loadLog();
+
+        var totalPage=0;
+        var maxTotalPageNumber=0;
+        maxTotalPageNumber=${maxPageNumber};
+        if(maxTotalPageNumber<=10){
+            totalPage=maxTotalPageNumber;
+        }else{
+            totalPage=10;
+        }
+
         $(document).ready(function () {
             $('#pagination-demo').twbsPagination({
                 totalPages: 35,
@@ -45,8 +57,8 @@
             });
 
             $('#visible-pages-example').twbsPagination({
-                totalPages: 35,
-                visiblePages: 10,
+                totalPages: maxTotalPageNumber,
+                visiblePages: totalPage,
                 version: '1.1'
             });
 
@@ -84,14 +96,8 @@
 <div id="searchContainer">
     <div class="search bar7">
         <form>
-            <input type="text" placeholder="按AdminId搜索">
+            <input type="text" placeholder="按AdminId搜索" id="adminIdS">
             <button type="button" onclick="searchByAdminId()"></button>
-        </form>
-    </div>
-    <div class="search bar71">
-        <form>
-            <input type="text" placeholder="按操作类型搜索">
-            <button type="button" onclick="searchByActionType()"></button>
         </form>
     </div>
 </div>
@@ -105,7 +111,7 @@
         <th>操作时间</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="logTbody">
     </tbody>
 </table>
 <br/>
