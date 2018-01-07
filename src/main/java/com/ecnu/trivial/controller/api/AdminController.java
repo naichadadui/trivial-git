@@ -17,11 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.ecnu.trivial.controller.api.APIBaseController.PAGE_SIZE;
 
 @RestController
 @RequestMapping("/api/homepage")
-public class AdminController extends BaseController{
+public class AdminController extends APIBaseController{
     @Autowired
     private AdminService adminService;
 
@@ -77,10 +76,10 @@ public class AdminController extends BaseController{
     * 返回第一页的搜索结果searchUsers
     * 并且返回总共的页码数maxPageNumber
     * */
-    @RequestMapping(value="/searchAdminLogBySearchKey", method = RequestMethod.POST)
-    public Map searchAdminLogBySearchKey(@RequestParam("searchId")int searchId,@RequestParam("pageNumber")int pageNumber){
+    @RequestMapping(value="/admin/searchAdminLogBySearchKey", method = RequestMethod.POST)
+    public Map searchAdminLogBySearchKey(@RequestParam("searchId")int searchId){
         Map<String,Object> result = new HashMap<>();
-        List<AdminLogVo> adminLogVos = adminService.getAdminLogsBySearchKeyByPage(searchId,pageNumber,PAGE_SIZE);
+        List<AdminLogVo> adminLogVos = adminService.getAdminLogsBySearchKeyByPage(searchId,1,PAGE_SIZE);
         int maxPageNumber = adminService.getMaxPageNumberBySearchKey(searchId,PAGE_SIZE);
         result.put("maxPageNumber", maxPageNumber);
         result.put("searchAdminLogs", adminLogListToJSONArray(adminLogVos).toString());
@@ -93,9 +92,9 @@ public class AdminController extends BaseController{
     * 返回该页的搜索结果searchAdminLogs
     * */
     @RequestMapping(value="/admin/getAdminLogBySearchKeyByPageNumber", method = RequestMethod.POST)
-    public Map getAdminLogByPageNumber(@RequestParam("adminId")int adminId,@RequestParam("pageNumber")int pageNumber){
+    public Map getAdminLogByPageNumber(@RequestParam("searchId")int searchId,@RequestParam("pageNumber")int pageNumber){
         Map<String,Object> result = new HashMap<>();
-        List<AdminLogVo> searchAdminLogs = adminService.getAdminLogsBySearchKeyByPage(adminId,pageNumber,PAGE_SIZE);
+        List<AdminLogVo> searchAdminLogs = adminService.getAdminLogsBySearchKeyByPage(searchId,pageNumber,PAGE_SIZE);
         result.put("searchAdminLogs",adminLogListToJSONArray(searchAdminLogs).toString());
         System.out.println(adminLogListToJSONArray(searchAdminLogs).toString());
         return result;
@@ -106,18 +105,9 @@ public class AdminController extends BaseController{
         JSONObject jsonObject = new JSONObject();
         int i = 1;
         for(AdminLogVo adminLogVo:adminLogVos){
-            jsonObject.put("id",i);
-            jsonObject.put("name",adminLogVo.getAdminName());
-            switch (adminLogVo.getActionType()){
-                case 0:
-                    jsonObject.put("actionType","删除");
-                    break;
-                case 1:
-                    jsonObject.put("actionType","添加");
-                    break;
-                default:
-                    break;
-            }
+            jsonObject.put("logId",adminLogVo.getLogId());
+            jsonObject.put("adminId",adminLogVo.getAdminId());
+            jsonObject.put("questionId",adminLogVo.getActionType());
             jsonObject.put("submitTime",adminLogVo.getSubmitTime());
             jsonArray.add(jsonObject);
             i++;

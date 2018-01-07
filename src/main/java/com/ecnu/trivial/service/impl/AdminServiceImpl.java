@@ -88,6 +88,11 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
 
     @Override
     public int getMaxPageNumberBySearchKey(int adminId,int pageSize){
-        return 0;
+        int pageNum = 0;
+        int adminLogNumber = adminLogMapper.countAdminLogs(adminId);
+        pageNum = adminLogNumber/pageSize;
+        if(adminLogNumber%pageSize!=0)
+            pageNum+=1;
+        return pageNum;
     }
 }

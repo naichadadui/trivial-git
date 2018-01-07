@@ -82,45 +82,47 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
         return pageNum;
     }
 
-
-    @Override
-    public List<UserVo> searchUserByEmail(String email){
-        List<User> userList = userMapper.searchUsersByEmail(email);
-        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
-        return userVos;
-    }
-
-    @Override
-    public List<UserVo> searchUserByName(String name){
-        List<User> userList = userMapper.searchUsersByName(name);
-        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
-        return userVos;
-    }
-
-    @Override
-    public List<UserVo> searchUserByScore(String score){
-        List<User> userList = userMapper.searchUsersByScore(score);
-        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
-        return userVos;
-    }
-
-    @Override
-    public List<UserVo> getUserListByPage(int adminId,int pageNumber,int pageSize){
-        List<User> userList = userMapper.selectAllUsersByPage(new RowBounds((pageNumber-1)*pageSize,pageSize));
-        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
-        return userVos;
-    }
-
-    @Override
-    public List<UserVo> getAllUsersOrderByScoreByPage(int pageNumber,int pageSize){
-        List<User> userList = userMapper.selectAllUsersOrderByScoreByPage(new RowBounds(pageNumber*pageSize,pageSize));
-        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
-        return userVos;
-    }
-
     @Override
     public List<User> getAllUsersOrderByScore(){
         List<User> userList = userMapper.selectAllUsersOrderByScore();
         return userList;
     }
+
+
+//    @Override
+//    public List<UserVo> searchUserByEmail(String email){
+//        List<User> userList = userMapper.searchUsersByEmail(email);
+//        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
+//        return userVos;
+//    }
+//
+//    @Override
+//    public List<UserVo> searchUserByName(String name){
+//        List<User> userList = userMapper.searchUsersByName(name);
+//        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
+//        return userVos;
+//    }
+//
+//    @Override
+//    public List<UserVo> searchUserByScore(String score){
+//        List<User> userList = userMapper.searchUsersByScore(score);
+//        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
+//        return userVos;
+//    }
+//
+//    @Override
+//    public List<UserVo> getUserListByPage(int adminId,int pageNumber,int pageSize){
+//        List<User> userList = userMapper.selectAllUsersByPage(new RowBounds((pageNumber-1)*pageSize,pageSize));
+//        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
+//        return userVos;
+//    }
+//
+//    @Override
+//    public List<UserVo> getAllUsersOrderByScoreByPage(int pageNumber,int pageSize){
+//        List<User> userList = userMapper.selectAllUsersOrderByScoreByPage(new RowBounds(pageNumber*pageSize,pageSize));
+//        List<UserVo> userVos = userList.stream().map(ObjectParse::parse).collect(Collectors.toList());
+//        return userVos;
+//    }
+
+
 }

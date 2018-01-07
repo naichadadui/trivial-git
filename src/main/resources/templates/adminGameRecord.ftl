@@ -31,6 +31,18 @@
     </style>
 
     <script>
+        table_data=${gameHistory};
+        loadGameRecord();
+
+        var totalPage=0;
+        var maxTotalPageNumber=0;
+        maxTotalPageNumber=${maxPageNumber};
+        if(maxTotalPageNumber<=10){
+            totalPage=maxTotalPageNumber;
+        }else{
+            totalPage=10;
+        }
+
         $(document).ready(function () {
             $('#pagination-demo').twbsPagination({
                 totalPages: 35,
@@ -48,8 +60,8 @@
             });
 
             $('#visible-pages-example').twbsPagination({
-                totalPages: 35,
-                visiblePages: 10,
+                totalPages: maxTotalPageNumber,
+                visiblePages: totalPage,
                 version: '1.1'
             });
 
@@ -86,20 +98,20 @@
 <div id="searchContainer">
     <div class="search bar7">
         <form>
-            <input type="text" placeholder="按赢家搜索">
-            <button type="button" onclick="searchByEmail()"></button>
+            <input type="text" placeholder="按赢家搜索" id="winnerS">
+            <button type="button" onclick="searchByWinner()"></button>
         </form>
     </div>
     <div class="search bar71">
         <form>
-            <input type="text" placeholder="按结束时间搜索">
-            <button type="button" onclick="searchByNickname()"></button>
+            <input type="text" placeholder="按结束时间搜索" id="endS">
+            <button type="button" onclick="searchByStartTime()"></button>
         </form>
     </div>
     <div class="search bar711">
         <form>
-            <input type="text" placeholder="按开始时间搜索">
-            <button type="button" onclick="searchByNickname()"></button>
+            <input type="text" placeholder="按开始时间搜索" id="startS">
+            <button type="button" onclick="searchByEndTime()"></button>
         </form>
     </div>
 </div>
@@ -113,7 +125,7 @@
         <th>赢家</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="gameRecordTbody">
     </tbody>
 </table>
 <br/>

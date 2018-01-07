@@ -21,7 +21,7 @@ public interface AdminLogMapper {
     })
     int insert(AdminLog record);
 
-    int insertSelective(Admin record);
+    int insertSelective(AdminLog record);
 
     @Select({
         "select",
@@ -43,11 +43,20 @@ public interface AdminLogMapper {
     })
     int updateByPrimaryKey(AdminLog record);
 
-    @Select({
+    @Select({"<script>",
             "select * ",
             "from admin_log",
-            "where admin_id like CONCAT('%',#{adminId},'%') "
+            "<if test = \"adminId != 0\">where admin_id=#{adminId}</if>",
+            "</script>"
     })
     @ResultMap("BaseResultMap")
     List<AdminLog> selectAdminLogsByPage(@Param("adminId")int adminId, RowBounds rowBounds);
+
+    @Select({"<script>",
+            "select count(distinct log_id) ",
+            "from admin_log",
+            "<if test = \"adminId != 0\">where admin_id=#{adminId}</if>",
+            "</script>"
+    })
+    int countAdminLogs(@Param("adminId") int adminId);
 }

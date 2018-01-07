@@ -14,6 +14,11 @@ public class AdminLog {
 
     private Date submitTime;
 
-    private Integer actionType;
+    private Integer actionType;//其实是问题id
 
+    public AdminLog(Integer adminId, Date submitTime, Integer actionType) {
+        this.adminId = adminId;
+        this.submitTime = submitTime;
+        this.actionType = actionType;
+    }
 }

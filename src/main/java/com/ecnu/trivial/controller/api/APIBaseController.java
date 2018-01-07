@@ -16,6 +16,7 @@ public class APIBaseController{
 
     private static final String USER_ID="userId";
     private static final String ROOM_ID="roomId";
+    private static final String ADMIN_ID="adminId";
 
     public static final int PAGE_SIZE = 10;
 
@@ -24,6 +25,14 @@ public class APIBaseController{
 
     public int getCurrentUserID(){
         Object o=request.getSession().getAttribute(USER_ID);
+        if(o==null){
+            throw new ResourceNotFoundException();
+        }
+        return Integer.parseInt(o.toString());
+    }
+
+    public int getCurrentAdminID(){
+        Object o=request.getSession().getAttribute(ADMIN_ID);
         if(o==null){
             throw new ResourceNotFoundException();
         }

@@ -256,6 +256,7 @@ function clickDelete() {
                     url: "/api/questions/deleteQuestionsById",
                     timeout: 8000,
                     dataType: "json",
+                    traditional: true,
                     data: {
                         "questionIdArray": beSelectedQuestion
                     },

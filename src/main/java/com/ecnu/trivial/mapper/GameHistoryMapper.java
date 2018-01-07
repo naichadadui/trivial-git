@@ -55,14 +55,14 @@ public interface GameHistoryMapper {
     @Select({
             "select game_history.* ",
             "from game_history natural join `user`",
-            "where `user`.`name` like CONCAT('%',#{winnerName},'%') ",
+            "where `user`.`name` like CONCAT('%',#{winnerName},'%') and game_history.start_time like CONCAT('%',#{startTime},'%') and game_history.end_time like CONCAT('%',#{endTime},'%') ",
     })
-    List<GameHistory> selectGameHistoryBySearchKeyByPage(@Param("winnerName") String winnerName, RowBounds rowBounds);
+    List<GameHistory> selectGameHistoryBySearchKeyByPage(@Param("startTime") String startTime,@Param("endTime") String endTime,@Param("winnerName") String winnerName, RowBounds rowBounds);
 
     @Select({
             "select count(distinct game_id) ",
             "from game_history natural join `user`",
-            "where `user`.`name` like CONCAT('%',#{winnerName},'%') ",
+            "where `user`.`name` like CONCAT('%',#{winnerName},'%') and game_history.start_time like CONCAT('%',#{startTime},'%') and game_history.end_time like CONCAT('%',#{endTime},'%') ",
     })
-    int countGameHistory(@Param("winnerName") String winnerName);
+    int countGameHistory(@Param("startTime") String startTime,@Param("endTime") String endTime,@Param("winnerName") String winnerName);
 }

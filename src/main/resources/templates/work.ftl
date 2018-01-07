@@ -91,6 +91,78 @@
                     <h4 id="ratio8"></h4>
                     <h4 id="state8"></h4>
                 </li>
+                <li id="room9">
+                    <img src="/images/room/room1.jpg" id="img9" onclick="clickRoom(this.id)">
+                    <h4 id="title9">room No.9</h4>
+                    <h4 id="ratio9"></h4>
+                    <h4 id="state9"></h4>
+                </li>
+                <li id="room10">
+                    <img src="/images/room/room2.jpg" id="img10" onclick="clickRoom(this.id)">
+                    <h4 id="title10">room No.10</h4>
+                    <h4 id="ratio10"></h4>
+                    <h4 id="state10"></h4>
+                </li>
+                <li id="room11">
+                    <img src="/images/room/room3.jpg"  id="img11" onclick="clickRoom(this.id)">
+                    <h4 id="title11">room No.11</h4>
+                    <h4 id="ratio11"></h4>
+                    <h4 id="state11"></h4>
+                </li>
+                <li id="room12">
+                    <img src="/images/room/room4.jpg" id="img12" onclick="clickRoom(this.id)">
+                    <h4 id="title12">room No.12</h4>
+                    <h4 id="ratio12"></h4>
+                    <h4 id="state12"></h4>
+                </li>
+                <li id="room13">
+                    <img src="/images/room/room5.jpg" id="img13" onclick="clickRoom(this.id)">
+                    <h4 id="title13">room No.13</h4>
+                    <h4 id="ratio13"></h4>
+                    <h4 id="state13"></h4>
+                </li>
+                <li id="room14">
+                    <img src="/images/room/room6.jpg" id="img14" onclick="clickRoom(this.id)">
+                    <h4 id="title14">room No.14</h4>
+                    <h4 id="ratio14"></h4>
+                    <h4 id="state14"></h4>
+                </li>
+                <li id="room15">
+                    <img src="/images/room/room7.jpg" id="img15" onclick="clickRoom(this.id)">
+                    <h4 id="title15">room No.15</h4>
+                    <h4 id="ratio15"></h4>
+                    <h4 id="state15"></h4>
+                </li>
+                <li id="room16">
+                    <img src="/images/room/room8.jpg" id="img16" onclick="clickRoom(this.id)">
+                    <h4 id="title16">room No.16</h4>
+                    <h4 id="ratio16"></h4>
+                    <h4 id="state16"></h4>
+                </li>
+                <li id="room17">
+                    <img src="/images/room/room1.jpg" id="img17" onclick="clickRoom(this.id)">
+                    <h4 id="title17">room No.17</h4>
+                    <h4 id="ratio17"></h4>
+                    <h4 id="state17"></h4>
+                </li>
+                <li id="room18">
+                    <img src="/images/room/room2.jpg" id="img18" onclick="clickRoom(this.id)">
+                    <h4 id="title18">room No.18</h4>
+                    <h4 id="ratio18"></h4>
+                    <h4 id="state18"></h4>
+                </li>
+                <li id="room19">
+                    <img src="/images/room/room3.jpg"  id="img19" onclick="clickRoom(this.id)">
+                    <h4 id="title19">room No.19</h4>
+                    <h4 id="ratio19"></h4>
+                    <h4 id="state19"></h4>
+                </li>
+                <li id="room20">
+                    <img src="/images/room/room4.jpg" id="img20" onclick="clickRoom(this.id)">
+                    <h4 id="title20">room No.20</h4>
+                    <h4 id="ratio20"></h4>
+                    <h4 id="state20"></h4>
+                </li>
 
           <!--      <li>
                     <img src="/images/JapanSmall.jpg" id="room1" onclick="clickRoom(this.id)" alt="Illustration">

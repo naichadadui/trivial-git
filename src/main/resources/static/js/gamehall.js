@@ -24,7 +24,7 @@ function clickRoom(roomID) {
 
 function initGameHall(rooms) {
     var isRealRoom = false;
-    for (var i = 1; i <= 8; i++) {
+    for (var i = 1; i <= 40; i++) {
         isRealRoom=false;
         for(var j=0;j<rooms.length;j++){
             if(i==rooms[j].roomId){
@@ -39,7 +39,7 @@ function initGameHall(rooms) {
             }
         }
         if(!isRealRoom){
-            $("img"+i).attr("src","/images/room/room"+i+".jpg");
+            $("img"+i).attr("src","/images/room/room"+((i%8)+1)+".jpg");
             $("#ratio"+i).hide();
             $("#state" + i).html("空的房间，快来创建吧!");
         }

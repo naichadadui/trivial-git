@@ -1,6 +1,8 @@
 package com.ecnu.trivial.service.impl;
 
+import com.ecnu.trivial.mapper.AdminLogMapper;
 import com.ecnu.trivial.mapper.QuestionsMapper;
+import com.ecnu.trivial.model.AdminLog;
 import com.ecnu.trivial.model.QuestionType;
 import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.service.QuestionService;
@@ -10,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +20,9 @@ import java.util.stream.Collectors;
 public class QuestionServiceImpl extends BaseServiceImpl implements QuestionService{
     @Autowired
     private QuestionsMapper questionsMapper;
+
+    @Autowired
+    private AdminLogMapper adminLogMapper;
 
     @Override
     public List<QuestionsVo> getQuestionsBySearchKeyByPage(String content, int type, int pageNumber, int pageSize) {
@@ -36,11 +42,13 @@ public class QuestionServiceImpl extends BaseServiceImpl implements QuestionServ
     }
 
     @Override
-    public int deleteQuestions(int[] questionIdArray) {
+    public int deleteQuestions(int[] questionIdArray,int adminId) {
         int questionCount = 0;
         for(int i = 0;i<questionIdArray.length;i++) {
+            AdminLog adminLog = new AdminLog(adminId,new Date(),questionIdArray[i]);
+            adminLogMapper.insertSelective(adminLog);
             questionCount = questionsMapper.deleteByPrimaryKey(questionIdArray[i]);
-            questionCount+=questionCount;
+            questionCount++;
         }
         return questionCount;
     }

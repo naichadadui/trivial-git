@@ -302,5 +302,36 @@
 })(jQuery, window, document);
 
 function clickPage(page) {
-    alert("you click" + page);
+    var startTime = $("#startS").val();
+    var endTime = $("#endS").val();
+    var winnerName = $("#winnerS").val();
+    $.ajax(
+        {
+            type: "post",
+            url: "/api/gameRecord/admin/getAdminLogBySearchKeyByPageNumber",
+            timeout: 8000,
+            dataType: "json",
+            data: {
+                "startTime":startTime,
+                "endTime":endTime,
+                "winnerName":winnerName,
+                "pageNumber": page
+            },
+
+            success: function (data) {
+                if (data) {
+
+
+                    $('#gameRecordTbody').empty();
+                    table_data=eval("("+data.searchGameHistory+")");
+                    loadGameRecord();
+
+                }
+            },
+
+            error: function () {
+                alert("404!!");
+
+            }
+        })
 }
