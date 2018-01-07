@@ -86,20 +86,20 @@
 <div id="searchContainer">
     <div class="search bar7">
         <form>
-            <input type="text" placeholder="按赢家搜索">
-            <button type="button" onclick="searchByEmail()"></button>
+            <input type="text" placeholder="按赢家搜索" id="winnerS">
+            <button type="button" onclick="searchByWinner()"></button>
         </form>
     </div>
     <div class="search bar71">
         <form>
-            <input type="text" placeholder="按结束时间搜索">
-            <button type="button" onclick="searchByNickname()"></button>
+            <input type="text" placeholder="按结束时间搜索" id="endS">
+            <button type="button" onclick="searchByStartTime()"></button>
         </form>
     </div>
     <div class="search bar711">
         <form>
-            <input type="text" placeholder="按开始时间搜索">
-            <button type="button" onclick="searchByNickname()"></button>
+            <input type="text" placeholder="按开始时间搜索" id="startS">
+            <button type="button" onclick="searchByEndTime()"></button>
         </form>
     </div>
 </div>

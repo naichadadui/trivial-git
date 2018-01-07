@@ -301,6 +301,32 @@
 
 })(jQuery, window, document);
 
+
 function clickPage(page) {
-    alert("you click" + page);
+    var sAdminId = $("#adminIdS").val();
+
+    $.ajax(
+        {
+            type: "post",
+            url: "/api/homepage/admin/getAdminLogBySearchKeyByPageNumber",
+            timeout: 8000,
+            dataType: "json",
+            data: {
+                "searchId": sAdminId,
+                "pageNumber":page
+            },
+
+            success: function (data) {
+                if (data) {
+                    $('#logTbody').empty();
+                    table_data = eval("(" + data.searchAdminLogs + ")");
+                    loadLog();
+                }
+            },
+
+            error: function () {
+                alert("404!!");
+
+            }
+        })
 }
