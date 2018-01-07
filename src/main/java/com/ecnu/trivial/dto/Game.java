@@ -526,4 +526,12 @@ public class Game {
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
+
+    public void setRollNumber(int rollNumber) {
+        this.rollNumber = rollNumber;
+    }
+
+    public int getRollNumber() {
+        return rollNumber;
+    }
 }
