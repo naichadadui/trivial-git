@@ -35,16 +35,16 @@ public class GameHistoryServiceImpl extends BaseServiceImpl implements GameHisto
     }
 
     @Override
-    public List<GameHistoryVo> getGameHistoryBySearchKeyByPage(String winnerName, int pageNumber, int pageSize) {
-        List<GameHistory> gameHistories = gameHistoryMapper.selectGameHistoryBySearchKeyByPage(winnerName,new RowBounds((pageNumber-1)*pageSize,pageSize));
+    public List<GameHistoryVo> getGameHistoryBySearchKeyByPage(String startTime,String endTime,String winnerName, int pageNumber, int pageSize) {
+        List<GameHistory> gameHistories = gameHistoryMapper.selectGameHistoryBySearchKeyByPage(startTime,endTime,winnerName,new RowBounds((pageNumber-1)*pageSize,pageSize));
         List<GameHistoryVo> gameHistoryVos  = gameHistories.stream().map(this::parse).collect(Collectors.toList());
         return gameHistoryVos;
     }
 
     @Override
-    public int getMaxPageNumberBySearchKey(String winnerName, int pageSize) {
+    public int getMaxPageNumberBySearchKey(String startTime,String endTime,String winnerName, int pageSize) {
         int pageNum = 0;
-        int gameHistoryNum = gameHistoryMapper.countGameHistory(winnerName);
+        int gameHistoryNum = gameHistoryMapper.countGameHistory(startTime,endTime,winnerName);
         pageNum = gameHistoryNum/pageSize;
         if(gameHistoryNum%pageSize!=0)
             pageNum+=1;

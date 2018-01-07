@@ -51,7 +51,7 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8
 -- Table structure for admin
 -- ----------------------------
 CREATE TABLE `admin` (
-`admin_id`  int NOT NULL ,
+`admin_id`  int NOT NULL AUTO_INCREMENT ,
 `email`  varchar(25) NULL ,
 `password`  varchar(25) NULL ,
 `name`  varchar(25) NULL ,
@@ -74,7 +74,7 @@ PRIMARY KEY (`map_id`, `point_id`)
 
 
 CREATE TABLE `admin_log` (
-`log_id`  int NOT NULL ,
+`log_id`  int NOT NULL AUTO_INCREMENT ,
 `admin_id`  int NOT NULL ,
 `submit_time`  datetime NULL,
 `action_type`  int NULL ,

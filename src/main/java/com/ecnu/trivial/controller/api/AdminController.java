@@ -17,11 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.ecnu.trivial.controller.api.APIBaseController.PAGE_SIZE;
 
 @RestController
 @RequestMapping("/api/homepage")
-public class AdminController extends BaseController{
+public class AdminController extends APIBaseController{
     @Autowired
     private AdminService adminService;
 
@@ -106,18 +105,9 @@ public class AdminController extends BaseController{
         JSONObject jsonObject = new JSONObject();
         int i = 1;
         for(AdminLogVo adminLogVo:adminLogVos){
-            jsonObject.put("id",i);
-            jsonObject.put("name",adminLogVo.getAdminName());
-            switch (adminLogVo.getActionType()){
-                case 0:
-                    jsonObject.put("actionType","删除");
-                    break;
-                case 1:
-                    jsonObject.put("actionType","添加");
-                    break;
-                default:
-                    break;
-            }
+            jsonObject.put("logId",adminLogVo.getLogId());
+            jsonObject.put("adminId",adminLogVo.getAdminId());
+            jsonObject.put("questionId",adminLogVo.getActionType());
             jsonObject.put("submitTime",adminLogVo.getSubmitTime());
             jsonArray.add(jsonObject);
             i++;

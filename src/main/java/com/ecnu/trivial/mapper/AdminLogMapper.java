@@ -21,7 +21,7 @@ public interface AdminLogMapper {
     })
     int insert(AdminLog record);
 
-    int insertSelective(Admin record);
+    int insertSelective(AdminLog record);
 
     @Select({
         "select",

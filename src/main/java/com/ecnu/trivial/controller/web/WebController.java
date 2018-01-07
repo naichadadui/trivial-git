@@ -197,18 +197,9 @@ public class WebController extends BaseController {
         JSONObject jsonObject = new JSONObject();
         int i = 1;
         for(AdminLogVo adminLogVo:adminLogs){
-            jsonObject.put("id",i);
-            jsonObject.put("name",adminLogVo.getAdminName());
-            switch (adminLogVo.getActionType()){
-                case 0:
-                    jsonObject.put("actionType","删除");
-                    break;
-                case 1:
-                    jsonObject.put("actionType","添加");
-                    break;
-                default:
-                    break;
-            }
+            jsonObject.put("logId",adminLogVo.getLogId());
+            jsonObject.put("adminId",adminLogVo.getAdminId());
+            jsonObject.put("questionId",adminLogVo.getActionType());
             jsonObject.put("submitTime",adminLogVo.getSubmitTime());
             jsonArray.add(jsonObject);
             i++;
@@ -222,8 +213,8 @@ public class WebController extends BaseController {
 
     @RequestMapping(value = "/adminGameRecord")
     public String adminGameRecord(Map<String, Object> model) {
-        List<GameHistoryVo> gameHistoryVos = gameHistoryService.getGameHistoryBySearchKeyByPage("",1,PAGE_SIZE);
-        int maxPageNumber = gameHistoryService.getMaxPageNumberBySearchKey("",PAGE_SIZE);
+        List<GameHistoryVo> gameHistoryVos = gameHistoryService.getGameHistoryBySearchKeyByPage("","","",1,PAGE_SIZE);
+        int maxPageNumber = gameHistoryService.getMaxPageNumberBySearchKey("","","",PAGE_SIZE);
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         int i = 1;

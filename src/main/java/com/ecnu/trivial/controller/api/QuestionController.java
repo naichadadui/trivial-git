@@ -16,11 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.ecnu.trivial.controller.api.APIBaseController.PAGE_SIZE;
 
 @RestController
 @RequestMapping("/api/questions")
-public class QuestionController {
+public class QuestionController extends APIBaseController{
     @Autowired
     private QuestionService questionService;
 
@@ -57,7 +56,7 @@ public class QuestionController {
     public Map deleteQuestionsById(@RequestParam("questionIdArray")int[] questionIdArray){
         Map<String,Object> result = new HashMap<>();
         int delete = 0;
-        delete = questionService.deleteQuestions(questionIdArray);
+        delete = questionService.deleteQuestions(questionIdArray,getCurrentAdminID());
         result.put("deleteResult",delete);
         return result;
     }
