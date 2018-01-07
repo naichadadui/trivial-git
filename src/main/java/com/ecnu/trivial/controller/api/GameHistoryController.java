@@ -16,11 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.ecnu.trivial.controller.api.APIBaseController.PAGE_SIZE;
 
 @RestController
 @RequestMapping("/api/gameRecord")
-public class GameHistoryController extends BaseController {
+public class GameHistoryController extends APIBaseController {
     @Autowired
     private GameHistoryService gameHistoryService;
     /*
