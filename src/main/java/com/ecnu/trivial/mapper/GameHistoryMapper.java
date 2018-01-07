@@ -54,8 +54,8 @@ public interface GameHistoryMapper {
 
     @Select({
             "select game_history.* ",
-            "from game_history natural join `user`",
-            "where `user`.`name` like CONCAT('%',#{winnerName},'%') and game_history.start_time like CONCAT('%',#{startTime},'%') and game_history.end_time like CONCAT('%',#{endTime},'%') ",
+            "from game_history join `user`",
+            "where `user`.user_id = game_history.winner_id and `user`.`name` like CONCAT('%',#{winnerName},'%') and game_history.start_time like CONCAT('%',#{startTime},'%') and game_history.end_time like CONCAT('%',#{endTime},'%') ",
     })
     List<GameHistory> selectGameHistoryBySearchKeyByPage(@Param("startTime") String startTime,@Param("endTime") String endTime,@Param("winnerName") String winnerName, RowBounds rowBounds);
 

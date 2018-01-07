@@ -25,6 +25,9 @@ public class GameTest {
         game = new Game();
         userVo = new UserVo(1,"1111@qq.com","nzj",null,0);
     }
+
+    @Test
+    public void 
     
     @Test
     public void after_isAllPlayerReady_the_state_is_false(){
@@ -35,7 +38,7 @@ public class GameTest {
     }
 
     @Test
-    public void after_addNewPlayer_the_palyers_number_will_be_more() throws Exception {
+    public void after_addNewPlayer_the_players_number_will_be_more() throws Exception {
         //Act
         int beforeCount=0;
         if(game.getPlayers()!=null){

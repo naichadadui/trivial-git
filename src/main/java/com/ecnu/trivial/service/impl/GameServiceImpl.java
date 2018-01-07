@@ -88,11 +88,11 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
         User user = getCurrentUser(userId);
         UserVo userVo = parse(user);
         int result = 0;
-        if(room==null){
-            result = -1;
-            System.out.println("Room doesn't exist.");
-        }
-        else if(!room.isGameStart()){
+       if(room!=null){
+//            result = -1;
+//            System.out.println("Room doesn't exist.");
+//        }
+//        else if(!room.isGameStart()){
             try {
                 room.quit(userVo);
             } catch (EncodeException e) {
@@ -100,9 +100,21 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
             }
             result = 0;
         }
-        else
-            result = 1;
+//        else
+//            result = 1;
         return result;
+    }
+
+    @Override
+    public synchronized void endGame(int roomId){
+        Game room = WsHandler.getRoom(roomId);
+        if(room!=null) {
+            try {
+                room.endGame();
+            } catch (EncodeException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /*
@@ -213,8 +225,9 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
         Game room = WsHandler.getRoom(roomId);
         if(room!=null) {
             try {
-                if(room.isGameStillInProgress())
+                if(room.isGameStillInProgress()) {
                     room.prepareNextDiceAndNextQuestion();
+                }
                 else {
                     room.endGame();
                     Date endTime = new Date();

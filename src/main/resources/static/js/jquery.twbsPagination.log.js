@@ -304,6 +304,8 @@
 
 function clickPage(page) {
     var sAdminId = $("#adminIdS").val();
+    if(sAdminId==='')
+        sAdminId=0;
 
     $.ajax(
         {

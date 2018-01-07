@@ -310,7 +310,7 @@ function clickPage(page) {
     $.ajax(
         {
             type: "post",
-            url: "/api/questions/getUsersBySearchKeyByPageNumber",
+            url: "/api/homepage/getUsersBySearchKeyByPageNumber",
             timeout: 8000,
             dataType: "json",
             data: {

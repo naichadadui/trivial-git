@@ -16,6 +16,7 @@ public interface GameService extends BaseService{
     int answerQuestions(int roomId, String answer) throws EncodeException;
     int leaveRoom(int userId,int roomId);
     void nextTurn(int roomId);
+    void endGame(int roomId);
     void outOfPrison(int roomId);
     void notOutOfPrison(int roomId);
 }

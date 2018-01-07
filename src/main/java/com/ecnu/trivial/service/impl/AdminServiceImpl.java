@@ -12,6 +12,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,15 +76,17 @@ public class AdminServiceImpl extends BaseServiceImpl implements AdminService {
     }
 
     private AdminLogVo parse(AdminLog adminLog){
-        AdminLogVo adminLogVo = new AdminLogVo();
+        AdminLogVo result = new AdminLogVo();
         Admin admin = adminMapper.selectByPrimaryKey(adminLog.getAdminId());
         try {
-            BeanUtils.copyProperties(adminLogVo, adminLog);
-            adminLogVo.setAdminName(admin.getName());
+            BeanUtils.copyProperties(result, adminLog);
+            result.setAdminName(admin.getName());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            result.setSubmitTimeStr(sdf.format(adminLog.getSubmitTime()));
         } catch (Exception e) {
 
         }
-        return adminLogVo;
+        return result;
     }
 
     @Override

@@ -17,4 +17,6 @@ public class AdminLogVo {
     private Integer actionType;
 
     private String adminName;
+
+    private String submitTimeStr;
 }

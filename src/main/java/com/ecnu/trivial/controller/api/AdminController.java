@@ -108,7 +108,7 @@ public class AdminController extends APIBaseController{
             jsonObject.put("logId",adminLogVo.getLogId());
             jsonObject.put("adminId",adminLogVo.getAdminId());
             jsonObject.put("questionId",adminLogVo.getActionType());
-            jsonObject.put("submitTime",adminLogVo.getSubmitTime());
+            jsonObject.put("submitTime",adminLogVo.getSubmitTimeStr());
             jsonArray.add(jsonObject);
             i++;
         }
