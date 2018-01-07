@@ -1,5 +1,6 @@
 package com.ecnu.trivial.controller.api;
 
+import com.ecnu.trivial.model.QuestionType;
 import com.ecnu.trivial.model.Questions;
 import com.ecnu.trivial.service.QuestionService;
 import com.ecnu.trivial.vo.QuestionsVo;
@@ -76,6 +77,7 @@ public class QuestionController {
         int i = 1;
         for(QuestionsVo question:questions){
             jsonObject.put("id",question.getQuestionId());
+            jsonObject.put("type", QuestionType.valueOf(question.getType()).getTypeStr());
             jsonObject.put("content",question.getContent());
             jsonObject.put("trueAns",question.getTrueAns());
             jsonArray.add(jsonObject);

@@ -167,10 +167,10 @@ public class WebController extends BaseController {
         return MODULE_JAPANGAME;
     }
 
-    @RequestMapping(value = "/adminUser")
-    public String adminUser(Map<String, Object> model) {
-        List<UserVo> getUserListByPage = userService.searchUserBySearchKeyByPage("","",1,PAGE_SIZE);
-        int maxPageNumber = userService.getMaxPageNumberBySearchKey("","",PAGE_SIZE);
+    @RequestMapping(value = "/adminUser/{searchName}/{searchEmail}/{pageNumber}")
+    public String adminUser(Map<String, Object> model,@PathVariable("searchName")String searchName,@PathVariable("searchEmail") String searchEmail,@PathVariable("pageNumber")Integer pageNumber) {
+        List<UserVo> getUserListByPage = userService.searchUserBySearchKeyByPage(searchName,searchEmail,pageNumber,PAGE_SIZE);
+        int maxPageNumber = userService.getMaxPageNumberBySearchKey(searchName,searchEmail,PAGE_SIZE);
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         int i = 1;
@@ -249,6 +249,7 @@ public class WebController extends BaseController {
         int i = 1;
         for(QuestionsVo question:questions){
             jsonObject.put("id",question.getQuestionId());
+            jsonObject.put("type",QuestionType.valueOf(question.getType()).getTypeStr());
             jsonObject.put("content",question.getContent());
             jsonObject.put("trueAns",question.getTrueAns());
             jsonArray.add(jsonObject);
