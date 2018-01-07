@@ -40,7 +40,7 @@ public class QuestionServiceImpl extends BaseServiceImpl implements QuestionServ
         int questionCount = 0;
         for(int i = 0;i<questionIdArray.length;i++) {
             questionCount = questionsMapper.deleteByPrimaryKey(questionIdArray[i]);
-            questionCount+=questionCount;
+            questionCount++;
         }
         return questionCount;
     }
