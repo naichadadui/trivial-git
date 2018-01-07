@@ -6,8 +6,7 @@
  * Released under Apache 2.0 license
  * http://apache.org/licenses/LICENSE-2.0.html
  */
-;
-(function ($, window, document, undefined) {
+; (function ($, window, document, undefined) {
 
     'use strict';
 
@@ -271,7 +270,7 @@
             var options = typeof option === 'object' && option;
 
             if (!data) $this.data('twbs-pagination', (data = new TwbsPagination(this, options) ));
-            if (typeof option === 'string') methodReturn = data[ option ].apply(data, args);
+            if (typeof option === 'string') methodReturn = data[option].apply(data, args);
         });
 
         return ( methodReturn === undefined ) ? $set : methodReturn;
@@ -301,6 +300,32 @@
 
 })(jQuery, window, document);
 
+
 function clickPage(page) {
-    alert("you click" + page);
+
+    var content=$("#searchQuestion").val();
+    $.ajax(
+        {
+            type: "post",
+            url: "/api/questions/searchQuestionsBySearchKeyByPage",
+            timeout: 8000,
+            dataType: "json",
+            data: {
+                "searchContent": content,
+                "searchType":questionTypeSelection,
+                "pageNumber":page
+            },
+
+            success: function (data) {
+                if (data) {
+                    $('#adminQuestionTbody').empty();
+                    table_data = eval("(" + data.searchQuestions + ")");
+                    loadQuestion();
+                }
+            },
+            error: function () {
+                alert("404!!");
+
+            }
+        })
 }
