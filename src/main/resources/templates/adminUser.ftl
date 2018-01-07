@@ -95,12 +95,6 @@
     </div>
 </div>
 
-<div class="selectDown">
-<select data-select-like-alignement="never" class="drop-select" id="selection">
-    <option value="">Default</option>
-    <option value="United States">Score</option>
-</select>
-</div>
 <div id="searchContainer">
     <div class="search bar7">
         <form>
