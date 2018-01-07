@@ -246,8 +246,6 @@ function searchByEmail() {
             },
 
             success: function (data) {
-
-
                 if (data) {
                     $('#adminUserTbody').empty();
                     table_data = eval("(" + data.searchUsers + ")");

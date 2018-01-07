@@ -203,6 +203,8 @@ function adminLogin() {
                                     content: 'Invalid email/password combination'
                                 });
                             } else {
+                                var searchEmail='';
+                                var searchName='';
                                 window.location.href = "adminUser";
                             }
                         }
