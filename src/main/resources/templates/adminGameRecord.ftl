@@ -31,6 +31,18 @@
     </style>
 
     <script>
+        table_data=${gameHistory};
+        loadGameRecord();
+
+        var totalPage=0;
+        var maxTotalPageNumber=0;
+        maxTotalPageNumber=${maxPageNumber};
+        if(maxTotalPageNumber<=10){
+            totalPage=maxTotalPageNumber;
+        }else{
+            totalPage=10;
+        }
+
         $(document).ready(function () {
             $('#pagination-demo').twbsPagination({
                 totalPages: 35,
@@ -48,8 +60,8 @@
             });
 
             $('#visible-pages-example').twbsPagination({
-                totalPages: 35,
-                visiblePages: 10,
+                totalPages: maxTotalPageNumber,
+                visiblePages: totalPage,
                 version: '1.1'
             });
 
@@ -113,7 +125,7 @@
         <th>赢家</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="gameRecordTbody">
     </tbody>
 </table>
 <br/>

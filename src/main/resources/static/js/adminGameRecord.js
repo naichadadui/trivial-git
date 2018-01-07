@@ -183,13 +183,103 @@ function loadGameRecord() {
 }
 
 function searchByWinner(){
+    var startTime = $("#startS").val();
+    var endTime = $("#endS").val();
+    var winnerName = $("#winnerS").val();
+    $.ajax(
+        {
+            type: "post",
+            url: "/api/gameRecord/searchGameRecordBySearchKey",
+            timeout: 8000,
+            dataType: "json",
+            data: {
+                "startTime":startTime,
+                "endTime":endTime,
+                "winnerName":winnerName
+            },
 
+            success: function (data) {
+                if (data) {
+
+
+                    $("#gameRecordTbody").empty();
+                    table_data=eval("("+data.searchGameHistory+")");
+                    loadGameRecord();
+
+                }
+            },
+
+            error: function () {
+                alert("404!!");
+
+            }
+        })
 }
 
 function searchByStartTime(){
+    var startTime = $("#startS").val();
+    var endTime = $("#endS").val();
+    var winnerName = $("#winnerS").val();
+    $.ajax(
+        {
+            type: "post",
+            url: "/api/gameRecord/searchGameRecordBySearchKey",
+            timeout: 8000,
+            dataType: "json",
+            data: {
+                "startTime":startTime,
+                "endTime":endTime,
+                "winnerName":winnerName
+            },
 
+            success: function (data) {
+                if (data) {
+
+
+                    $("#gameRecordTbody").empty();
+                    table_data=eval("("+data.searchGameHistory+")");
+                    loadGameRecord();
+
+                }
+            },
+
+            error: function () {
+                alert("404!!");
+
+            }
+        })
 }
 
 function searchByEndTime(){
+    var startTime = $("#startS").val();
+    var endTime = $("#endS").val();
+    var winnerName = $("#winnerS").val();
+    $.ajax(
+        {
+            type: "post",
+            url: "/api/gameRecord/searchGameRecordBySearchKey",
+            timeout: 8000,
+            dataType: "json",
+            data: {
+                "startTime":startTime,
+                "endTime":endTime,
+                "winnerName":winnerName
+            },
 
+            success: function (data) {
+                if (data) {
+
+
+                    $("#gameRecordTbody").empty();
+                    table_data=eval("("+data.searchGameHistory+")");
+                    loadGameRecord();
+
+                }
+            },
+
+            error: function () {
+                alert("404!!");
+
+            }
+        })
 }
