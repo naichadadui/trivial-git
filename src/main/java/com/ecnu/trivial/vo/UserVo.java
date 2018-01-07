@@ -15,4 +15,12 @@ public class UserVo {
     private Integer score;
 
     private double winRate;
+
+    public UserVo(Integer userId, String email, String name, Integer score, double winRate) {
+        this.userId = userId;
+        this.email = email;
+        this.name = name;
+        this.score = score;
+        this.winRate = winRate;
+    }
 }
