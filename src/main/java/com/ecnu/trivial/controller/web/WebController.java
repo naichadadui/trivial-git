@@ -192,6 +192,7 @@ public class WebController extends BaseController {
     @RequestMapping(value = "/adminLog")
     public String adminLog(Map<String, Object> model) {
         List<AdminLogVo> adminLogs = adminService.getAdminLogsBySearchKeyByPage(0,1,PAGE_SIZE);
+        int maxPageNumber = adminService.getMaxPageNumberBySearchKey(0,PAGE_SIZE);
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         int i = 1;
@@ -213,6 +214,7 @@ public class WebController extends BaseController {
             i++;
         }
         model.put("adminLogs",jsonArray.toString());
+        model.put("maxPageNumber",maxPageNumber);
         System.out.println(jsonArray.toString());
         model.put("module", MODULE_ADMINLOG);
         return MODULE_ADMINLOG;
