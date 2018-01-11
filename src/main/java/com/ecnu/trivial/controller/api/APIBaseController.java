@@ -22,13 +22,13 @@ public class APIBaseController{
     @Autowired
     protected HttpServletRequest request;
 
-//    public int getCurrentUserID(){
-//        Object o=request.getSession().getAttribute(USER_ID);
-//        if(o==null){
-//            throw new ResourceNotFoundException();
-//        }
-//        return Integer.parseInt(o.toString());
-//    }
+    public int getCurrentUserID(){
+        Object o=request.getSession().getAttribute(USER_ID);
+        if(o==null){
+            throw new ResourceNotFoundException();
+        }
+        return Integer.parseInt(o.toString());
+    }
 
     public int getCurrentAdminID(){
         Object o=request.getSession().getAttribute(ADMIN_ID);
