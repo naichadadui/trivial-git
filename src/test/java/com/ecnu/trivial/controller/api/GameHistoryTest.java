@@ -35,10 +35,10 @@ public class GameHistoryTest  {
     @Test
     public void getAdminLogByPageNumber() throws Exception{
         MockMvc mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
-        String uri = "/api/gameRecord/getAdminLogByPageNumber";
+        String uri = "/api/gameRecord/getGameRecordBySearchKeyByPageNumber";
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri).param("startTime", "2018-01-02 01:28:00").param("endTime", "2018-01-02 01:29:42")
                 .param("winnerName","").param("pageNumber","1").accept(MediaType.APPLICATION_JSON)).andReturn();
         String result=mvcResult.getResponse().getContentAsString();
-        Assert.assertEquals(result,"{\"maxPageNumber\":1,\"searchGameHistory\":\"[{\\\"id\\\":10,\\\"startTime\\\":\\\"2018-01-02 01:28:00\\\",\\\"endTime\\\":\\\"2018-01-02 01:29:42\\\",\\\"winner\\\":\\\"cqh\\\"}]\"}");
+        Assert.assertEquals(result,"{\"searchGameHistory\":\"[{\\\"id\\\":10,\\\"startTime\\\":\\\"2018-01-02 01:28:00\\\",\\\"endTime\\\":\\\"2018-01-02 01:29:42\\\",\\\"winner\\\":\\\"cqh\\\"}]\"}");
     }
 }

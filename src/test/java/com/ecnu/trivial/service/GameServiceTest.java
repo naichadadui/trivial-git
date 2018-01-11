@@ -30,14 +30,13 @@ public class GameServiceTest {
     public void initialize(){
         //Arrange
         gameService = new GameServiceImpl();
-        //game = new Game(1);
-        //player = new Player(uservo.getName(), uservo);
+
     }
 
     @Test
-    public void the_enterState_is_true_after_user_enter_the_room() throws Exception {
+    public void enter_room_result_is_true_after_user_enter_the_room() throws Exception {
         boolean result = gameService.enterRoom(1,1);
-        Assert.assertTrue("enter succ!",result);
+        Assert.assertTrue("enter success!",result);
     }
 
     @Test

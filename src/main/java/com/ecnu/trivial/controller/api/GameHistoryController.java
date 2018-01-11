@@ -42,7 +42,7 @@ public class GameHistoryController extends APIBaseController {
     * 当用户跳转页面时
     * 返回该页的搜索结果searchAdminLogs
     * */
-    @RequestMapping(value="/admin/getAdminLogBySearchKeyByPageNumber", method = RequestMethod.POST)
+    @RequestMapping(value="/getGameRecordBySearchKeyByPageNumber", method = RequestMethod.POST)
     public Map getAdminLogByPageNumber(@RequestParam("startTime")String startTime,@RequestParam("endTime")String endTime,@RequestParam("winnerName")String winnerName,@RequestParam("pageNumber")int pageNumber){
         Map<String,Object> result = new HashMap<>();
         List<GameHistoryVo> gameHistoryVos = gameHistoryService.getGameHistoryBySearchKeyByPage(startTime,endTime,winnerName,1,PAGE_SIZE);

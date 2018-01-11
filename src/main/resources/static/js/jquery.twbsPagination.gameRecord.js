@@ -308,7 +308,7 @@ function clickPage(page) {
     $.ajax(
         {
             type: "post",
-            url: "/api/gameRecord/admin/getAdminLogBySearchKeyByPageNumber",
+            url: "/api/gameRecord/getGameRecordBySearchKeyByPageNumber",
             timeout: 8000,
             dataType: "json",
             data: {
