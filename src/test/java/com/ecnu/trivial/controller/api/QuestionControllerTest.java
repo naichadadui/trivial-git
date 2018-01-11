@@ -43,24 +43,24 @@ public class QuestionControllerTest {
         Assert.assertEquals(result, "{\"searchQuestions\":\"[{\\\"id\\\":1,\\\"type\\\":\\\"科学知识\\\",\\\"content\\\":\\\"从抹香鲸体内提炼出的香料是\\\",\\\"trueAns\\\":\\\"龙涎香\\\"}]\"}");
     }
 
-    @Test
-    public void deleteQuestionsById() throws Exception {
-        MockMvc mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
-        String uri = "/api/questions/deleteQuestionsById";
-        int[] arrayIds = {1, 2};
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri).param("questionIdArray", arrayIds.toString()).accept(MediaType.APPLICATION_JSON)).andReturn();
-        String result = mvcResult.getResponse().getContentAsString();
-    }
+//    @Test
+//    public void deleteQuestionsById() throws Exception {
+//        MockMvc mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
+//        String uri = "/api/questions/deleteQuestionsById";
+//        int[] arrayIds = {1, 2};
+//        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri).param("questionIdArray", "1,2").accept(MediaType.APPLICATION_JSON)).andReturn();
+//        String result = mvcResult.getResponse().getContentAsString();
+//    }
 
-    @Test
-    public void addQuestions() throws Exception {
-        MockMvc mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
-        String uri = "/api/questions/addQuestions";
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
-                .param("content", "啦啦啊").param("trueAns", "A")
-                .param("wrongAn1", "B").param("wrongAn2", "B")
-                .param("wrongAn3", "B").param("type", "2")
-                .accept(MediaType.APPLICATION_JSON)).andReturn();
-        String result = mvcResult.getResponse().getContentAsString();
-    }
+//    @Test
+//    public void addQuestions() throws Exception {
+//        MockMvc mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
+//        String uri = "/api/questions/addQuestions";
+//        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
+//                .param("content", "啦啦啊").param("trueAns", "A")
+//                .param("wrongAn1", "B").param("wrongAn2", "B")
+//                .param("wrongAn3", "B").param("type", "2")
+//                .accept(MediaType.APPLICATION_JSON)).andReturn();
+//        String result = mvcResult.getResponse().getContentAsString();
+//    }
 }

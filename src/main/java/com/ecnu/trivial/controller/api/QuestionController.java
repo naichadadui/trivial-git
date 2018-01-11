@@ -61,14 +61,14 @@ public class QuestionController extends APIBaseController{
         return result;
     }
 
-    @RequestMapping(value="/addQuestions", method = RequestMethod.POST)
-    public Map addQuestions(@RequestParam("content")String content,@RequestParam("trueAns")String trueAns,@RequestParam("wrongAns1")String wrongAns1,@RequestParam("wrongAns2")String wrongAns2,@RequestParam("wrongAns3")String wrongAns3,@RequestParam("type")int type){
-        Map<String,Object> result = new HashMap<>();
-        Questions question = new Questions(type,content,trueAns,wrongAns1,wrongAns2,wrongAns3);
-        int addResult = questionService.addNewQuestion(question);
-        result.put("addResult",addResult);
-        return result;
-    }
+//    @RequestMapping(value="/addQuestions", method = RequestMethod.POST)
+//    public Map addQuestions(@RequestParam("content")String content,@RequestParam("trueAns")String trueAns,@RequestParam("wrongAns1")String wrongAns1,@RequestParam("wrongAns2")String wrongAns2,@RequestParam("wrongAns3")String wrongAns3,@RequestParam("type")int type){
+//        Map<String,Object> result = new HashMap<>();
+//        Questions question = new Questions(type,content,trueAns,wrongAns1,wrongAns2,wrongAns3);
+//        int addResult = questionService.addNewQuestion(question);
+//        result.put("addResult",addResult);
+//        return result;
+//    }
 
     private JSONArray questionsToJSONArray(List<QuestionsVo> questions){
         JSONArray jsonArray = new JSONArray();
