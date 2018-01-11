@@ -63,11 +63,11 @@ public class GameTest {
     @Test
     public void all_players_are_ready_if_all_players_set_ready(){
         // Act
-
         try {
             for(int i = 0;i<game.getPlayers().size();i++){
                 game.setReady(game.getPlayers().get(i).getUser().getUserId());
             }
+            game.setReady(5);
             isAllPlayerReady = game.isAllPlayerReady();
 
         } catch (EncodeException e) {
@@ -134,17 +134,20 @@ public class GameTest {
     public void if_game_start_then_game_process_should_be_reset(){
         //Before
         assertEquals(false,game.isGameStart());
+        Date startTime = new Date();
         // Act
         try {
-            game.startGame(new Date());
+            game.startGame(startTime);
         } catch (EncodeException e) {
             e.printStackTrace();
         }
         // Assert
+        assertTrue("room id is 1",game.getRoomId()==1);
         assertTrue("current player id is 0",game.getGameProcess().getCurrentPlayerId()==0);
         assertTrue("game status is 1",game.getGameProcess().getStatus()==1);
         assertTrue("current player number is 1",game.getGameProcess().getPlayers().size()==1);
         assertEquals(true,game.isGameStart());
+        assertEquals(startTime,game.getStartTime());
     }
 
     @Test
@@ -168,7 +171,7 @@ public class GameTest {
     }
 
     @Test
-    public void if_player_send_a_right_answer_then_player_should_not_be_sent_to_pelenty_box() {
+    public void if_player_send_a_right_answer_then_player_should_not_be_sent_to_penalty_box() {
         // Act
         boolean isAnswerRight = false;
         try {
@@ -176,14 +179,14 @@ public class GameTest {
             String trueAns = totalQuestionList.get(0).getTrueAns();
             game.startGame(new Date());
             isAnswerRight = game.answerQuestion(answer,trueAns);
+            if(isAnswerRight)
+                game.answeredCorrect();
         } catch (EncodeException e) {
             e.printStackTrace();
         }
 
         // Assert
-        assertEquals(0,game.getCurrentPlayerId());
-        assertEquals(1,game.getStatus());
-        assertEquals("startGame",game.getActionType());
+        assertEquals(false,game.getPlayers().get(game.getCurrentPlayerId()).isInPenaltyBox());
 
     }
 
@@ -254,6 +257,23 @@ public class GameTest {
     }
 
     @Test
+    public void if_the_game_is_over_then_game_process_shoule_be_refreshed() {
+        // Act
+        try {
+            the_game_should_be_over_if_a_player_rolls_the_dice_and_answers_each_question_correctly_for_6_times();
+            game.endGame();
+
+        } catch (EncodeException e) {
+            e.printStackTrace();
+        }
+
+        // Assert
+        assertEquals(0,game.getStatus());
+        assertEquals("gameOver",game.getActionType());
+        assertEquals(game.getPlayers().get(game.getCurrentPlayerId()),game.getGameProcess().getWinner());
+    }
+
+    @Test
     public void the_player_place_should_be_moved_by_5_if_player_rolls_5_and_the_player_is_not_in_plenty_box() {
         // Act
         int beforePlace = 0;
@@ -274,5 +294,42 @@ public class GameTest {
 
         // Assert
         assertEquals(afterPlace,exceptPlace);
+    }
+
+    @Test
+    public void if_a_player_quit_room_then_player_number_is_0() {
+        // Act
+        int beforePlayerNum = 0;
+        int afterPlayerNum = beforePlayerNum;
+        try {
+            beforePlayerNum = game.getPlayers().size();
+            UserVo quitUser = game.getPlayers().get(game.getCurrentPlayerId()-1).getUser();
+            game.quit(quitUser);
+            afterPlayerNum = beforePlayerNum-1;
+        } catch (EncodeException e) {
+            e.printStackTrace();
+        }
+
+        // Assert
+        assertEquals(afterPlayerNum,game.getPlayers().size());
+    }
+
+    @Test
+    public void if_a_player_enter_room_and_a_player_quit_room_then_player_number_is_1() {
+        // Act
+        int beforePlayerNum = 0;
+        int afterPlayerNum = beforePlayerNum;
+        try {
+            game.addNewPlayer(new UserVo(1,"new","new",0,0));
+            beforePlayerNum = game.getPlayers().size();
+            UserVo quitUser = game.getPlayers().get(game.getCurrentPlayerId()-1).getUser();
+            game.quit(quitUser);
+            afterPlayerNum = beforePlayerNum-1;
+        } catch (EncodeException e) {
+            e.printStackTrace();
+        }
+
+        // Assert
+        assertEquals(afterPlayerNum,game.getPlayers().size());
     }
 }

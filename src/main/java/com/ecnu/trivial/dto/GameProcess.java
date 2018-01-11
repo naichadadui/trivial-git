@@ -29,10 +29,6 @@ public class GameProcess {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
-    }
-
     public List<Player> getPlayers() {
         return players;
     }
@@ -65,32 +61,15 @@ public class GameProcess {
         this.status = status;
     }
 
-    public int getDice() {
-        return dice;
-    }
-
-    public void setDice(int dice) {
-        this.dice = dice;
-    }
-
     public Player getWinner() {
-        return winner;
-    }
+        return winner; }
 
     public void setWinner(Player winner) {
         this.winner = winner;
     }
 
-    public String getActionType() {
-        return actionType;
-    }
-
     public void setActionType(String actionType) {
         this.actionType = actionType;
-    }
-
-    public int getRollNumber() {
-        return rollNumber;
     }
 
     public void setRollNumber(int rollNumber) {
@@ -103,5 +82,13 @@ public class GameProcess {
 
     public void setRight(boolean right) {
         isRight = right;
+    }
+
+    public String getActionType() {
+        return actionType;
+    }
+
+    public int getRollNumber() {
+        return rollNumber;
     }
 }

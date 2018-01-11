@@ -1,6 +1,5 @@
 package com.ecnu.trivial.controller.api;
 
-import com.ecnu.trivial.dto.BaseJson;
 import com.ecnu.trivial.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 

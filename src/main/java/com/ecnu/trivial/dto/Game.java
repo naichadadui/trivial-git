@@ -20,8 +20,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class Game {
     public static final int NUMBER_OF_GOLD_COINS_TO_WON_AND_GAME_OVER = 6;//获胜条件，金币达到6
-    public static final int MAX_NUMBER_OF_BYTES_WRITING_TO_ONE_FILE = 10000000;
-    public static final int NUMBER_OF_FILES_TO_USE = 1;
     public static final int NUMBER_OF_FULL_PLAYERS = 4;//游戏中最大玩家数
     private final QuestionMaker questionMaker = new QuestionMaker();//初始化游戏题库
     private List<Player> players = new ArrayList<>();
@@ -36,11 +34,8 @@ public class Game {
     private String actionType;
     private int rollNumber;
     private boolean isRight;
-    private QuestionVo currentQuestion = null;
 
-    private int gameId;
     private Date startTime;
-    private Date endTime;
 
     public Game(int roomId) {
         this.roomId = roomId;
@@ -52,17 +47,17 @@ public class Game {
         //logToAFile();
     }
 
-    private void logToAFile() {
-        try {
-            fileHandler = new FileHandler("%h/Game-logging.log"
-                    , MAX_NUMBER_OF_BYTES_WRITING_TO_ONE_FILE
-                    , NUMBER_OF_FILES_TO_USE, true);
-            fileHandler.setFormatter(new SimpleFormatter());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        logger.addHandler(fileHandler);
-    }
+//    private void logToAFile() {
+//        try {
+//            fileHandler = new FileHandler("%h/Game-logging.log"
+//                    , MAX_NUMBER_OF_BYTES_WRITING_TO_ONE_FILE
+//                    , NUMBER_OF_FILES_TO_USE, true);
+//            fileHandler.setFormatter(new SimpleFormatter());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        logger.addHandler(fileHandler);
+//    }
 
     /*玩家准备*/
     public void setReady(Integer userId) throws EncodeException {
@@ -218,7 +213,6 @@ public class Game {
         Questions curQuestion = questionMaker.getFirstQuestion();
         QuestionVo curQues;
         curQues = parse(curQuestion);
-        this.setCurrentQuestion(curQues);
         gameProcess.setCurrentQuestion(curQues);
     }
 
@@ -444,13 +438,13 @@ public class Game {
         return result;
     }
 
-    private int sendJSONMessageToUser(JSONObject msg) throws EncodeException {
-        int result = 0;
-        if (!gameSocket.sendJSONMessageToUser(players.get(currentPlayerId).getUser().getUserId(), msg)) {
-            result++;
-        }
-        return result;
-    }
+//    private int sendJSONMessageToUser(JSONObject msg) throws EncodeException {
+//        int result = 0;
+//        if (!gameSocket.sendJSONMessageToUser(players.get(currentPlayerId).getUser().getUserId(), msg)) {
+//            result++;
+//        }
+//        return result;
+//    }
 
     private QuestionVo parse(Questions questions) {
         QuestionVo result = new QuestionVo();
@@ -470,9 +464,9 @@ public class Game {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
-    }
+//    public void setRoomId(int roomId) {
+//        this.roomId = roomId;
+//    }
 
     public int getCurrentPlayerId() {
         return currentPlayerId;
@@ -486,67 +480,28 @@ public class Game {
         return players;
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
-    }
-
     public int getStatus() {
         return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public GameProcess getGameProcess() {
         return gameProcess;
     }
 
-    public void setGameProcess(GameProcess gameProcess) {
-        this.gameProcess = gameProcess;
-    }
-
-    public int getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
-    }
 
     public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
+//    public void setStartTime(Date startTime) {
+//        this.startTime = startTime;
+//    }
 
     public void setRollNumber(int rollNumber) {
         this.rollNumber = rollNumber;
     }
 
-    public int getRollNumber() {
-        return rollNumber;
-    }
-
     public String getActionType() {
         return actionType;
-    }
-
-    public void setCurrentQuestion(QuestionVo currentQuestion) {
-        this.currentQuestion = currentQuestion;
-    }
-
-    public QuestionVo getCurrentQuestion() {
-        return currentQuestion;
     }
 }

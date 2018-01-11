@@ -105,17 +105,17 @@ public class GameServiceImpl extends BaseServiceImpl implements GameService {
         return result;
     }
 
-    @Override
-    public synchronized void endGame(int roomId){
-        Game room = WsHandler.getRoom(roomId);
-        if(room!=null) {
-            try {
-                room.endGame();
-            } catch (EncodeException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    @Override
+//    public synchronized void endGame(int roomId){
+//        Game room = WsHandler.getRoom(roomId);
+//        if(room!=null) {
+//            try {
+//                room.endGame();
+//            } catch (EncodeException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     /*
     * 玩家准备，准许游戏开始
