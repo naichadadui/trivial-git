@@ -3,6 +3,7 @@ package com.ecnu.trivial.service;
 import com.ecnu.trivial.TrivialApplication;
 import com.ecnu.trivial.dto.Game;
 import com.ecnu.trivial.dto.Player;
+import com.ecnu.trivial.service.impl.BaseServiceImpl;
 import com.ecnu.trivial.service.impl.GameServiceImpl;
 import com.ecnu.trivial.vo.UserVo;
 import org.junit.Assert;
@@ -21,7 +22,8 @@ import static org.junit.Assert.*;
 @WebAppConfiguration
 public class GameServiceTest {
     @Autowired
-    private GameService gameService = null;
+    private GameService gameService;
+
     private Game game;
     private Player player;
     //private UserVo uservo;
@@ -29,8 +31,7 @@ public class GameServiceTest {
     @Before
     public void initialize(){
         //Arrange
-        gameService = new GameServiceImpl();
-
+        game = new Game();
     }
 
     @Test
@@ -40,7 +41,13 @@ public class GameServiceTest {
     }
 
     @Test
-    public void the_game_can_be_start_after_two_person_prepare(){
+    public void when_user_click_ready_user_should_set_ready(){
+        //int result = gameService.ready(1,1);
+        //assertEquals(1,result);
+    }
+
+    @Test
+    public void user_click_ready_user_should_set_ready(){
         //Act
         gameService.enterRoom(1,1);
         gameService.enterRoom(2,1);
