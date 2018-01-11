@@ -39,32 +39,32 @@ public class APIBaseController{
         return Integer.parseInt(o.toString());
     }
 
-    public int getCurrentRoomID(){
-        Object o=request.getSession().getAttribute(ROOM_ID);
-        if(o==null){
-            throw new ResourceNotFoundException();
-        }
-        return Integer.parseInt(o.toString());
-    }
-
-    protected BaseJson getUnauthorizedResult() {
-        BaseJson baseJson = new BaseJson();
-        baseJson.setReturnCode("E.1");
-        baseJson.setErrorMessage(NOT_AUTHORIZED);
-        return baseJson;
-    }
-
-    protected BaseJson getResourceNotFoundResult() {
-        BaseJson baseJson = new BaseJson();
-        baseJson.setReturnCode("E.2");
-        baseJson.setErrorMessage(RESOURCE_NOT_FOUND);
-        return baseJson;
-    }
-
-    protected BaseJson getWrongParamResult() {
-        BaseJson baseJson = new BaseJson();
-        baseJson.setReturnCode("E.3");
-        baseJson.setErrorMessage(WRONG_PARAM);
-        return baseJson;
-    }
+//    public int getCurrentRoomID(){
+//        Object o=request.getSession().getAttribute(ROOM_ID);
+//        if(o==null){
+//            throw new ResourceNotFoundException();
+//        }
+//        return Integer.parseInt(o.toString());
+//    }
+//
+//    protected BaseJson getUnauthorizedResult() {
+//        BaseJson baseJson = new BaseJson();
+//        baseJson.setReturnCode("E.1");
+//        baseJson.setErrorMessage(NOT_AUTHORIZED);
+//        return baseJson;
+//    }
+//
+//    protected BaseJson getResourceNotFoundResult() {
+//        BaseJson baseJson = new BaseJson();
+//        baseJson.setReturnCode("E.2");
+//        baseJson.setErrorMessage(RESOURCE_NOT_FOUND);
+//        return baseJson;
+//    }
+//
+//    protected BaseJson getWrongParamResult() {
+//        BaseJson baseJson = new BaseJson();
+//        baseJson.setReturnCode("E.3");
+//        baseJson.setErrorMessage(WRONG_PARAM);
+//        return baseJson;
+//    }
 }
