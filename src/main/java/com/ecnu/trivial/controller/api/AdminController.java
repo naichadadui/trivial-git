@@ -20,17 +20,17 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/homepage")
-public class AdminController extends APIBaseController{
+public class AdminController extends APIBaseController {
     @Autowired
     private AdminService adminService;
 
-    @RequestMapping(value="/admin/login", method = RequestMethod.POST)
-    public Map login(@RequestParam("email")String email, @RequestParam("password") String password){
-        Map<String,Object> result = new HashMap<>();
+    @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
+    public Map login(@RequestParam("email") String email, @RequestParam("password") String password) {
+        Map<String, Object> result = new HashMap<>();
         int loginResult = 0;
         String message;
-        loginResult = adminService.login(email,password);
-        switch (loginResult){
+        loginResult = adminService.login(email, password);
+        switch (loginResult) {
             case -1:
                 message = "没有该用户";
                 break;
@@ -49,21 +49,15 @@ public class AdminController extends APIBaseController{
         return result;
     }
 
-    @RequestMapping(value="/admin/register", method = RequestMethod.POST)
-    public Map register(@RequestParam("nickname")String nickname,@RequestParam("email")String email,@RequestParam("password") String password){
-        Map<String,Object> result = new HashMap<>();
+    @RequestMapping(value = "/admin/register", method = RequestMethod.POST)
+    public Map register(@RequestParam("nickname") String nickname, @RequestParam("email") String email, @RequestParam("password") String password) {
+        Map<String, Object> result = new HashMap<>();
         int registerResult = 0;
-        String message;
-        registerResult = adminService.register(nickname,email,password);
-        switch (registerResult){
+        String message="";
+        registerResult = adminService.register(nickname, email, password);
+        switch (registerResult) {
             case -1:
                 message = "该邮箱已被注册";
-                break;
-            case 0:
-                message = "注册失败";
-                break;
-            default:
-                message = "注册成功";
                 break;
         }
         result.put("adminId", registerResult);
@@ -76,11 +70,11 @@ public class AdminController extends APIBaseController{
     * 返回第一页的搜索结果searchUsers
     * 并且返回总共的页码数maxPageNumber
     * */
-    @RequestMapping(value="/admin/searchAdminLogBySearchKey", method = RequestMethod.POST)
-    public Map searchAdminLogBySearchKey(@RequestParam("searchId")int searchId){
-        Map<String,Object> result = new HashMap<>();
-        List<AdminLogVo> adminLogVos = adminService.getAdminLogsBySearchKeyByPage(searchId,1,PAGE_SIZE);
-        int maxPageNumber = adminService.getMaxPageNumberBySearchKey(searchId,PAGE_SIZE);
+    @RequestMapping(value = "/admin/searchAdminLogBySearchKey", method = RequestMethod.POST)
+    public Map searchAdminLogBySearchKey(@RequestParam("searchId") int searchId) {
+        Map<String, Object> result = new HashMap<>();
+        List<AdminLogVo> adminLogVos = adminService.getAdminLogsBySearchKeyByPage(searchId, 1, PAGE_SIZE);
+        int maxPageNumber = adminService.getMaxPageNumberBySearchKey(searchId, PAGE_SIZE);
         result.put("maxPageNumber", maxPageNumber);
         result.put("searchAdminLogs", adminLogListToJSONArray(adminLogVos).toString());
         System.out.println(adminLogListToJSONArray(adminLogVos).toString());
@@ -91,24 +85,24 @@ public class AdminController extends APIBaseController{
     * 当用户跳转页面时
     * 返回该页的搜索结果searchAdminLogs
     * */
-    @RequestMapping(value="/admin/getAdminLogBySearchKeyByPageNumber", method = RequestMethod.POST)
-    public Map getAdminLogByPageNumber(@RequestParam("searchId")int searchId,@RequestParam("pageNumber")int pageNumber){
-        Map<String,Object> result = new HashMap<>();
-        List<AdminLogVo> searchAdminLogs = adminService.getAdminLogsBySearchKeyByPage(searchId,pageNumber,PAGE_SIZE);
-        result.put("searchAdminLogs",adminLogListToJSONArray(searchAdminLogs).toString());
+    @RequestMapping(value = "/admin/getAdminLogBySearchKeyByPageNumber", method = RequestMethod.POST)
+    public Map getAdminLogByPageNumber(@RequestParam("searchId") int searchId, @RequestParam("pageNumber") int pageNumber) {
+        Map<String, Object> result = new HashMap<>();
+        List<AdminLogVo> searchAdminLogs = adminService.getAdminLogsBySearchKeyByPage(searchId, pageNumber, PAGE_SIZE);
+        result.put("searchAdminLogs", adminLogListToJSONArray(searchAdminLogs).toString());
         System.out.println(adminLogListToJSONArray(searchAdminLogs).toString());
         return result;
     }
 
-    private JSONArray adminLogListToJSONArray(List<AdminLogVo> adminLogVos){
+    private JSONArray adminLogListToJSONArray(List<AdminLogVo> adminLogVos) {
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         int i = 1;
-        for(AdminLogVo adminLogVo:adminLogVos){
-            jsonObject.put("logId",adminLogVo.getLogId());
-            jsonObject.put("adminId",adminLogVo.getAdminId());
-            jsonObject.put("questionId",adminLogVo.getActionType());
-            jsonObject.put("submitTime",adminLogVo.getSubmitTimeStr());
+        for (AdminLogVo adminLogVo : adminLogVos) {
+            jsonObject.put("logId", adminLogVo.getLogId());
+            jsonObject.put("adminId", adminLogVo.getAdminId());
+            jsonObject.put("questionId", adminLogVo.getActionType());
+            jsonObject.put("submitTime", adminLogVo.getSubmitTimeStr());
             jsonArray.add(jsonObject);
             i++;
         }
