@@ -10,7 +10,7 @@
   <sql id="Base_Column_List" >
     admin_id, email, password, name
   </sql>
-  <insert id="insertSelective" parameterType="com.ecnu.trivial.model.Admin" >
+  <insert id="insertSelective" parameterType="com.ecnu.trivial.model.Admin" useGeneratedKeys="true" keyProperty="adminId">
     insert into admin
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="adminId != null" >
