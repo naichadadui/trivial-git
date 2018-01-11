@@ -53,11 +53,11 @@ public class QuestionServiceImpl extends BaseServiceImpl implements QuestionServ
         return questionCount;
     }
 
-//    @Override
-//    public int addNewQuestion(Questions questions)
-//    {
-//        return questionsMapper.insertSelective(questions);
-//    }
+    @Override
+    public int addNewQuestion(Questions questions)
+    {
+        return questionsMapper.insertSelective(questions);
+    }
 
     private QuestionsVo parse(Questions questions) {
         QuestionsVo result = new QuestionsVo();
