@@ -1,5 +1,7 @@
 package com.ecnu.trivial.webSocket;
 
+import com.ecnu.trivial.configuration.WebSocketConfig;
+import com.ecnu.trivial.controller.api.GameController;
 import com.ecnu.trivial.dto.Game;
 import com.ecnu.trivial.service.GameService;
 import net.sf.json.JSONObject;
@@ -12,8 +14,14 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+import org.springframework.web.socket.sockjs.transport.session.WebSocketServerSockJsSession;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.websocket.EncodeException;
+import javax.websocket.EndpointConfig;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +49,8 @@ public class WsHandler extends TextWebSocketHandler {
     @Autowired
     GameService gameService;
 
+    @Autowired
+    GameController gameController;
 
     /**
      * 当网络连接建立时调用该方法
