@@ -36,8 +36,11 @@ public class GameHistoryServiceImpl extends BaseServiceImpl implements GameHisto
 
     @Override
     public List<GameHistoryVo> getGameHistoryBySearchKeyByPage(String startTime,String endTime,String winnerName, int pageNumber, int pageSize) {
-        List<GameHistory> gameHistories = gameHistoryMapper.selectGameHistoryBySearchKeyByPage(startTime,endTime,winnerName,new RowBounds((pageNumber-1)*pageSize,pageSize));
-        List<GameHistoryVo> gameHistoryVos  = gameHistories.stream().map(this::parse).collect(Collectors.toList());
+        List<GameHistory> gameHistories = new ArrayList<>();
+        List<GameHistoryVo> gameHistoryVos = new ArrayList<>();
+        gameHistories = gameHistoryMapper.selectGameHistoryBySearchKeyByPage(startTime,endTime,winnerName,new RowBounds((pageNumber-1)*pageSize,pageSize));
+        gameHistoryVos  = gameHistories.stream().map(this::parse).collect(Collectors.toList());
+        gameHistoryVos = gameHistoryVos!=null?gameHistoryVos:(new ArrayList<>());
         return gameHistoryVos;
     }
 

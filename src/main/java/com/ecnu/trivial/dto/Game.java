@@ -36,6 +36,7 @@ public class Game {
     private String actionType;
     private int rollNumber;
     private boolean isRight;
+    private QuestionVo currentQuestion = null;
 
     private int gameId;
     private Date startTime;
@@ -44,6 +45,7 @@ public class Game {
     public Game(int roomId) {
         this.roomId = roomId;
         this.actionType = "room";
+        this.currentPlayerId = 0;
         this.startTime = new Date();
         gameSocket = new WsHandler();
         gameProcess = new GameProcess(this);
@@ -216,6 +218,7 @@ public class Game {
         Questions curQuestion = questionMaker.getFirstQuestion();
         QuestionVo curQues;
         curQues = parse(curQuestion);
+        this.setCurrentQuestion(curQues);
         gameProcess.setCurrentQuestion(curQues);
     }
 
@@ -247,7 +250,6 @@ public class Game {
             currentPlayerMovesToNewPlace();
             System.out.println(JSONObject.fromObject(gameProcess).toString());
             sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
-            return;
         }
 
         //如果玩家在禁闭室内，判断骰子点数是否能让玩家出禁闭室
@@ -255,19 +257,20 @@ public class Game {
         //如果不能，则actionType:stayPrison 修改玩家isInPenaltyBox属性,将玩家放置在地图监狱点
         //发送玩家当前位置和骰子点数给该房间全部玩家
         boolean isRollingNumberForGettingOutOfPenaltyBox = (this.rollNumber%2==1);
-        if (isRollingNumberForGettingOutOfPenaltyBox) {
-            getOutOfPenaltyBox();
-            logger.info(players.get(currentPlayerId) + " is getting out of the penalty box");
-            this.actionType = "goOutPrison";
-            gameProcess.setActionType(actionType);
-            sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
-        }
-        else {
-            sentIntoPenaltyBox();
-            logger.info(players.get(currentPlayerId) + " is not getting out of the penalty box");
-            this.actionType = "stayPrison";
-            gameProcess.setActionType(actionType);
-            sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
+        if(players.get(currentPlayerId).isInPenaltyBox()) {
+            if (isRollingNumberForGettingOutOfPenaltyBox) {
+                getOutOfPenaltyBox();
+                logger.info(players.get(currentPlayerId) + " is getting out of the penalty box");
+                this.actionType = "goOutPrison";
+                gameProcess.setActionType(actionType);
+                sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
+            } else {
+                sentIntoPenaltyBox();
+                logger.info(players.get(currentPlayerId) + " is not getting out of the penalty box");
+                this.actionType = "stayPrison";
+                gameProcess.setActionType(actionType);
+                sendJSONMessageToAllUsers(JSONObject.fromObject(gameProcess));
+            }
         }
     }
 
@@ -533,5 +536,17 @@ public class Game {
 
     public int getRollNumber() {
         return rollNumber;
+    }
+
+    public String getActionType() {
+        return actionType;
+    }
+
+    public void setCurrentQuestion(QuestionVo currentQuestion) {
+        this.currentQuestion = currentQuestion;
+    }
+
+    public QuestionVo getCurrentQuestion() {
+        return currentQuestion;
     }
 }

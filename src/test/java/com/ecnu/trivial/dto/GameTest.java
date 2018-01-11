@@ -39,6 +39,7 @@ public class GameTest {
             totalQuestionList.add(questions);
         }
         game.initialQuestions(totalQuestionList);
+        game.getCurrentPlayerId();
     }
 
     @Test
@@ -52,10 +53,10 @@ public class GameTest {
         UserVo userVo = new UserVo(2,"2222@qq.com","cqh",0,0);
         game.addNewPlayer(userVo);
 
-        int expctedAfter = beforeCount+1;
+        int expectedAfter = beforeCount+1;
 
         //Assert
-        assertEquals("players number is 2!",expctedAfter,game.getPlayers().size());
+        assertEquals("players number is 2!",expectedAfter,game.getPlayers().size());
     }
 
 
@@ -77,7 +78,62 @@ public class GameTest {
     }
 
     @Test
+    public void first_player_set_ready_and_new_player_enter_room_does_not_ready_then_not_all_players_ready(){
+        // Act
+        try {
+            game.setReady(game.getPlayers().get(0).getUser().getUserId());
+            UserVo userVo = new UserVo(2,"2222@qq.com","cqh",0,0);
+            game.addNewPlayer(userVo);
+            isAllPlayerReady = game.isAllPlayerReady();
+
+        } catch (EncodeException e) {
+            e.printStackTrace();
+        }
+        // Assert
+        assertFalse("Not all player are ready",isAllPlayerReady);
+    }
+
+    @Test
+    public void three_new_players_enter_room_then_this_room_is_full(){
+        //Before
+        boolean isFullPlayer = game.isFullPlayer();
+        assertFalse("The room is not full.",isFullPlayer);
+        // Act
+        try {
+            UserVo userVo1 = new UserVo(2,"2222@qq.com","2",0,0);
+            game.addNewPlayer(userVo1);
+            UserVo userVo2 = new UserVo(3,"3333@qq.com","3",0,0);
+            game.addNewPlayer(userVo2);
+            UserVo userVo3 = new UserVo(4,"4444@qq.com","4",0,0);
+            game.addNewPlayer(userVo3);
+            isFullPlayer = game.isFullPlayer();
+
+        } catch (EncodeException e) {
+            e.printStackTrace();
+        }
+        // Assert
+        assertTrue("The room is full.",isFullPlayer);
+    }
+
+    @Test
+    public void game_prepare_to_game_then_game_status_should_be_initialized(){
+        // Act
+        try {
+            game.prepareToGame();
+        } catch (EncodeException e) {
+            e.printStackTrace();
+        }
+        // Assert
+        assertTrue("action type is room to game",game.getActionType().equals("room to game"));
+        assertTrue("current player id is 0",game.getGameProcess().getCurrentPlayerId()==0);
+        assertTrue("game status is 1",game.getGameProcess().getStatus()==1);
+        assertTrue("current player number is 1",game.getGameProcess().getPlayers().size()==1);
+    }
+
+    @Test
     public void if_game_start_then_game_process_should_be_reset(){
+        //Before
+        assertEquals(false,game.isGameStart());
         // Act
         try {
             game.startGame(new Date());
@@ -87,7 +143,48 @@ public class GameTest {
         // Assert
         assertTrue("current player id is 0",game.getGameProcess().getCurrentPlayerId()==0);
         assertTrue("game status is 1",game.getGameProcess().getStatus()==1);
-        assertTrue("current player number is 2",game.getGameProcess().getPlayers().size()==2);
+        assertTrue("current player number is 1",game.getGameProcess().getPlayers().size()==1);
+        assertEquals(true,game.isGameStart());
+    }
+
+    @Test
+    public void after_one_player_answer_correct_current_player_id_should_be_set_to_0_and_process_was_refresh() {
+        // Act
+        try {
+            for(int i =0;i<game.getPlayers().size();i++)
+                game.setReady(game.getPlayers().get(i).getUser().getUserId());
+            game.startGame(new Date());
+            game.answeredCorrect();
+            game.prepareNextDiceAndNextQuestion();
+        } catch (EncodeException e) {
+            e.printStackTrace();
+        }
+
+        // Assert
+        assertEquals(0,game.getCurrentPlayerId());
+        assertEquals(1,game.getStatus());
+        assertEquals("startGame",game.getActionType());
+
+    }
+
+    @Test
+    public void if_player_send_a_right_answer_then_player_should_not_be_sent_to_pelenty_box() {
+        // Act
+        boolean isAnswerRight = false;
+        try {
+            String answer = "1";
+            String trueAns = totalQuestionList.get(0).getTrueAns();
+            game.startGame(new Date());
+            isAnswerRight = game.answerQuestion(answer,trueAns);
+        } catch (EncodeException e) {
+            e.printStackTrace();
+        }
+
+        // Assert
+        assertEquals(0,game.getCurrentPlayerId());
+        assertEquals(1,game.getStatus());
+        assertEquals("startGame",game.getActionType());
+
     }
 
     @Test
@@ -137,10 +234,10 @@ public class GameTest {
             game.setCurrentPlayerId(0);
             game.roll();
             game.answeredWrong();
-            game.setRollNumber(5);
+            game.setRollNumber(4);
             game.setCurrentPlayerId(0);
             game.roll();
-            game.setRollNumber(4);
+            game.setRollNumber(5);
             game.setCurrentPlayerId(0);
             game.roll();
             for (int i = 0; i < 6; i++) {

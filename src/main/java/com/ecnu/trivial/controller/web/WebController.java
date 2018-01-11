@@ -58,12 +58,14 @@ public class WebController extends BaseController {
         List<GameHistory> latestGame = gameHistoryService.getLatestTwoGames();
         List<GameHistoryVo> latestGameVos = latestGame.stream().map(this::parse).collect(Collectors.toList());
         model.put("latestTwoGames",latestGameVos);
-        if (latestGameVos != null) {
-            if (latestGameVos.size() >= 1)
-                model.put("latestGame",latestGameVos.get(0));
-            if (latestGameVos.size() >= 2)
-                model.put("latestGame2",latestGameVos.get(1));
-        }
+        model.put("latestGame",latestGameVos.size()>=1?latestGameVos.get(0):null);
+        model.put("latestGame2",latestGameVos.size()>=2?latestGameVos.get(1):null);
+//        if (latestGameVos != null) {
+//            if (latestGameVos.size() >= 1)
+//                model.put("latestGame",latestGameVos.get(0));
+//            if (latestGameVos.size() >= 2)
+//                model.put("latestGame2",latestGameVos.get(1));
+//        }
         model.put("module", MODULE_HOMEPAGE);
         return MODULE_HOMEPAGE;
     }
@@ -280,7 +282,10 @@ public class WebController extends BaseController {
         result.setEndTimeStr(sdf.format(gameHistory.getEndTime()));
         if(gameHistory.getWinnerId()!=null) {
             User winner = gameHistoryService.getCurrentUser(gameHistory.getWinnerId());
-            result.setWinnerName(winner.getName());
+            if(winner!=null)
+                result.setWinnerName(winner.getName());
+            else
+                result.setWinnerName("");
         }
         else
             result.setWinnerName("");
